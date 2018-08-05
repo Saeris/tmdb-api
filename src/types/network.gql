@@ -1,0 +1,7 @@
+type Network {
+  id: ID!
+  name: String!
+  country: String!
+  homepage: String!
+  headquarters: String!
+}

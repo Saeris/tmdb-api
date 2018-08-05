@@ -1,0 +1,11 @@
+type Still {
+  file: String
+  custom(dimensions: String): String
+  original: String
+  "w92"
+  small: String
+  "w185"
+  medium: String
+  "w300"
+  large: String
+}

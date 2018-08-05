@@ -1,0 +1,11 @@
+# import * from "./photo.gql"
+
+type Crew {
+  id: ID!
+  creditId: ID!
+  name: String!
+  gender: Int!
+  job: [String]!
+  department: String!
+  photo: Photo
+}

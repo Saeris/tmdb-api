@@ -1,0 +1,17 @@
+type Logo {
+  file: String
+  custom(dimensions: String): String
+  original: String
+  "w45"
+  icon: String
+  "w92"
+  tiny: String
+  "w154"
+  small: String
+  "w185"
+  medium: String
+  "w300"
+  large: String
+  "w500"
+  huge: String
+}

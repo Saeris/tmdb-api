@@ -1,0 +1,5 @@
+# import * from "../movie.gql"
+# import * from "../person.gql"
+# import * from "../tv.gql"
+
+union SearchResult = Movie | Person | TV

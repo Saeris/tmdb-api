@@ -1,0 +1,17 @@
+type Poster {
+  file: String
+  custom(dimensions: String): String
+  "w92"
+  thumbnail: String
+  "w154"
+  tiny: String
+  "w185"
+  small: String
+  "w342"
+  medium: String
+  "w500"
+  large: String
+  "w780"
+  huge: String
+  original: String
+}

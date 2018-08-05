@@ -1,0 +1,58 @@
+language: node_js
+node_js:
+  - "8"
+
+cache: yarn
+
+env:
+- NODE_ENV: test
+
+services:
+  - redis-server
+
+branches:
+  only:
+  - develop
+  - master
+  - /^greenkeeper/.*$/
+
+before_install:
+  - yarn global add serverless
+  - yarn global add greenkeeper-lockfile@1
+  - yarn global add apollo
+
+install:
+  - yarn
+  - yarn add -D babel-core@^7.0.0-0
+
+before_script:
+  - greenkeeper-lockfile-update
+  - yarn test:coverage
+  - yarn remove babel-core
+  - yarn
+  - yarn start:api&
+
+script:
+  - yarn build
+  - apollo schema:check --endpoint=http://localhost:1337/api
+
+after_script:
+  - greenkeeper-lockfile-upload
+
+deploy:
+  # deploy develop to the staging environment
+  - provider: script
+    skip_cleanup: true
+    script: yarn deploy:dev
+    on:
+      node: "8"
+      branch: develop
+  # deploy master to production
+  - provider: script
+    skip_cleanup: true
+    script:
+      - yarn deploy:prod
+      - apollo schema:publish --endpoint=http://localhost:1337/api
+    on:
+      node: "8"
+      branch: master

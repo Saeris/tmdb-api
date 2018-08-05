@@ -1,0 +1,8 @@
+enum TVType {
+  Scripted
+  Reality
+  Documentary
+  News
+  TalkShow
+  Miniseries
+}

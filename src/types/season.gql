@@ -1,0 +1,15 @@
+# import * from "./poster.gql"
+# import * from "./tv.gql"
+# import * from "./episode.gql"
+
+type Season {
+  id: ID!
+  name: String!
+  overview: String!
+  poster: Poster
+  number: Int!
+  aired: String!
+  series: TV!
+  episodeCount: Int!
+  episodes: [Episode!]!
+}

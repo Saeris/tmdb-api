@@ -1,0 +1,6 @@
+enum VideoType {
+  Trailer
+  Teaser
+  Clip
+  Featurette
+}

@@ -1,0 +1,11 @@
+type Backdrop {
+  file: String
+  custom(dimensions: String): String
+  original: String
+  "w300"
+  small: String
+  "w780"
+  medium: String
+  "w1280"
+  large: String
+}

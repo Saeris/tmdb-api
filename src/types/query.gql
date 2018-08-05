@@ -1,0 +1,27 @@
+# import * from "./movie.gql"
+# import * from "./person.gql"
+# import * from "./tv.gql"
+# import * from "./unions/searchResult.gql"
+
+type Query {
+  movie(id: ID!): Movie!
+  person(id: ID!): Person!
+  tv(id: ID!): TV!
+
+  popularMovies(page: Int): [Movie!]! @cacheControl(maxAge: 3600)
+  popularPeople(page: Int): [Person!]! @cacheControl(maxAge: 3600)
+  popularTV(page: Int): [TV!]! @cacheControl(maxAge: 3600)
+
+  search(query: String! page: Int): [SearchResult!]!
+  searchMovies(query: String! page: Int): [Movie!]!
+  searchPeople(query: String! page: Int): [Person!]!
+  searchTV(query: String! page: Int): [TV!]!
+
+  nowPlaying(page: Int): [Movie!]!
+  topRatedMovies(page: Int): [Movie!]!
+  upcomingMovies(page: Int): [Movie!]!
+
+  airingThisWeek(page: Int): [TV!]!
+  airingToday(page: Int): [TV!]!
+  topRatedTV(page: Int): [TV!]!
+}

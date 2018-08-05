@@ -1,0 +1,6 @@
+projects:
+  mini-movie-db:
+    schemaPath: "./schema.json"
+    extensions:
+      endpoints:
+        default: "http://localhost:1337/api"

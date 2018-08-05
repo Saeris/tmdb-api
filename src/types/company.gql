@@ -1,0 +1,12 @@
+# import * from "./logo.gql"
+
+type Company {
+  id: ID!
+  name: String!
+  description: String!
+  country: String!
+  homepage: String!
+  headquarters: String!
+  logo: Logo!
+  parentCompany: Company
+}

@@ -1,0 +1,22 @@
+# import * from "./still.gql"
+# import * from "./tv.gql"
+# import * from "./season.gql"
+# import * from "./cast.gql"
+# import * from "./crew.gql"
+# import * from "./guest.gql"
+
+type Episode {
+  id: ID!
+  name: String!
+  number: Int!
+  still: Still
+  overview: String!
+  series: TV!
+  season: Season!
+  aired: String!
+  score: Float!
+  votes: Int!
+  cast: [Cast!]!
+  crew: [Crew!]!
+  guests: [Guest!]!
+}

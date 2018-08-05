@@ -1,0 +1,12 @@
+# import * from "./photo.gql"
+# import * from "./movie.gql"
+
+type Person {
+  id: ID!
+  name: String!
+  gender: Int!
+  biography: String!
+  photo: Photo!
+  workedOn(limit: Int): [Movie!]!
+  appearsIn(limit: Int): [Movie!]!
+}

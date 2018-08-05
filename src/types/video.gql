@@ -1,0 +1,11 @@
+# import * from "./enums/videoType.gql"
+
+type Video {
+  id: ID!
+  key: String!
+  name: String!
+  site: String!
+  "One of value: 360, 480, 720, 1080"
+  size: Int!
+  type: VideoType!
+}

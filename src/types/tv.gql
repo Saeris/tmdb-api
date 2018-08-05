@@ -1,0 +1,59 @@
+# import * from "./enums/tvType.gql"
+# import * from "./enums/tvStatus.gql"
+# import * from "./genre.gql"
+# import * from "./person.gql"
+# import * from "./cast.gql"
+# import * from "./crew.gql"
+# import * from "./network.gql"
+# import * from "./company.gql"
+# import * from "./poster.gql"
+# import * from "./backdrop.gql"
+# import * from "./video.gql"
+# import * from "./season.gql"
+# import * from "./episode.gql"
+
+type TV {
+  id: ID!
+
+  # General Details
+  name: String!
+  originalName: String!
+  overview: String!
+  country: [String!]!
+  language: String!
+  languages: [String!]!
+  type: TVType!
+  status: TVStatus!
+  genres: [Genre!]!
+  inProduction: Boolean!
+  firstAired: String!
+  lastAired: String!
+  runtime: [Int!]!
+  homepage: String
+
+  # People & Companies
+  createdBy: [Person!]!
+  cast: [Cast!]!
+  crew: [Crew!]!
+  networks: [Network!]!
+  productionCompanies: [Company!]!
+
+  # Media
+  poster: Poster
+  backdrop: Backdrop
+  videos: [Video!]!
+
+  # Seasons & Episodes
+  seasonCount: Int!
+  seasons: [Season!]!
+  episodeCount: Int!
+  episodes: [Episode!]!
+
+  # Ratings & Reviews
+  popularity: Float!
+  score: Float!
+  votes: Int!
+
+  # Related
+  similar: [TV!]!
+}

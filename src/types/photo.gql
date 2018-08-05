@@ -1,0 +1,11 @@
+type Photo {
+  file: String
+  custom(dimensions: String): String
+  original: String
+  "w45"
+  small: String
+  "w185"
+  medium: String
+  "h632"
+  large: String
+}

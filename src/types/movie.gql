@@ -1,0 +1,31 @@
+# import * from "./enums/releaseStatus.gql"
+# import * from "./poster.gql"
+# import * from "./backdrop.gql"
+# import * from "./genre.gql"
+# import * from "./language.gql"
+# import * from "./cast.gql"
+# import * from "./crew.gql"
+# import * from "./video.gql"
+
+type Movie @cacheControl(maxAge: 60) {
+  id: ID!
+  title: String! @cacheControl(maxAge: 3600)
+  tagline: String @cacheControl(maxAge: 3600)
+  overview: String! @cacheControl(maxAge: 3600)
+  status: ReleaseStatus!
+  releaseDate: String! @cacheControl(maxAge: 3600)
+  runtime: Int
+  budget: Int!
+  revenue: String!
+  poster: Poster
+  backdrop: Backdrop
+  popularity: Float!
+  score: Float!
+  votes: Int!
+  genres: [Genre!]!
+  languages: [Language!]!
+  cast(limit: Int): [Cast!]!
+  crew(limit: Int): [Crew!]!
+  videos(filter: VideoFilter first: Int): [Video!]!
+  similar(limit: Int): [Movie!]! @cacheControl(maxAge: 3600)
+}
