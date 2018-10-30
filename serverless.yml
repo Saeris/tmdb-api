@@ -13,12 +13,6 @@ provider:
     S3_BUCKET: ${self:service}-image-storage
     S3_HOST: localhost
     S3_PORT: 8000
-    S3_URL:
-      "Fn::ImportValue": ImageStorageURL
-    REDIS_HOST:
-      "Fn::ImportValue": RedisHost
-    REDIS_PORT:
-      "Fn::ImportValue": RedisPort
 
 plugins:
   - serverless-sentry

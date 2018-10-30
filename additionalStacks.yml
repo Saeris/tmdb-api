@@ -1,3 +1,10 @@
+S3_URL:
+  "Fn::ImportValue": ImageStorageURL
+REDIS_HOST:
+  "Fn::ImportValue": RedisHost
+REDIS_PORT:
+  "Fn::ImportValue": RedisPort
+
 plugins:
   - serverless-sentry
   - serverless-plugin-additional-stacks
