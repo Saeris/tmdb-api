@@ -18,11 +18,13 @@ const createServer = endpoint => {
   if (!server) {
     try {
       //debug(`Setting up Apollo Server...`)
+      /*
       cache = new RedisCache({
         host,
         port,
         no_ready_check: true
       })
+      */
 
       server = new ApolloServer({
         schema,
@@ -35,7 +37,7 @@ const createServer = endpoint => {
         dataSources,
         tracing: true,
         cacheControl: true,
-        ...(cache ? { persistedQueries: { cache }, cache } : {}),
+        //...(cache ? { persistedQueries: { cache }, cache } : {}),
         engine: false,
         debug: true,
         formatError: err => {
