@@ -5,7 +5,7 @@ node_js:
 cache: yarn
 
 env:
-- NODE_ENV: test
+  - NODE_ENV: test
 
 services:
   - redis-server

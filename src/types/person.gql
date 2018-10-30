@@ -7,6 +7,6 @@ type Person {
   gender: Int!
   biography: String!
   photo: Photo!
-  workedOn(limit: Int): [Movie!]!
-  appearsIn(limit: Int): [Movie!]!
+  workedOn(limit: Int): [Media!]!
+  appearsIn(limit: Int): [Media!]!
 }

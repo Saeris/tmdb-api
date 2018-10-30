@@ -5,7 +5,7 @@ type Company {
   name: String!
   description: String!
   country: String!
-  homepage: String!
+  homepage: URL!
   headquarters: String!
   logo: Logo!
   parentCompany: Company

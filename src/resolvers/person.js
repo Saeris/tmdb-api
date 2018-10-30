@@ -1,17 +1,35 @@
 export { gender } from "./gender"
 
-export const appearsIn = async ({ id }, { limit }, { dataSources }, info) => {
-  const { cast } = await dataSources.MovieDB.personCredits({ id }, info)
-  const roles = cast.slice(0, limit ? limit : cast.length) || []
-  const movies = await Promise.all(roles.map(({ id: movieId }) => dataSources.MovieDB.movie({ id: movieId }, info)))
-  return movies
+export const appearsIn = async ({ combined_credits: credits }, { limit }, { dataSources }, info) => {
+  const roles = credits.cast.slice(0, limit ? limit : credits.cast.length) || []
+  const resolved = await Promise.all([
+    Promise.all(roles
+      .filter(({ media_type: type }) => type === `movie`)
+      .map(({ id }) => dataSources.MovieDB.movie({ id }, info))),
+    Promise.all(roles
+      .filter(({ media_type: type }) => type === `tv`)
+      .map(({ id }) => dataSources.MovieDB.tv({ id }, info)))
+  ])
+  return [
+    ...resolved[0].map(movie => ({ ...movie, media_type: `movie` })),
+    ...resolved[1].map(show => ({ ...show, media_type: `tv` }))
+  ]
 }
 
-export const workedOn = async ({ id }, { limit }, { dataSources }, info) => {
-  const { crew } = await dataSources.MovieDB.personCredits({ id }, info)
-  const roles = crew.slice(0, limit ? limit : crew.length) || []
-  const movies = await Promise.all(roles.map(({ id: movieId }) => dataSources.MovieDB.movie({ id: movieId }, info)))
-  return movies
+export const workedOn = async ({ combined_credits: credits }, { limit }, { dataSources }, info) => {
+  const roles = credits.crew.slice(0, limit ? limit : credits.crew.length) || []
+  const resolved = await Promise.all([
+    Promise.all(roles
+      .filter(({ media_type: type }) => type === `movie`)
+      .map(({ id }) => dataSources.MovieDB.movie({ id }, info))),
+    Promise.all(roles
+      .filter(({ media_type: type }) => type === `tv`)
+      .map(({ id }) => dataSources.MovieDB.tv({ id }, info)))
+  ])
+  return [
+    ...resolved[0].map(movie => ({ ...movie, media_type: `movie` })),
+    ...resolved[1].map(show => ({ ...show, media_type: `tv` }))
+  ]
 }
 
 export const photo = parent => parent.profile_path

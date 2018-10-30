@@ -63,7 +63,7 @@ export class MovieDB extends RESTDataSource {
 
   person = ({ id, ...params }, info) => this.get(
     `person/${id}`,
-    { append_to_response: `tv_credits, movie_credits, images, external_ids`, ...params },
+    { append_to_response: `combined_credits,images,external_ids`, ...params },
     this.extractTTL(info)
   )
 

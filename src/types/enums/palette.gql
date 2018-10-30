@@ -1,0 +1,8 @@
+enum Palette {
+  vibrant
+  lightVibrant
+  darkVibrant
+  muted
+  lightMuted
+  darkMuted
+}

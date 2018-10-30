@@ -1,0 +1,4 @@
+# import * from "../movie.gql"
+# import * from "../tv.gql"
+
+union Media = Movie | TV

@@ -1,0 +1,8 @@
+type ExtractedColors {
+  vibrant: [UnsignedInt]
+  lightVibrant: [UnsignedInt]
+  darkVibrant: [UnsignedInt]
+  muted: [UnsignedInt]
+  lightMuted: [UnsignedInt]
+  darkMuted: [UnsignedInt]
+}
