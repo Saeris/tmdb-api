@@ -7,10 +7,11 @@ provider:
   stage: ${opt:stage, "dev"}
   environment:
     stage: ${self:provider.stage}
-    MOVIE_DB_API_KEY: ${file(./serverless.env.yml):MOVIE_DB_API_KEY, ""}
-    ENGINE_API_KEY: ${file(./serverless.env.yml):ENGINE_API_KEY, ""}
+    MOVIE_DB_API_KEY: ${env:MOVIE_DB_API_KEY}
+    ENGINE_API_KEY: ${env:ENGINE_API_KEY}
 
 plugins:
+  - "serverless-dotenv-plugin"
   - "serverless-webpack"
   - "serverless-offline"
 
@@ -22,7 +23,7 @@ package:
 
 custom:
   serverless-offline:
-    port: 1337
+    httpPort: 1337
   webpack:
     includeModules: true
     webpackConfig: "webpack.config.js"

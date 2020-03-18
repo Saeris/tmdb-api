@@ -1,7 +1,14 @@
 import gql from "graphql-tag";
 import { makeExecutableSchema, IResolvers } from "graphql-tools";
-import schemaDirectives from "@saeris/graphql-directives";
-import CustomScalars from "@saeris/graphql-scalars";
+import { Numbers, Dates, Strings } from "@saeris/graphql-directives";
+import {
+  DateTimeScalar,
+  DateTime,
+  EmailAddressScalar,
+  EmailAddress,
+  URLScalar,
+  URL
+} from "@saeris/graphql-scalars";
 import * as types from "./types";
 import * as enums from "./types/enums";
 import * as inputs from "./types/inputs";
@@ -23,6 +30,12 @@ const cacheControlTypes = gql`
   ) on FIELD_DEFINITION | OBJECT | INTERFACE
 `;
 
+const schemaDirectives = {
+  ...Numbers,
+  ...Dates,
+  ...Strings
+};
+
 const directives = Object.values(schemaDirectives).map(directive =>
   directive.declaration()
 );
@@ -34,13 +47,17 @@ export const schema = makeExecutableSchema({
     ...Object.values(inputs),
     ...Object.values(interfaces),
     ...Object.values(unions),
-    ...CustomScalars.keys(),
+    DateTimeScalar,
+    EmailAddressScalar,
+    URLScalar,
     cacheControlTypes,
     ...directives
   ],
   schemaDirectives,
   resolvers: {
-    ...(CustomScalars.values() as Record<any, any>),
+    DateTime,
+    EmailAddress,
+    URL,
     ...(resolvers as IResolvers<any, any>)
   },
   resolverValidationOptions: {

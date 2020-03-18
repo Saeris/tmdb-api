@@ -20,9 +20,10 @@ before_script:
   - yarn
   - yarn start&
 
-script:
-  - sleep 10
-  - apollo service:check --endpoint=http://localhost:1337/
+# Requires Apollo Graph Manger Team Plan ;_;
+# script:
+  # - sleep 10
+  # - apollo service:check --tag=$TRAVIS_BRANCH
 
 deploy:
   # deploy develop to the staging environment
@@ -37,7 +38,7 @@ deploy:
     skip_cleanup: true
     script:
       - yarn deploy:prod
-      - apollo service:publish --endpoint=http://localhost:1337/
+      - apollo service:publish
     on:
       node: "12"
       branch: master

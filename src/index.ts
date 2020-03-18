@@ -2,6 +2,7 @@ import { ApolloServer } from "apollo-server-lambda";
 import { APIGatewayEvent, Context as LambdaContext } from "aws-lambda";
 import schema from "./schema";
 import { dataSources } from "./sources";
+import { defaultQuery } from "./defaultQuery";
 
 export interface Context {
   headers: APIGatewayEvent["headers"];
@@ -37,7 +38,10 @@ const server = new ApolloServer({
     ? {
         tabs: [
           {
-            endpoint: `http://localhost:1337/`
+            endpoint: `http://localhost:1337/dev`,
+            query: defaultQuery,
+            name: `fetchPopular`,
+            variables: `{ "page": 1 }`
           }
         ]
       }

@@ -13,8 +13,6 @@ You'll also need to acquire and set some API keys in a `serverless.env.yml` file
 ```yml
 MOVIE_DB_API_KEY: <insert your movie database api key here>
 ENGINE_API_KEY: <insert your apollo engine api key here>
-SENTRY_DSN: <insert your sentry dsn url here>
-SENTRY_AUTH_TOKEN: <insert your sentry auth token here>
 ```
 
 To deploy your project to AWS you'll need an API key for that too. Follow the [Serverless setup guide](https://serverless.com/framework/docs/providers/aws/guide/quick-start/) to set up all of that.

@@ -3,4 +3,4 @@ projects:
     schemaPath: "./schema.json"
     extensions:
       endpoints:
-        default: "http://localhost:1337/api"
+        default: "http://localhost:1337/dev"

@@ -7,7 +7,7 @@ import { Potrace } from "potrace";
 // @ts-ignore
 import DataURI from "datauri"; // https://www.npmjs.com/package/datauri
 import { Context } from "../";
-import { memoize } from "../utils";
+import { memoize, round } from "../utils";
 
 export type Color =
   | "vibrant"
@@ -26,7 +26,7 @@ export type SVGResult = Promise<string | null>;
 
 export type ImageResult = string | null | SVGResult;
 
-export type ColorsResult = ReturnType<Images["extractColor"]> | null
+export type ColorsResult = ReturnType<Images["extractColor"]> | null;
 
 type GetSVG = (
   options: {
@@ -128,12 +128,12 @@ export class Images extends DataSource<Context> {
     const palette = await builder.getPalette();
     return (
       {
-        vibrant: palette.Vibrant?.getRgb() || null,
-        lightVibrant: palette.LightVibrant?.getRgb() || null,
-        darkVibrant: palette.DarkVibrant?.getRgb() || null,
-        muted: palette.Muted?.getRgb() || null,
-        lightMuted: palette.LightMuted?.getRgb() || null,
-        darkMuted: palette.DarkMuted?.getRgb() || null
+        vibrant: palette.Vibrant?.getRgb().map(round) || null,
+        lightVibrant: palette.LightVibrant?.getRgb().map(round) || null,
+        darkVibrant: palette.DarkVibrant?.getRgb().map(round) || null,
+        muted: palette.Muted?.getRgb().map(round) || null,
+        lightMuted: palette.LightMuted?.getRgb().map(round) || null,
+        darkMuted: palette.DarkMuted?.getRgb().map(round) || null
       } || null
     );
   };
