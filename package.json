@@ -12,6 +12,7 @@
     "test": "yarn lint && jest -c ./jest.config.js",
     "test:watch": "jest -c ./jest.config.js --watch",
     "test:coverage": "jest -c ./jest.config.js && codecov",
+    "schema:push": "apollo service:push",
     "precommit": "lint-staged"
   },
   "dependencies": {
@@ -49,6 +50,7 @@
     "@types/svgo": "^1.3.1",
     "@typescript-eslint/eslint-plugin": "^2.24.0",
     "@typescript-eslint/parser": "^2.24.0",
+    "apollo": "^2.25.0",
     "aws-sdk": "^2.640.0",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.1.0",

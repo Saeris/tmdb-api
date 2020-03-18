@@ -21,7 +21,8 @@ before_script:
   - yarn start&
 
 script:
-  - apollo schema:check --endpoint=http://localhost:1337/
+  - sleep 10
+  - apollo service:check --endpoint=http://localhost:1337/
 
 deploy:
   # deploy develop to the staging environment
@@ -36,7 +37,7 @@ deploy:
     skip_cleanup: true
     script:
       - yarn deploy:prod
-      - apollo schema:publish --endpoint=http://localhost:1337/
+      - apollo service:publish --endpoint=http://localhost:1337/
     on:
       node: "12"
       branch: master
