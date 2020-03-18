@@ -1,52 +1,35 @@
-service: mini-movie-db
+service: "mini-movie-db-api"
 
 provider:
   name: aws
-  runtime: nodejs8.10
-  region: us-west-2
+  runtime: "nodejs12.x"
+  region: "us-west-2"
   stage: ${opt:stage, "dev"}
   environment:
     stage: ${self:provider.stage}
     MOVIE_DB_API_KEY: ${file(./serverless.env.yml):MOVIE_DB_API_KEY, ""}
     ENGINE_API_KEY: ${file(./serverless.env.yml):ENGINE_API_KEY, ""}
-    SENTRY_FILTER_LOCAL: false
-    S3_BUCKET: ${self:service}-image-storage
-    S3_HOST: localhost
-    S3_PORT: 8000
 
 plugins:
-  - serverless-sentry
-  - serverless-webpack
-  - serverless-offline
-  - serverless-plugin-scripts
+  - "serverless-webpack"
+  - "serverless-offline"
 
 package:
   exclude:
-    - ./node_modules/**
-    - ./.eslintrc.json
-    - ./webpack.config.js
+    - "./ node_modules/**"
+    - "./.eslintrc.json"
+    - "./webpack.config.js"
 
 custom:
   serverless-offline:
     port: 1337
-  config:
-    CACHE_INSTANCE_SIZE: cache.t2.micro
-  sentry:
-    dsn: ${file(./serverless.env.yml):SENTRY_DSN, ""}
-    environment: ${opt:stage, self:provider.stage}
-    organization: saerisio
-    project: ${self:service}
-    authToken: ${file(./serverless.env.yml):SENTRY_AUTH_TOKEN, ""}
-    release:
-      version: git
-    filterLocal: false
   webpack:
     includeModules: true
-    webpackConfig: 'webpack.config.js'
+    webpackConfig: "webpack.config.js"
 
 functions:
   graphql:
-    handler: src/index.graphqlHandler
+    handler: "src/index.graphqlHandler"
     events:
       - http:
           path: "{proxy+}"
