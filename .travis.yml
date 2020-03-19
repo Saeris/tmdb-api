@@ -18,7 +18,7 @@ install:
 before_script:
   - yarn test:coverage
   - yarn
-  - yarn start&
+  - yarn start:lambda&
 
 script:
   - sleep 10
