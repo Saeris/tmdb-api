@@ -7,8 +7,8 @@ provider:
   stage: ${opt:stage, "dev"}
   environment:
     stage: ${self:provider.stage}
-    MOVIE_DB_API_KEY: ${env:MOVIE_DB_API_KEY}
-    ENGINE_API_KEY: ${env:ENGINE_API_KEY}
+    MOVIE_DB_API_KEY: ${env:MOVIE_DB_API_KEY, param:MOVIE_DB_API_KEY}
+    ENGINE_API_KEY: ${env:ENGINE_API_KEY, param:ENGINE_API_KEY}
 
 plugins:
   - "serverless-dotenv-plugin"
