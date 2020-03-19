@@ -9,8 +9,8 @@ env:
 
 branches:
   only:
-  - develop
-  - master
+    - develop
+    - master
 
 install:
   - yarn
@@ -20,25 +20,26 @@ before_script:
   - yarn
   - yarn start&
 
-# Requires Apollo Graph Manger Team Plan ;_;
-# script:
-  # - sleep 10
+script:
+  - sleep 10
+  # Requires Apollo Graph Manger Team Plan ;_;
   # - apollo service:check --tag=$TRAVIS_BRANCH
-
-deploy:
-  # deploy develop to the staging environment
-  - provider: script
-    skip_cleanup: true
-    script: yarn deploy:dev
-    on:
-      node: "12"
-      branch: develop
-  # deploy master to production
-  - provider: script
-    skip_cleanup: true
-    script:
-      - yarn deploy:prod
-      - apollo service:publish
-    on:
-      node: "12"
-      branch: master
+  - - apollo service:publish --tag=$TRAVIS_BRANCH
+# Used to deploy service directly to AWS Lambda using the Serverless Framework
+# Only use if you want to manually deploy in CI instead of using the Serverless GitHub App
+# deploy:
+#  # deploy develop to the staging environment
+#  - provider: script
+#    skip_cleanup: true
+#    script: yarn deploy:dev
+#    on:
+#      node: "12"
+#      branch: develop
+#  # deploy master to production
+#  - provider: script
+#    skip_cleanup: true
+#    script:
+#      - yarn deploy:prod
+#    on:
+#      node: "12"
+#      branch: master
