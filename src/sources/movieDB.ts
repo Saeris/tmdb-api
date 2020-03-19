@@ -6,7 +6,7 @@ import {
 import { RESTDataSource, RequestOptions } from "apollo-datasource-rest";
 import { Response } from "apollo-server-env";
 import { GraphQLResolveInfo } from "graphql";
-import { Context } from "../";
+import { Context } from "../server";
 import { logObj } from "../utils";
 
 type APIRequest<Params = Record<any, any>> = (

@@ -65,5 +65,3 @@ export const schema = makeExecutableSchema({
   },
   inheritResolversFromInterfaces: true
 });
-
-export default schema;

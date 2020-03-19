@@ -1,5 +1,5 @@
 import { GraphQLResolveInfo } from "graphql";
-import { Context } from "../../";
+import { Context } from "../../server";
 import { Sources } from "../../sources";
 
 export type Resolver<Parent = any, Args = any, Return = any> = (

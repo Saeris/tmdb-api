@@ -1,0 +1,4 @@
+[build]
+  Command = "yarn build:netlify"
+  Publish = "public"
+  Functions = "dist"

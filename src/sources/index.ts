@@ -1,5 +1,5 @@
 import { DataSources } from "apollo-server-core/dist/graphqlOptions";
-import { Context } from "../";
+import { Context } from "../server";
 import { Images } from "./images";
 import { MovieDB } from "./movieDB";
 

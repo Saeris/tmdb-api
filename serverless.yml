@@ -18,19 +18,23 @@ plugins:
 package:
   exclude:
     - "./ node_modules/**"
-    - "./.eslintrc.json"
-    - "./webpack.config.js"
+    - "./.eslintrc.js"
+    - "./.babelrc.js"
+    - "./apollo.config.js"
+    - "./jest.config.js"
+    - "./tsconfig.json"
+    - "./webpack.*.js"
 
 custom:
   serverless-offline:
     httpPort: 1337
   webpack:
     includeModules: true
-    webpackConfig: "webpack.config.js"
+    webpackConfig: "webpack.lambda.js"
 
 functions:
   graphql:
-    handler: "src/index.graphqlHandler"
+    handler: "lambda/mini-movie-db-api.handler"
     events:
       - http:
           path: "{proxy+}"

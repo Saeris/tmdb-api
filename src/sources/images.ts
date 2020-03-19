@@ -6,7 +6,7 @@ import Vibrant from "node-vibrant";
 import { Potrace } from "potrace";
 // @ts-ignore
 import DataURI from "datauri"; // https://www.npmjs.com/package/datauri
-import { Context } from "../";
+import { Context } from "../server";
 import { memoize, round } from "../utils";
 
 export type Color =
