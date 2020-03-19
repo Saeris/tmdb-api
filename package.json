@@ -18,6 +18,7 @@
     "test": "yarn lint && jest -c ./jest.config.js",
     "test:watch": "jest -c ./jest.config.js --watch",
     "test:coverage": "jest -c ./jest.config.js && codecov",
+    "schema:check": "apollo service:check",
     "schema:push": "apollo service:push",
     "precommit": "lint-staged"
   },
