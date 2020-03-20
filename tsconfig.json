@@ -15,5 +15,5 @@
     "moduleResolution": "node",
     "sourceMap": true
   },
-  "include": ["./src/**/*"]
+  "include": ["./src/**/*", "./lambda/**/*"]
 }
