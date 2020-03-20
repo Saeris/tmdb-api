@@ -1,7 +1,7 @@
 {
-  "src/**/*.{js,jsx}": [
-    "prettier --write",
+  "{lambda,src}/**/*.{ts}": [
     "eslint --fix",
-    "git add"
+    "tsc --no-emit",
+    "prettier --write"
   ]
 }

@@ -4,7 +4,7 @@ module.exports = {
   collectCoverage: true,
   transform: {
     "\\.(gql|graphql)$": `jest-transform-graphql`,
-    "^.+\\.(js|ts)$": `babel-jest`
+    "^.+\\.(js|ts)x?$": `babel-jest`
   },
   verbose: true
 }

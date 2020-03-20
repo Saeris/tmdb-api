@@ -11,7 +11,7 @@ export interface Context {
   context: LambdaContext;
 }
 
-const isDev = process.env.stage === `dev`;
+const isDev = process.env.stage === `dev` || !!process.env.OFFLINE;
 export const server = new ApolloServer({
   schema,
   context: ({
@@ -42,7 +42,9 @@ export const server = new ApolloServer({
         },
         tabs: [
           {
-            endpoint: `http://localhost:1337/${
+            endpoint: `${
+              process.env.OFFLINE ? `http://localhost:1337/` : process.env.URL
+            }${
               process.env.NETLIFY
                 ? `.netlify/functions/mini-movie-db-api/`
                 : `dev`

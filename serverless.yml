@@ -7,8 +7,21 @@ provider:
   stage: ${opt:stage, "dev"}
   environment:
     stage: ${self:provider.stage}
+    PORT: 1337
     MOVIE_DB_API_KEY: ${env:MOVIE_DB_API_KEY, param:MOVIE_DB_API_KEY}
     ENGINE_API_KEY: ${env:ENGINE_API_KEY, param:ENGINE_API_KEY}
+    URL:
+      {
+        "Fn::Join":
+          [
+            "",
+            [
+              " https://",
+              { "Ref": "ApiGatewayRestApi" },
+              ".execute-api.${self:provider.region}.amazonaws.com/${self:provider.stage}/",
+            ],
+          ],
+      }
 
 plugins:
   - "serverless-dotenv-plugin"
@@ -27,7 +40,7 @@ package:
 
 custom:
   serverless-offline:
-    httpPort: 1337
+    httpPort: ${self:provider.environment.PORT}
   webpack:
     includeModules: true
     webpackConfig: "webpack.lambda.js"
@@ -37,6 +50,6 @@ functions:
     handler: "lambda/mini-movie-db-api.handler"
     events:
       - http:
-          path: "{proxy+}"
+          path: "/{proxy+}"
           method: any
           cors: true
