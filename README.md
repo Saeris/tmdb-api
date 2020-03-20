@@ -1,7 +1,7 @@
 <h1 align="center" style="text-align: center;">Mini Movie DB API</h1>
 <p align="center">
-  <a href="https://travis-ci.org/Saeris/mini-movie-db-api">
-    <img src="https://travis-ci.org/Saeris/mini-movie-db-api.svg?branch=master" alt="Build Status">
+  <a href="https://travis-ci.com/github/Saeris/mini-movie-db-api">
+    <img src="https://travis-ci.com/github/Saeris/mini-movie-db-api.svg?branch=master" alt="Build Status">
   </a>
   <a href="https://codecov.io/gh/Saeris/mini-movie-db-api">
     <img src="https://codecov.io/gh/Saeris/mini-movie-db-api/branch/master/graph/badge.svg" alt="Code Coverage"/>
