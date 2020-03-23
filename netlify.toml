@@ -2,3 +2,8 @@
   Command = "yarn build:netlify"
   Publish = "public"
   Functions = "dist"
+
+[[redirects]]
+  from = "/"
+  to = "/.netlify/functions/mini-movie-db-api"
+  force = true

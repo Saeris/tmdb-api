@@ -12,7 +12,12 @@ module.exports = {
     require(`@babel/preset-typescript`),
     [
       require(`@babel/preset-env`),
-      { targets: { node: true }, useBuiltIns: `usage`, corejs: 3 }
+      {
+        targets: { node: true },
+        useBuiltIns: `usage`,
+        corejs: 3,
+        bugfixes: true
+      }
     ]
   ],
   env: {
@@ -26,7 +31,8 @@ module.exports = {
             targets: { node: true },
             modules: `commonjs`,
             useBuiltIns: `usage`,
-            corejs: 3
+            corejs: 3,
+            bugfixes: true
           }
         ]
       ]
