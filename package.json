@@ -34,7 +34,7 @@
     "typecheck": "tsc --noEmit",
     "test": "yarn lint && yarn typecheck && jest -c ./jest.config.js",
     "test:watch": "jest -c ./jest.config.js --watch",
-    "test:coverage": "jest -c ./jest.config.js && codecov",
+    "test:coverage": "yarn test && codecov",
     "schema:check": "apollo service:check",
     "schema:push": "apollo service:push",
     "release": "pika publish",
