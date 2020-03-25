@@ -679,7 +679,7 @@
 
     <div id="root" />
     <script type="text/javascript">
-      window.addEventListener("load", function(event) {
+      window.addEventListener("load", function (event) {
         const loadingWrapper = document.getElementById("loading-wrapper")
         loadingWrapper.classList.add("fadeOut")
 
@@ -690,7 +690,7 @@
 
         GraphQLPlayground.init(root, {
           settings: {
-            "schema.polling.interval": 10000
+            "schema.polling.enable": false,
           },
           tabs: [
             {
