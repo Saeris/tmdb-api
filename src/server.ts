@@ -33,6 +33,6 @@ export const server = new ApolloServer({
     console.error(err)
     return err
   },
-  introspection: isDev,
+  introspection: true,
   playground: isDev ? playground : false
 })
