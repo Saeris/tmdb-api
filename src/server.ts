@@ -1,25 +1,25 @@
-import { ApolloServer } from "apollo-server-lambda";
-import { APIGatewayEvent, Context as LambdaContext } from "aws-lambda";
-import { schema } from "./schema";
-import { dataSources } from "./sources";
-import { defaultQuery } from "./defaultQuery";
+import { ApolloServer } from "apollo-server-lambda"
+import { APIGatewayEvent, Context as LambdaContext } from "aws-lambda"
+import { schema } from "./schema"
+import { dataSources } from "./sources"
+import { playground } from "./playground"
 
 export interface Context {
-  headers: APIGatewayEvent["headers"];
-  functionName: LambdaContext["functionName"];
-  event: APIGatewayEvent;
-  context: LambdaContext;
+  headers: APIGatewayEvent["headers"]
+  functionName: LambdaContext["functionName"]
+  event: APIGatewayEvent
+  context: LambdaContext
 }
 
-const isDev = process.env.stage === `dev` || !!process.env.OFFLINE;
+const isDev = process.env.stage === `dev` || !!process.env.OFFLINE
 export const server = new ApolloServer({
   schema,
   context: ({
     event,
     context
   }: {
-    event: APIGatewayEvent;
-    context: LambdaContext;
+    event: APIGatewayEvent
+    context: LambdaContext
   }): Context => ({
     headers: event.headers,
     functionName: context.functionName,
@@ -30,30 +30,9 @@ export const server = new ApolloServer({
   tracing: true,
   formatError: (err: Error) => {
     // eslint-disable-next-line no-console
-    console.error(err);
-    return err;
+    console.error(err)
+    return err
   },
   introspection: isDev,
-  playground: isDev
-    ? {
-        settings: {
-          // @ts-ignore
-          "schema.polling.interval": 10000
-        },
-        tabs: [
-          {
-            endpoint: `${
-              process.env.OFFLINE ? `http://localhost:1337/` : process.env.URL
-            }${
-              process.env.NETLIFY
-                ? `.netlify/functions/mini-movie-db-api/`
-                : `dev`
-            }`,
-            query: defaultQuery,
-            name: `fetchPopular`,
-            variables: `{ "page": 1 }`
-          }
-        ]
-      }
-    : false
-});
+  playground: isDev ? playground : false
+})
