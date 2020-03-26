@@ -11,7 +11,6 @@ export interface Context {
   context: LambdaContext
 }
 
-const isDev = process.env.stage === `dev` || !!process.env.OFFLINE
 export const server = new ApolloServer({
   schema,
   context: ({
@@ -34,5 +33,5 @@ export const server = new ApolloServer({
     return err
   },
   introspection: true,
-  playground: isDev ? playground : false
+  playground
 })
