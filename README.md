@@ -1,4 +1,4 @@
-<h1 align="center" style="text-align: center;">🎬 Mini Movie DB API</h1>
+<h1 align="center" style="display: block; text-align: center;">🎬 Mini Movie DB API</h1>
 <p align="center"><a href="https://travis-ci.com/Saeris/mini-movie-db-api"><img src="https://travis-ci.com/Saeris/mini-movie-db-api.svg?branch=master" alt="Build Status" /></a><a href="https://codecov.io/gh/Saeris/mini-movie-db-api"><img src="https://codecov.io/gh/Saeris/mini-movie-db-api/branch/master/graph/badge.svg" alt="Code Coverage"/></a></p>
 <p align="center">A GraphQL API wrapper for The Movie DB built with <a href="https://www.apollographql.com/docs/apollo-server/features/data-sources.html">Apollo Data Sources</a>.</p>
 
