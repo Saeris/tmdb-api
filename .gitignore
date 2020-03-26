@@ -10,6 +10,7 @@ jspm_packages
 /coverage
 /pkg
 /dist
+/public
 /build
 /typings
 /.awcache

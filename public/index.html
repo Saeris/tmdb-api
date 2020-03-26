@@ -1,717 +1,87 @@
-<!DOCTYPE html>
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<title>@saeris/mini-movie-db-api</title>
+<meta charset="utf-8">
 
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, minimal-ui"
-    />
-    <title>Mini Movie DB API</title>
-    <link
-      rel="stylesheet"
-      href="//cdn.jsdelivr.net/npm/graphql-playground-react/build/static/css/index.css"
-    />
-    <link
-      rel="shortcut icon"
-      href="//cdn.jsdelivr.net/npm/graphql-playground-react/build/favicon.png"
-    />
-    <script src="//cdn.jsdelivr.net/npm/graphql-playground-react/build/static/js/middleware.js"></script>
-  </head>
 
-  <body>
-    <style type="text/css">
-      html {
-        font-family: "Open Sans", sans-serif;
-        overflow: hidden;
-      }
+<meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="A GraphQL API wrapper for The Movie DB built with Apollo Data Sources">
+  <meta name="image" content="">
+  <meta itemprop="name" content="@saeris/mini-movie-db-api">
+  <meta itemprop="description" content="A GraphQL API wrapper for The Movie DB built with Apollo Data Sources">
+  <meta itemprop="image" content="">
+  <meta name="og:title" content="@saeris/mini-movie-db-api">
+  <meta name="og:description" content="A GraphQL API wrapper for The Movie DB built with Apollo Data Sources">
+  <meta name="og:url" content="undefined">
+  <meta name="og:site_name" content="@saeris/mini-movie-db-api">
+  <meta name="og:type" content="website">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="white">
 
-      body {
-        margin: 0;
-        background: #172a3a;
-      }
+<link rel="stylesheet" href="style.css">
 
-      .playgroundIn {
-        -webkit-animation: playgroundIn 0.5s ease-out forwards;
-        animation: playgroundIn 0.5s ease-out forwards;
-      }
 
-      @-webkit-keyframes playgroundIn {
-        from {
-          opacity: 0;
-          -webkit-transform: translateY(10px);
-          -ms-transform: translateY(10px);
-          transform: translateY(10px);
-        }
-        to {
-          opacity: 1;
-          -webkit-transform: translateY(0);
-          -ms-transform: translateY(0);
-          transform: translateY(0);
-        }
-      }
+</head>
+<body>
+<div id="fiddly"><div class="body light"><div class="container"><a href="https://github.com/saeris/mini-movie-db-api" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style><h1 align="center" style="text-align: center;">🎬 Mini Movie DB API</h1>
+<p align="center"><a href="https://travis-ci.com/Saeris/mini-movie-db-api"><img src="https://travis-ci.com/Saeris/mini-movie-db-api.svg?branch=master" alt="Build Status" /></a><a href="https://codecov.io/gh/Saeris/mini-movie-db-api"><img src="https://codecov.io/gh/Saeris/mini-movie-db-api/branch/master/graph/badge.svg" alt="Code Coverage"/></a></p>
+<p align="center">A GraphQL API wrapper for The Movie DB built with <a href="https://www.apollographql.com/docs/apollo-server/features/data-sources.html">Apollo Data Sources</a>.</p><h2 id="%F0%9F%9B%A0%EF%B8%8F-setup"><a id="user-content-️-setup" class="anchor" href="#️-setup" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewbox="0 0 16 16" width="16"><path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>🛠️ Setup</h2>
+<p>Install dependencies by running <code>yarn</code>, then create a new file in the root directory named <code>.env</code>. You'll need to get an API key from The Movie DB in order to run any queries. For more information, please read the <a href="https://developers.themoviedb.org/3/getting-started/introduction" target="_blank">Movie DB docs</a>. Additionally, if you want to track usage metrics for your API, you'll need to get an API key from Apollo Graph Manager. For instructions on how to do that, please read the <a href="https://www.apollographql.com/docs/graph-manager/" target="_blank">Apollo Graph Manager docs</a>. In your new <code>.env</code> file, copy + paste the following and replace the text following the <code>=</code> sign with your newly create API keys.</p>
+<pre><code>MOVIE_DB_API_KEY=&lt;insert your movie database api key here&gt;
+ENGINE_API_KEY=&lt;insert your apollo graph manager api key here&gt;
+</code></pre>
+<p>Once that's done, you can now start up a development server using <code>yarn start</code>. By default this will use Serverless Offline, but if you would instead like to use Netlify Lamba, you can run <code>yarn start:netlify</code> instead. Once the development server is listening, you can pull up a GraphQL Playground by visiting one of the following URLs:</p>
+<p>Lambda: <a href="http://localhost:1337/dev" target="_blank">http://localhost:1337/dev</a>
+Netlify: <a href="http://localhost:1337/.netlify/functions/mini-movie-db-api" target="_blank">http://localhost:1337/.netlify/functions/mini-movie-db-api</a></p>
+<h2 id="%F0%9F%95%B9%EF%B8%8F-demo"><a id="user-content-️-demo" class="anchor" href="#️-demo" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewbox="0 0 16 16" width="16"><path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>🕹️ Demo</h2>
+<p>You can try out the API using the GraphQL Playground hosted at <a href="https://mini-movie-db-api.saeris.io" target="_blank">https://mini-movie-db-api.saeris.io</a></p>
+<h2 id="%F0%9F%A7%AA-testing"><a id="user-content-🧪-testing" class="anchor" href="#🧪-testing" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewbox="0 0 16 16" width="16"><path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>🧪 Testing</h2>
+<p>Testing is provided via <code>jest</code> and is pre-configured to run with <code>codecov</code> as well. While tests for this project are far from complete, they can be found under <code>src/__TEST__</code> and follow a naming format of <code>[filename].spec.ts</code>. Additionally, this project uses <code>eslint</code>, <code>typescript</code>, and <code>prettier</code>, all three of which are automatically run on each commit via <code>husky</code> + <code>lint-staged</code>. To manually lint and test, use the following commands:</p>
+<p>Lint:</p>
+<pre class="language-bash"><code class="language-bash"><span class="token function">yarn</span> lint
+</code></pre>
+<p>Typecheck:</p>
+<pre class="language-bash"><code class="language-bash"><span class="token function">yarn</span> typecheck
+</code></pre>
+<p>Test and watch for changes:</p>
+<pre class="language-bash"><code class="language-bash"><span class="token function">yarn</span> test:watch
+</code></pre>
+<p>Lint + Typecheck + Test:</p>
+<pre class="language-bash"><code class="language-bash"><span class="token function">yarn</span> <span class="token builtin class-name">test</span>
+</code></pre>
+<h2 id="%F0%9F%9A%A2-deployment"><a id="user-content--deployment" class="anchor" href="#-deployment" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewbox="0 0 16 16" width="16"><path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>🚢 Deployment</h2>
+<p>To deploy the server, you'll need to follow the Serverless Framework's <a href="https://serverless.com/framework/docs/providers/aws/guide/installation/" target="_blank">Setup Guide</a> to deploy to AWS. If you'd rather use Netlify, you'll need to follow whichever method works best for your workflow. Refer to <a href="https://docs.netlify.com/configure-builds/get-started/" target="_blank">Netlify's Docs</a> for more information.</p>
+<p>If you're deploying to AWS, you can use the following commands to deploy to Staging or Production:</p>
+<p>Staging:</p>
+<pre class="language-bash"><code class="language-bash"><span class="token function">yarn</span> deploy
+</code></pre>
+<p>Production:</p>
+<pre class="language-bash"><code class="language-bash"><span class="token function">yarn</span> deploy:prod
+</code></pre>
+<p>Alternatively, if you're using Travis CI, you can deploy to both on each commit as part of your CI process by uncommenting the following lines inside <code>travis.yml</code>:</p>
+<pre class="language-yaml"><code class="language-yaml"><span class="token key atrule">deploy</span><span class="token punctuation">:</span>
+ <span class="token comment"># deploy develop to the staging environment</span>
+ <span class="token punctuation">-</span> <span class="token key atrule">provider</span><span class="token punctuation">:</span> script
+   <span class="token key atrule">skip_cleanup</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+   <span class="token key atrule">script</span><span class="token punctuation">:</span> yarn deploy<span class="token punctuation">:</span>dev
+   <span class="token key atrule">on</span><span class="token punctuation">:</span>
+     <span class="token key atrule">node</span><span class="token punctuation">:</span> <span class="token string">"12"</span>
+     <span class="token key atrule">branch</span><span class="token punctuation">:</span> develop
+ <span class="token comment"># deploy master to production</span>
+ <span class="token punctuation">-</span> <span class="token key atrule">provider</span><span class="token punctuation">:</span> script
+   <span class="token key atrule">skip_cleanup</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+   <span class="token key atrule">script</span><span class="token punctuation">:</span>
+     <span class="token punctuation">-</span> yarn deploy<span class="token punctuation">:</span>prod
+   <span class="token key atrule">on</span><span class="token punctuation">:</span>
+     <span class="token key atrule">node</span><span class="token punctuation">:</span> <span class="token string">"12"</span>
+     <span class="token key atrule">branch</span><span class="token punctuation">:</span> master
+</code></pre>
+<h2 id="%F0%9F%A5%82-license"><a id="user-content-🥂-license" class="anchor" href="#🥂-license" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewbox="0 0 16 16" width="16"><path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>🥂 License</h2>
+<p>Released under the <a href="https://github.com/Saeris/mini-movie-db-api/blob/master/LICENSE.md" target="_blank">MIT license</a>.</p>
+</div></div></div>
 
-      @keyframes playgroundIn {
-        from {
-          opacity: 0;
-          -webkit-transform: translateY(10px);
-          -ms-transform: translateY(10px);
-          transform: translateY(10px);
-        }
-        to {
-          opacity: 1;
-          -webkit-transform: translateY(0);
-          -ms-transform: translateY(0);
-          transform: translateY(0);
-        }
-      }
-    </style>
-
-    <style type="text/css">
-      .fadeOut {
-        -webkit-animation: fadeOut 0.5s ease-out forwards;
-        animation: fadeOut 0.5s ease-out forwards;
-      }
-
-      @-webkit-keyframes fadeIn {
-        from {
-          opacity: 0;
-          -webkit-transform: translateY(-10px);
-          -ms-transform: translateY(-10px);
-          transform: translateY(-10px);
-        }
-        to {
-          opacity: 1;
-          -webkit-transform: translateY(0);
-          -ms-transform: translateY(0);
-          transform: translateY(0);
-        }
-      }
-
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          -webkit-transform: translateY(-10px);
-          -ms-transform: translateY(-10px);
-          transform: translateY(-10px);
-        }
-        to {
-          opacity: 1;
-          -webkit-transform: translateY(0);
-          -ms-transform: translateY(0);
-          transform: translateY(0);
-        }
-      }
-
-      @-webkit-keyframes fadeOut {
-        from {
-          opacity: 1;
-          -webkit-transform: translateY(0);
-          -ms-transform: translateY(0);
-          transform: translateY(0);
-        }
-        to {
-          opacity: 0;
-          -webkit-transform: translateY(-10px);
-          -ms-transform: translateY(-10px);
-          transform: translateY(-10px);
-        }
-      }
-
-      @keyframes fadeOut {
-        from {
-          opacity: 1;
-          -webkit-transform: translateY(0);
-          -ms-transform: translateY(0);
-          transform: translateY(0);
-        }
-        to {
-          opacity: 0;
-          -webkit-transform: translateY(-10px);
-          -ms-transform: translateY(-10px);
-          transform: translateY(-10px);
-        }
-      }
-
-      @-webkit-keyframes appearIn {
-        from {
-          opacity: 0;
-          -webkit-transform: translateY(0px);
-          -ms-transform: translateY(0px);
-          transform: translateY(0px);
-        }
-        to {
-          opacity: 1;
-          -webkit-transform: translateY(0);
-          -ms-transform: translateY(0);
-          transform: translateY(0);
-        }
-      }
-
-      @keyframes appearIn {
-        from {
-          opacity: 0;
-          -webkit-transform: translateY(0px);
-          -ms-transform: translateY(0px);
-          transform: translateY(0px);
-        }
-        to {
-          opacity: 1;
-          -webkit-transform: translateY(0);
-          -ms-transform: translateY(0);
-          transform: translateY(0);
-        }
-      }
-
-      @-webkit-keyframes scaleIn {
-        from {
-          -webkit-transform: scale(0);
-          -ms-transform: scale(0);
-          transform: scale(0);
-        }
-        to {
-          -webkit-transform: scale(1);
-          -ms-transform: scale(1);
-          transform: scale(1);
-        }
-      }
-
-      @keyframes scaleIn {
-        from {
-          -webkit-transform: scale(0);
-          -ms-transform: scale(0);
-          transform: scale(0);
-        }
-        to {
-          -webkit-transform: scale(1);
-          -ms-transform: scale(1);
-          transform: scale(1);
-        }
-      }
-
-      @-webkit-keyframes innerDrawIn {
-        0% {
-          stroke-dashoffset: 70;
-        }
-        50% {
-          stroke-dashoffset: 140;
-        }
-        100% {
-          stroke-dashoffset: 210;
-        }
-      }
-
-      @keyframes innerDrawIn {
-        0% {
-          stroke-dashoffset: 70;
-        }
-        50% {
-          stroke-dashoffset: 140;
-        }
-        100% {
-          stroke-dashoffset: 210;
-        }
-      }
-
-      @-webkit-keyframes outerDrawIn {
-        0% {
-          stroke-dashoffset: 76;
-        }
-        100% {
-          stroke-dashoffset: 152;
-        }
-      }
-
-      @keyframes outerDrawIn {
-        0% {
-          stroke-dashoffset: 76;
-        }
-        100% {
-          stroke-dashoffset: 152;
-        }
-      }
-
-      .hHWjkv {
-        -webkit-transform-origin: 0px 0px;
-        -ms-transform-origin: 0px 0px;
-        transform-origin: 0px 0px;
-        -webkit-transform: scale(0);
-        -ms-transform: scale(0);
-        transform: scale(0);
-        -webkit-animation: scaleIn 0.25s linear forwards 0.2222222222222222s;
-        animation: scaleIn 0.25s linear forwards 0.2222222222222222s;
-      }
-
-      .gCDOzd {
-        -webkit-transform-origin: 0px 0px;
-        -ms-transform-origin: 0px 0px;
-        transform-origin: 0px 0px;
-        -webkit-transform: scale(0);
-        -ms-transform: scale(0);
-        transform: scale(0);
-        -webkit-animation: scaleIn 0.25s linear forwards 0.4222222222222222s;
-        animation: scaleIn 0.25s linear forwards 0.4222222222222222s;
-      }
-
-      .hmCcxi {
-        -webkit-transform-origin: 0px 0px;
-        -ms-transform-origin: 0px 0px;
-        transform-origin: 0px 0px;
-        -webkit-transform: scale(0);
-        -ms-transform: scale(0);
-        transform: scale(0);
-        -webkit-animation: scaleIn 0.25s linear forwards 0.6222222222222222s;
-        animation: scaleIn 0.25s linear forwards 0.6222222222222222s;
-      }
-
-      .eHamQi {
-        -webkit-transform-origin: 0px 0px;
-        -ms-transform-origin: 0px 0px;
-        transform-origin: 0px 0px;
-        -webkit-transform: scale(0);
-        -ms-transform: scale(0);
-        transform: scale(0);
-        -webkit-animation: scaleIn 0.25s linear forwards 0.8222222222222223s;
-        animation: scaleIn 0.25s linear forwards 0.8222222222222223s;
-      }
-
-      .byhgGu {
-        -webkit-transform-origin: 0px 0px;
-        -ms-transform-origin: 0px 0px;
-        transform-origin: 0px 0px;
-        -webkit-transform: scale(0);
-        -ms-transform: scale(0);
-        transform: scale(0);
-        -webkit-animation: scaleIn 0.25s linear forwards 1.0222222222222221s;
-        animation: scaleIn 0.25s linear forwards 1.0222222222222221s;
-      }
-
-      .llAKP {
-        -webkit-transform-origin: 0px 0px;
-        -ms-transform-origin: 0px 0px;
-        transform-origin: 0px 0px;
-        -webkit-transform: scale(0);
-        -ms-transform: scale(0);
-        transform: scale(0);
-        -webkit-animation: scaleIn 0.25s linear forwards 1.2222222222222223s;
-        animation: scaleIn 0.25s linear forwards 1.2222222222222223s;
-      }
-
-      .bglIGM {
-        -webkit-transform-origin: 64px 28px;
-        -ms-transform-origin: 64px 28px;
-        transform-origin: 64px 28px;
-        -webkit-transform: scale(0);
-        -ms-transform: scale(0);
-        transform: scale(0);
-        -webkit-animation: scaleIn 0.25s linear forwards 0.2222222222222222s;
-        animation: scaleIn 0.25s linear forwards 0.2222222222222222s;
-      }
-
-      .ksxRII {
-        -webkit-transform-origin: 95.98500061035156px 46.510000228881836px;
-        -ms-transform-origin: 95.98500061035156px 46.510000228881836px;
-        transform-origin: 95.98500061035156px 46.510000228881836px;
-        -webkit-transform: scale(0);
-        -ms-transform: scale(0);
-        transform: scale(0);
-        -webkit-animation: scaleIn 0.25s linear forwards 0.4222222222222222s;
-        animation: scaleIn 0.25s linear forwards 0.4222222222222222s;
-      }
-
-      .cWrBmb {
-        -webkit-transform-origin: 95.97162628173828px 83.4900016784668px;
-        -ms-transform-origin: 95.97162628173828px 83.4900016784668px;
-        transform-origin: 95.97162628173828px 83.4900016784668px;
-        -webkit-transform: scale(0);
-        -ms-transform: scale(0);
-        transform: scale(0);
-        -webkit-animation: scaleIn 0.25s linear forwards 0.6222222222222222s;
-        animation: scaleIn 0.25s linear forwards 0.6222222222222222s;
-      }
-
-      .Wnusb {
-        -webkit-transform-origin: 64px 101.97999572753906px;
-        -ms-transform-origin: 64px 101.97999572753906px;
-        transform-origin: 64px 101.97999572753906px;
-        -webkit-transform: scale(0);
-        -ms-transform: scale(0);
-        transform: scale(0);
-        -webkit-animation: scaleIn 0.25s linear forwards 0.8222222222222223s;
-        animation: scaleIn 0.25s linear forwards 0.8222222222222223s;
-      }
-
-      .bfPqf {
-        -webkit-transform-origin: 32.03982162475586px 83.4900016784668px;
-        -ms-transform-origin: 32.03982162475586px 83.4900016784668px;
-        transform-origin: 32.03982162475586px 83.4900016784668px;
-        -webkit-transform: scale(0);
-        -ms-transform: scale(0);
-        transform: scale(0);
-        -webkit-animation: scaleIn 0.25s linear forwards 1.0222222222222221s;
-        animation: scaleIn 0.25s linear forwards 1.0222222222222221s;
-      }
-
-      .edRCTN {
-        -webkit-transform-origin: 32.033552169799805px 46.510000228881836px;
-        -ms-transform-origin: 32.033552169799805px 46.510000228881836px;
-        transform-origin: 32.033552169799805px 46.510000228881836px;
-        -webkit-transform: scale(0);
-        -ms-transform: scale(0);
-        transform: scale(0);
-        -webkit-animation: scaleIn 0.25s linear forwards 1.2222222222222223s;
-        animation: scaleIn 0.25s linear forwards 1.2222222222222223s;
-      }
-
-      .iEGVWn {
-        opacity: 0;
-        stroke-dasharray: 76;
-        -webkit-animation: outerDrawIn 0.5s ease-out forwards
-            0.3333333333333333s,
-          appearIn 0.1s ease-out forwards 0.3333333333333333s;
-        animation: outerDrawIn 0.5s ease-out forwards 0.3333333333333333s,
-          appearIn 0.1s ease-out forwards 0.3333333333333333s;
-        -webkit-animation-iteration-count: 1, 1;
-        animation-iteration-count: 1, 1;
-      }
-
-      .bsocdx {
-        opacity: 0;
-        stroke-dasharray: 76;
-        -webkit-animation: outerDrawIn 0.5s ease-out forwards
-            0.5333333333333333s,
-          appearIn 0.1s ease-out forwards 0.5333333333333333s;
-        animation: outerDrawIn 0.5s ease-out forwards 0.5333333333333333s,
-          appearIn 0.1s ease-out forwards 0.5333333333333333s;
-        -webkit-animation-iteration-count: 1, 1;
-        animation-iteration-count: 1, 1;
-      }
-
-      .jAZXmP {
-        opacity: 0;
-        stroke-dasharray: 76;
-        -webkit-animation: outerDrawIn 0.5s ease-out forwards
-            0.7333333333333334s,
-          appearIn 0.1s ease-out forwards 0.7333333333333334s;
-        animation: outerDrawIn 0.5s ease-out forwards 0.7333333333333334s,
-          appearIn 0.1s ease-out forwards 0.7333333333333334s;
-        -webkit-animation-iteration-count: 1, 1;
-        animation-iteration-count: 1, 1;
-      }
-
-      .hSeArx {
-        opacity: 0;
-        stroke-dasharray: 76;
-        -webkit-animation: outerDrawIn 0.5s ease-out forwards
-            0.9333333333333333s,
-          appearIn 0.1s ease-out forwards 0.9333333333333333s;
-        animation: outerDrawIn 0.5s ease-out forwards 0.9333333333333333s,
-          appearIn 0.1s ease-out forwards 0.9333333333333333s;
-        -webkit-animation-iteration-count: 1, 1;
-        animation-iteration-count: 1, 1;
-      }
-
-      .bVgqGk {
-        opacity: 0;
-        stroke-dasharray: 76;
-        -webkit-animation: outerDrawIn 0.5s ease-out forwards
-            1.1333333333333333s,
-          appearIn 0.1s ease-out forwards 1.1333333333333333s;
-        animation: outerDrawIn 0.5s ease-out forwards 1.1333333333333333s,
-          appearIn 0.1s ease-out forwards 1.1333333333333333s;
-        -webkit-animation-iteration-count: 1, 1;
-        animation-iteration-count: 1, 1;
-      }
-
-      .hEFqBt {
-        opacity: 0;
-        stroke-dasharray: 76;
-        -webkit-animation: outerDrawIn 0.5s ease-out forwards
-            1.3333333333333333s,
-          appearIn 0.1s ease-out forwards 1.3333333333333333s;
-        animation: outerDrawIn 0.5s ease-out forwards 1.3333333333333333s,
-          appearIn 0.1s ease-out forwards 1.3333333333333333s;
-        -webkit-animation-iteration-count: 1, 1;
-        animation-iteration-count: 1, 1;
-      }
-
-      .dzEKCM {
-        opacity: 0;
-        stroke-dasharray: 70;
-        -webkit-animation: innerDrawIn 1s ease-in-out forwards
-            1.3666666666666667s,
-          appearIn 0.1s linear forwards 1.3666666666666667s;
-        animation: innerDrawIn 1s ease-in-out forwards 1.3666666666666667s,
-          appearIn 0.1s linear forwards 1.3666666666666667s;
-        -webkit-animation-iteration-count: infinite, 1;
-        animation-iteration-count: infinite, 1;
-      }
-
-      .DYnPx {
-        opacity: 0;
-        stroke-dasharray: 70;
-        -webkit-animation: innerDrawIn 1s ease-in-out forwards
-            1.5333333333333332s,
-          appearIn 0.1s linear forwards 1.5333333333333332s;
-        animation: innerDrawIn 1s ease-in-out forwards 1.5333333333333332s,
-          appearIn 0.1s linear forwards 1.5333333333333332s;
-        -webkit-animation-iteration-count: infinite, 1;
-        animation-iteration-count: infinite, 1;
-      }
-
-      .hjPEAQ {
-        opacity: 0;
-        stroke-dasharray: 70;
-        -webkit-animation: innerDrawIn 1s ease-in-out forwards
-            1.7000000000000002s,
-          appearIn 0.1s linear forwards 1.7000000000000002s;
-        animation: innerDrawIn 1s ease-in-out forwards 1.7000000000000002s,
-          appearIn 0.1s linear forwards 1.7000000000000002s;
-        -webkit-animation-iteration-count: infinite, 1;
-        animation-iteration-count: infinite, 1;
-      }
-
-      #loading-wrapper {
-        position: absolute;
-        width: 100vw;
-        height: 100vh;
-        display: -webkit-box;
-        display: -webkit-flex;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-align-items: center;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        align-items: center;
-        -webkit-box-pack: center;
-        -webkit-justify-content: center;
-        -ms-flex-pack: center;
-        justify-content: center;
-        -webkit-flex-direction: column;
-        -ms-flex-direction: column;
-        flex-direction: column;
-      }
-
-      .logo {
-        width: 75px;
-        height: 75px;
-        margin-bottom: 20px;
-        opacity: 0;
-        -webkit-animation: fadeIn 0.5s ease-out forwards;
-        animation: fadeIn 0.5s ease-out forwards;
-      }
-
-      .text {
-        font-size: 32px;
-        font-weight: 200;
-        text-align: center;
-        color: rgba(255, 255, 255, 0.6);
-        opacity: 0;
-        -webkit-animation: fadeIn 0.5s ease-out forwards;
-        animation: fadeIn 0.5s ease-out forwards;
-      }
-
-      .dGfHfc {
-        font-weight: 400;
-      }
-    </style>
-    <div id="loading-wrapper">
-      <svg
-        class="logo"
-        viewBox="0 0 128 128"
-        xmlns:xlink="http://www.w3.org/1999/xlink"
-      >
-        <title>GraphQL Playground Logo</title>
-        <defs>
-          <linearGradient
-            id="linearGradient-1"
-            x1="4.86%"
-            x2="96.21%"
-            y1="0%"
-            y2="99.66%"
-          >
-            <stop stop-color="#E00082" stop-opacity=".8" offset="0%"></stop>
-            <stop stop-color="#E00082" offset="100%"></stop>
-          </linearGradient>
-        </defs>
-        <g>
-          <rect
-            id="Gradient"
-            width="127.96"
-            height="127.96"
-            y="1"
-            fill="url(#linearGradient-1)"
-            rx="4"
-          ></rect>
-          <path
-            id="Border"
-            fill="#E00082"
-            fill-rule="nonzero"
-            d="M4.7 2.84c-1.58 0-2.86 1.28-2.86 2.85v116.57c0 1.57 1.28 2.84 2.85 2.84h116.57c1.57 0 2.84-1.26 2.84-2.83V5.67c0-1.55-1.26-2.83-2.83-2.83H4.67zM4.7 0h116.58c3.14 0 5.68 2.55 5.68 5.7v116.58c0 3.14-2.54 5.68-5.68 5.68H4.68c-3.13 0-5.68-2.54-5.68-5.68V5.68C-1 2.56 1.55 0 4.7 0z"
-          ></path>
-          <path
-            class="bglIGM"
-            x="64"
-            y="28"
-            fill="#fff"
-            d="M64 36c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8"
-            style="transform: translate(100px, 100px);"
-          ></path>
-          <path
-            class="ksxRII"
-            x="95.98500061035156"
-            y="46.510000228881836"
-            fill="#fff"
-            d="M89.04 50.52c-2.2-3.84-.9-8.73 2.94-10.96 3.83-2.2 8.72-.9 10.95 2.94 2.2 3.84.9 8.73-2.94 10.96-3.85 2.2-8.76.9-10.97-2.94"
-            style="transform: translate(100px, 100px);"
-          ></path>
-          <path
-            class="cWrBmb"
-            x="95.97162628173828"
-            y="83.4900016784668"
-            fill="#fff"
-            d="M102.9 87.5c-2.2 3.84-7.1 5.15-10.94 2.94-3.84-2.2-5.14-7.12-2.94-10.96 2.2-3.84 7.12-5.15 10.95-2.94 3.86 2.23 5.16 7.12 2.94 10.96"
-            style="transform: translate(100px, 100px);"
-          ></path>
-          <path
-            class="Wnusb"
-            x="64"
-            y="101.97999572753906"
-            fill="#fff"
-            d="M64 110c-4.43 0-8-3.6-8-8.02 0-4.44 3.57-8.02 8-8.02s8 3.58 8 8.02c0 4.4-3.57 8.02-8 8.02"
-            style="transform: translate(100px, 100px);"
-          ></path>
-          <path
-            class="bfPqf"
-            x="32.03982162475586"
-            y="83.4900016784668"
-            fill="#fff"
-            d="M25.1 87.5c-2.2-3.84-.9-8.73 2.93-10.96 3.83-2.2 8.72-.9 10.95 2.94 2.2 3.84.9 8.73-2.94 10.96-3.85 2.2-8.74.9-10.95-2.94"
-            style="transform: translate(100px, 100px);"
-          ></path>
-          <path
-            class="edRCTN"
-            x="32.033552169799805"
-            y="46.510000228881836"
-            fill="#fff"
-            d="M38.96 50.52c-2.2 3.84-7.12 5.15-10.95 2.94-3.82-2.2-5.12-7.12-2.92-10.96 2.2-3.84 7.12-5.15 10.95-2.94 3.83 2.23 5.14 7.12 2.94 10.96"
-            style="transform: translate(100px, 100px);"
-          ></path>
-          <path
-            class="iEGVWn"
-            stroke="#fff"
-            stroke-width="4"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M63.55 27.5l32.9 19-32.9-19z"
-          ></path>
-          <path
-            class="bsocdx"
-            stroke="#fff"
-            stroke-width="4"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M96 46v38-38z"
-          ></path>
-          <path
-            class="jAZXmP"
-            stroke="#fff"
-            stroke-width="4"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M96.45 84.5l-32.9 19 32.9-19z"
-          ></path>
-          <path
-            class="hSeArx"
-            stroke="#fff"
-            stroke-width="4"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M64.45 103.5l-32.9-19 32.9 19z"
-          ></path>
-          <path
-            class="bVgqGk"
-            stroke="#fff"
-            stroke-width="4"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M32 84V46v38z"
-          ></path>
-          <path
-            class="hEFqBt"
-            stroke="#fff"
-            stroke-width="4"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M31.55 46.5l32.9-19-32.9 19z"
-          ></path>
-          <path
-            class="dzEKCM"
-            id="Triangle-Bottom"
-            stroke="#fff"
-            stroke-width="4"
-            d="M30 84h70"
-            stroke-linecap="round"
-          ></path>
-          <path
-            class="DYnPx"
-            id="Triangle-Left"
-            stroke="#fff"
-            stroke-width="4"
-            d="M65 26L30 87"
-            stroke-linecap="round"
-          ></path>
-          <path
-            class="hjPEAQ"
-            id="Triangle-Right"
-            stroke="#fff"
-            stroke-width="4"
-            d="M98 87L63 26"
-            stroke-linecap="round"
-          ></path>
-        </g>
-      </svg>
-      <div class="text">
-        Loading
-        <span class="dGfHfc">GraphQL Playground</span>
-      </div>
-    </div>
-
-    <div id="root" />
-    <script type="text/javascript">
-      window.addEventListener("load", function (event) {
-        const loadingWrapper = document.getElementById("loading-wrapper")
-        loadingWrapper.classList.add("fadeOut")
-
-        const root = document.getElementById("root")
-        root.classList.add("playgroundIn")
-
-        const { protocol, hostname } = window.location
-
-        GraphQLPlayground.init(root, {
-          settings: {
-            "schema.polling.enable": false,
-          },
-          tabs: [
-            {
-              endpoint: `${protocol}//${hostname}/.netlify/functions/mini-movie-db-api/`,
-              query: `query fetchPopular($page: Int!) {
-  movies: popularMovies(page: $page) {
-    id
-    title
-    overview
-    releaseDate
-    img: poster {
-      url: custom(size: "w185_and_h278_bestv2")
-    }
-  }
-}`,
-              name: `fetchPopular`,
-              variables: `{ "page": 1 }`
-            }
-          ]
-        })
-      })
-    </script>
-  </body>
+</body>
 </html>

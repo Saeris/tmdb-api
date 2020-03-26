@@ -2,7 +2,8 @@ import { server } from "../src";
 
 export const handler = server.createHandler({
   cors: {
-    origin: `*`,
+    // Set to '*' to allow any origin
+    origin: true,
     credentials: true
   }
 });
