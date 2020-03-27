@@ -1,4 +1,6 @@
 {
+	"name": "🎬 Mini Movie DB API",
+	"description": "A GraphQL API wrapper for The Movie DB built with Apollo Data Sources",
 	"noHeader": true,
 	"homepage:": "http://saeris.io",
 	"repo": "https://github.com/saeris/mini-movie-db-api",
