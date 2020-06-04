@@ -5,7 +5,6 @@
     "jsx": "preserve",
     "lib": ["esnext", "dom"],
     "strict": true,
-    "noEmit": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "noUnusedLocals": true,

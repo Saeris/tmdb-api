@@ -4,8 +4,7 @@ import SVGO from "svgo";
 import Vibrant from "node-vibrant";
 // @ts-ignore
 import { Potrace } from "potrace";
-// @ts-ignore
-import DataURI from "datauri"; // https://www.npmjs.com/package/datauri
+import DataURIParser from "datauri/parser"; // https://www.npmjs.com/package/datauri
 import { Context } from "../server";
 import { memoize, round } from "../utils";
 
@@ -230,8 +229,8 @@ export class Images extends DataSource<Context> {
   };
 
   encodeSvgDataUri = (svg: string): string => {
-    const datauri = new DataURI();
+    const datauri = new DataURIParser();
     datauri.format(`.svg`, svg);
-    return datauri.content;
+    return datauri.content as string;
   };
 }
