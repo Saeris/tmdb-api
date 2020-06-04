@@ -1,1 +1,4 @@
-export { server, Context } from "./server";
+export { server, Context } from "./server"
+export { schema } from "./schema"
+export { dataSources } from "./sources"
+export { playground } from "./playground"
