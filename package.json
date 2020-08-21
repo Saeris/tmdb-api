@@ -1,7 +1,7 @@
 {
   "name": "@saeris/mini-movie-db-api",
   "description": "A GraphQL API wrapper for The Movie DB built with Apollo Data Sources",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "keywords": [
     "apollo",
     "graphql",
