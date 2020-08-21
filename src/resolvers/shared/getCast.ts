@@ -1,4 +1,4 @@
-import { Resolver } from "./types";
+import { Resolver } from "../Resolver";
 
 export const cast: Resolver<{ credits: { cast: any[] } }, { limit: number }> = (
   { credits },

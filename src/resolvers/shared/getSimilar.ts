@@ -1,4 +1,4 @@
-import { Resolver } from "./types";
+import { Resolver } from "../Resolver";
 
 export const similar: Resolver<
   { similar: { results: any[] } },

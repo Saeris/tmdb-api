@@ -1,6 +1,6 @@
 import { groupBy } from "lodash";
 import { GraphQLResolveInfo } from "graphql";
-import { Resolver } from "./shared";
+import { Resolver } from "./Resolver";
 import { Sources } from "../sources";
 
 const mapResults = (type?: "movie" | "tv") => (

@@ -9,12 +9,8 @@ import {
   URLScalar,
   URL
 } from "@saeris/graphql-scalars";
-import * as types from "./types";
-import * as enums from "./types/enums";
-import * as inputs from "./types/inputs";
-import * as interfaces from "./types/interfaces";
-import * as unions from "./types/unions";
-import * as resolvers from "./resolvers";
+import { types, enums, inputs, interfaces, unions } from "./types";
+import { resolvers } from "./resolvers";
 
 // TODO: Re-Write Schema Definition to remove makeExecutableSchema entirely
 // to conform to Apollo Server's standard implementation

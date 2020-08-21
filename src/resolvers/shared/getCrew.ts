@@ -1,4 +1,4 @@
-import { Resolver } from "./types";
+import { Resolver } from "../Resolver";
 
 export const crew: Resolver<
   { credits: { crew: { id: string; job: string }[] } },

@@ -1,5 +1,5 @@
-import { Color, ImageResult, ColorsResult } from "../../sources";
-import { Resolver } from "./types";
+import { Color, ImageResult, ColorsResult } from "../../sources/images";
+import { Resolver } from "../Resolver";
 
 type Args = {
   color: Color;

@@ -1,4 +1,4 @@
-import { Resolver } from "./shared";
+import { Resolver } from "./Resolver";
 
 export { cast, crew, similar, videos } from "./shared";
 

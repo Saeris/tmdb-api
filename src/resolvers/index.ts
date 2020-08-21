@@ -19,7 +19,7 @@ import * as Season from "./season";
 import * as Still from "./still";
 import * as TV from "./tv";
 
-export {
+export const resolvers = {
   Backdrop,
   Cast,
   Company,

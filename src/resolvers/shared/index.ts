@@ -4,4 +4,3 @@ export { gender } from "./getGender";
 export { file, original, custom, svg, colors } from "./getImage";
 export { similar } from "./getSimilar";
 export { videos } from "./getVideos";
-export { Resolver } from "./types";

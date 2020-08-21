@@ -1,5 +1,5 @@
 import { groupBy } from "lodash";
-import { Resolver } from "./shared";
+import { Resolver } from "./Resolver";
 
 export { gender } from "./shared";
 

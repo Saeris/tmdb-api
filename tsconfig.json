@@ -14,5 +14,8 @@
     "moduleResolution": "node",
     "sourceMap": true
   },
-  "include": ["./src/**/*", "./lambda/**/*"]
+  "include": ["./src/**/*", "./lambda/**/*"],
+  "exclude": [
+    "node_modules", "**/__MOCKS__/**/*", "**/__TEST__/**/*", "**/*.spec.ts"
+  ]
 }

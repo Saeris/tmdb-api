@@ -1,10 +1,6 @@
-const { join } = require(`path`)
-
-const srcDir = join(__dirname, `src`)
-
 module.exports = {
   root: true,
-  parser: "@typescript-eslint/parser",
+  parser: `@typescript-eslint/parser`,
   env: {
     es6: true,
     node: true,
@@ -12,7 +8,7 @@ module.exports = {
     "jest/globals": true
   },
   plugins: [
-    "@typescript-eslint", // https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/eslint-plugin
+    `@typescript-eslint`, // https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/eslint-plugin
     `jest`, // https://github.com/jest-community/eslint-plugin-jest
     `import`, // https://github.com/benmosher/eslint-plugin-import
     `promise` // https://github.com/xjamundx/eslint-plugin-promise
@@ -24,6 +20,7 @@ module.exports = {
     ecmaVersion: 2020,
     sourceType: `module`
   },
+  ignorePatterns: [`**/pkg/**/*`],
   rules: {
     // Possible Errors
     "for-direction": 2,
@@ -248,7 +245,7 @@ module.exports = {
     "operator-linebreak": 0,
     "padded-blocks": [2, `never`],
     "padding-line-between-statements": 0,
-    "quote-props": [2, "as-needed"],
+    "quote-props": [2, `as-needed`],
     quotes: 0, // Conflicts with TypeScript, use TypeScript Plugin Rule Instead
     "require-jsdoc": 0,
     semi: [0, `never`],
@@ -307,8 +304,8 @@ module.exports = {
     "@typescript-eslint/no-use-before-define": 0,
     "@typescript-eslint/camelcase": 0,
     "@typescript-eslint/no-var-requires": 0,
-    "@typescript-eslint/no-unused-vars": ["error", { vars: "local", args: "none", ignoreRestSiblings: true }],
-    "@typescript-eslint/quotes": ["error", "backtick", { avoidEscape: true }],
+    "@typescript-eslint/no-unused-vars": [`error`, { vars: `local`, args: `none`, ignoreRestSiblings: true }],
+    "@typescript-eslint/quotes": [`error`, `backtick`, { avoidEscape: true }],
 
     // jest
     "jest/consistent-test-it"                   : 2,
@@ -318,7 +315,7 @@ module.exports = {
     "jest/no-hooks"                             : 0,
     "jest/no-identical-title"                   : 2,
     "jest/no-jest-import"                       : 2,
-    "jest/no-large-snapshots"                   : [1, { "maxSize": 12 }],
+    "jest/no-large-snapshots"                   : [1, { maxSize: 12 }],
     "jest/no-test-prefixes"                     : 2,
     "jest/prefer-to-have-length"                : 1,
     "jest/prefer-to-be-null"                    : 1,
@@ -330,7 +327,7 @@ module.exports = {
 
     // import
     "import/no-extraneous-dependencies": 0,
-    "import/no-cycle": "warn",
+    "import/no-cycle": `warn`,
     "import/prefer-default-export": 0,
     "import/no-named-default": 0,
     "import/no-webpack-loader-syntax": 0,

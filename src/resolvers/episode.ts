@@ -1,4 +1,4 @@
-import { Resolver } from "./shared";
+import { Resolver } from "./Resolver";
 
 export const number = (parent: Record<string, string>) => parent.episode_number;
 

@@ -1,5 +1,5 @@
-import { ImageResult } from "../sources";
-import { Resolver } from "./shared";
+import { ImageResult } from "../sources/images";
+import { Resolver } from "./Resolver";
 
 export { file, original, custom, svg, colors } from "./shared";
 

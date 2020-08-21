@@ -1,4 +1,4 @@
-import { Resolver } from "./shared";
+import { Resolver } from "./Resolver";
 
 export const poster = (parent: Record<string, string>) => parent.poster_path;
 

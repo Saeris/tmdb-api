@@ -1,4 +1,4 @@
-import { Resolver } from "./types";
+import { Resolver } from "../Resolver";
 import { filterResults } from "../../utils";
 
 export const videos: Resolver<

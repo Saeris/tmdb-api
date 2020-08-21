@@ -3,8 +3,6 @@ import { Context } from "../server";
 import { Images } from "./images";
 import { MovieDB } from "./movieDB";
 
-export { Color, SVGResult, ImageResult, ColorsResult } from "./images";
-
 export interface Sources extends DataSources<Context> {
   Images: Images;
   MovieDB: MovieDB;
