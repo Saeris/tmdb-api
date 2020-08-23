@@ -1,5 +1,3 @@
-# import * from "./logo.gql"
-
 type Company {
   id: ID!
   name: String!

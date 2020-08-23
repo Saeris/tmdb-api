@@ -1,5 +1,3 @@
-# import * from "./query.gql"
-
 schema {
   query: Query
 }

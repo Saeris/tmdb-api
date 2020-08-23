@@ -1,12 +1,3 @@
-# import * from "./enums/releaseStatus.gql"
-# import * from "./poster.gql"
-# import * from "./backdrop.gql"
-# import * from "./genre.gql"
-# import * from "./language.gql"
-# import * from "./cast.gql"
-# import * from "./crew.gql"
-# import * from "./video.gql"
-
 type Movie @cacheControl(maxAge: 60) {
   id: ID!
   title: String! @cacheControl(maxAge: 3600)

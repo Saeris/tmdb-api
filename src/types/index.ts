@@ -1,3 +1,7 @@
+import { enums } from "./enums"
+import { inputs } from "./inputs"
+import { interfaces } from "./interfaces"
+import { unions } from "./unions"
 import { default as Backdrop } from "./backdrop.gql"
 import { default as Cast } from "./cast.gql"
 import { default as Company } from "./company.gql"
@@ -20,12 +24,11 @@ import { default as Still } from "./still.gql"
 import { default as TV } from "./tv.gql"
 import { default as Video } from "./video.gql"
 
-export { enums } from "./enums"
-export { inputs } from "./inputs"
-export { interfaces } from "./interfaces"
-export { unions } from "./unions"
-
 export const types = [
+	...enums,
+	...inputs,
+	...interfaces,
+	...unions,
 	Backdrop,
 	Cast,
 	Company,

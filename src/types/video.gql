@@ -1,5 +1,3 @@
-# import * from "./enums/videoType.gql"
-
 type Video {
   id: ID!
   key: String!

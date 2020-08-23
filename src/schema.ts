@@ -9,7 +9,7 @@ import {
   URLScalar,
   URL
 } from "@saeris/graphql-scalars";
-import { types, enums, inputs, interfaces, unions } from "./types";
+import { types } from "./types";
 import { resolvers } from "./resolvers";
 
 // TODO: Re-Write Schema Definition to remove makeExecutableSchema entirely
@@ -36,19 +36,17 @@ const directives = Object.values(schemaDirectives).map(directive =>
   directive.declaration()
 );
 
+export const typeDefs = [
+  ...types,
+  DateTimeScalar,
+  EmailAddressScalar,
+  URLScalar,
+  cacheControlTypes,
+  ...directives
+];
+
 export const schema = makeExecutableSchema({
-  typeDefs: [
-    ...Object.values(types),
-    ...Object.values(enums),
-    ...Object.values(inputs),
-    ...Object.values(interfaces),
-    ...Object.values(unions),
-    DateTimeScalar,
-    EmailAddressScalar,
-    URLScalar,
-    cacheControlTypes,
-    ...directives
-  ],
+  typeDefs,
   schemaDirectives,
   resolvers: {
     DateTime,

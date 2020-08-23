@@ -1,8 +1,3 @@
-# import * from "./movie.gql"
-# import * from "./person.gql"
-# import * from "./tv.gql"
-# import * from "./unions/searchResult.gql"
-
 type Query {
   movie(id: ID!): Movie!
   person(id: ID!): Person!

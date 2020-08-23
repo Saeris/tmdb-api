@@ -1,6 +1,3 @@
-# import * from "./photo.gql"
-# import * from "./movie.gql"
-
 type Person {
   id: ID!
   name: String!

@@ -1,5 +1,3 @@
-# import * from "./photo.gql"
-
 type Guest {
   id: ID!
   castID: ID!

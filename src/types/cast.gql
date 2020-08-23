@@ -1,5 +1,3 @@
-# import * from "./photo.gql"
-
 type Cast {
   id: ID!
   castId: ID!

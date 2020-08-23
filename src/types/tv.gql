@@ -1,17 +1,3 @@
-# import * from "./enums/tvType.gql"
-# import * from "./enums/tvStatus.gql"
-# import * from "./genre.gql"
-# import * from "./person.gql"
-# import * from "./cast.gql"
-# import * from "./crew.gql"
-# import * from "./network.gql"
-# import * from "./company.gql"
-# import * from "./poster.gql"
-# import * from "./backdrop.gql"
-# import * from "./video.gql"
-# import * from "./season.gql"
-# import * from "./episode.gql"
-
 type TV {
   id: ID!
 

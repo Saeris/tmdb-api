@@ -1,5 +1,3 @@
-# import * from "../enums/videoType.gql"
-
 input VideoFilter {
   site: [String!]
   type: [VideoType!]
