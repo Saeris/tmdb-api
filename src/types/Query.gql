@@ -1,0 +1,98 @@
+type Query {
+  countries: [Country!]!
+  jobs: [Job!]!
+  languages: [Language!]!
+  timezones: [Timezone!]!
+
+  collection(id: ID!, language: Translations = English ): Collection!
+
+  movieGenres(language: Translations = English): [Genre!]!
+  tvGenres(language: Translations = English): [Genre!]!
+
+  movie(id: ID!, language: Translations = English): Movie!
+  person(id: ID!, language: Translations = English): Person!
+  tv(id: ID!, language: Translations = English): TV!
+  review(id: ID!): Review!
+
+  movies(ids: [ID!], language: Translations = English): [Movie!]!
+  people(ids: [ID!], language: Translations = English): [Person!]!
+  shows(ids: [ID!], language: Translations = English): [TV!]!
+  reviews(ids: [ID!]): [Review!]!
+
+  latestMovie(language: Translations = English): Movie!
+  latestPerson(language: Translations = English): Person!
+  latestTV(language: Translations = English): TV!
+
+  popularMovies(
+    page: PageRange = 1
+    language: Translations = English
+  ): [Movie!]! @cacheControl(maxAge: 3600)
+  popularPeople(
+    page: PageRange = 1
+    language: Translations = English
+  ): [Person!]! @cacheControl(maxAge: 3600)
+  popularTV(page: PageRange = 1, language: Translations = English): [TV!]!
+  @cacheControl(maxAge: 3600)
+
+  search(
+    query: String!
+    page: PageRange = 1
+    language: Translations = English
+  ): [SearchResult!]!
+  searchMovies(
+    query: String!
+    page: PageRange = 1
+    language: Translations = English
+  ): [Movie!]!
+  searchPeople(
+    query: String!
+    page: PageRange = 1
+    language: Translations = English
+  ): [Person!]!
+  searchTV(
+    query: String!
+    page: PageRange = 1
+    language: Translations = English
+  ): [TV!]!
+
+  discoverMovies(
+    filter: DiscoverMoviesFilter
+    sortBy: DiscoverMoviesSortInput
+    page: PageRange = 1
+    language: Translations = English
+  ): [Movie!]!
+  discoverTV(
+    filter: DiscoverTVFilter
+    sortBy: DiscoverTVSortInput
+    page: PageRange = 1
+    language: Translations = English
+  ): [TV!]!
+
+  nowPlaying(page: PageRange = 1, language: Translations = English): [Movie!]!
+  topRatedMovies(
+    page: PageRange = 1
+    language: Translations = English
+  ): [Movie!]!
+  upcomingMovies(
+    page: PageRange = 1
+    language: Translations = English
+  ): [Movie!]!
+
+  airingThisWeek(page: PageRange = 1, language: Translations = English): [TV!]!
+  airingToday(page: PageRange = 1, language: Translations = English): [TV!]!
+  topRatedTV(page: PageRange = 1, language: Translations = English): [TV!]!
+
+  trending(
+    timeframe: TrendingTimeframe = Day
+    page: PageRange = 1
+  ): [SearchResult!]!
+  trendingMovies(
+    timeframe: TrendingTimeframe = Day
+    page: PageRange = 1
+  ): [Movie!]!
+  trendingPeople(
+    timeframe: TrendingTimeframe = Day
+    page: PageRange = 1
+  ): [Person!]!
+  trendingTV(timeframe: TrendingTimeframe = Day, page: PageRange = 1): [TV!]!
+}

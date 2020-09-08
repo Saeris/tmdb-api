@@ -1,0 +1,13 @@
+type Video {
+  id: ID!
+  name: String!
+  key: String!
+  site: String!
+  language: Language!
+  country: Country!
+  """
+  One of value: 360, 480, 720, 1080
+  """
+  size: Int!
+  type: VideoType!
+}

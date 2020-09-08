@@ -1,0 +1,29 @@
+type Episode {
+  id: ID!
+
+  # General Details
+
+  series: TV!
+  season: Season!
+  number: Int!
+  name: String!
+  overview: String!
+  aired: DateTime!
+
+  # Credits
+
+  cast(limit: Int): [Credit!]!
+  crew(limit: Int): [Credit!]!
+  guests( limit: Int): [Credit!]!
+
+  # Ratings
+
+  score: Float!
+  votes: Int!
+
+  # Media
+
+  still: Still
+  images: [Still!]!
+  videos(language: Translations, filter: VideoFilter, first: Int): [Video!]!
+}

@@ -1,0 +1,8 @@
+enum MovieVideoType {
+  Trailer
+  Teaser
+  Clip
+  Featurette
+  BehindtheScenes
+  Bloopers
+}

@@ -1,0 +1,27 @@
+type Season {
+  id: ID!
+
+  # General Details
+
+  series: TV!
+  number: Int!
+  name: String!
+  overview: String!
+  aired: DateTime!
+
+  # Credits
+
+  cast(limit: Int): [Credit!]!
+  crew(limit: Int): [Credit!]!
+
+  # Episodes
+
+  episodeCount: Int!
+  episodes: [Episode!]!
+
+  # Media
+
+  poster: Poster
+  images: [Poster!]!
+  videos(language: Translations, filter: VideoFilter, first: Int): [Video!]!
+}

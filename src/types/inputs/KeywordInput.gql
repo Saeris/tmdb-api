@@ -1,0 +1,6 @@
+input KeywordInput {
+	include: [ID!]
+	includeLogic: Logic = AND
+	exclude: [ID!]
+	excludeLogic: Logic = AND
+}

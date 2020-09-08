@@ -1,0 +1,20 @@
+type Company {
+  id: ID!
+
+  # General Details
+
+  name: String!
+  description: String!
+  country: Country!
+  headquarters: String!
+  parentCompany: Company
+
+  # Social
+
+  homepage: URL!
+
+  # Media
+
+  logo: Logo!
+  images: [Logo!]!
+}

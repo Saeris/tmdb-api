@@ -1,0 +1,6 @@
+enum Direction {
+	# Ascending, ie: 1..2..3.. or A..B..C..
+	ASC
+	# Descending, ie: 3..2..1.. or C..B..A..
+	DESC
+}

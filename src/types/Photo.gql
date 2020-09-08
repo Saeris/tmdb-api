@@ -1,0 +1,13 @@
+type Photo implements Image {
+  file: String
+  custom(size: String svg: Boolean color: Palette base64: Boolean): URL
+  original(svg: Boolean color: Palette base64: Boolean): URL
+  svg(size: String color: Palette base64: Boolean): URL
+  colors: ExtractedColors
+  "w45"
+  small: URL
+  "w185"
+  medium: URL
+  "h632"
+  large: URL
+}

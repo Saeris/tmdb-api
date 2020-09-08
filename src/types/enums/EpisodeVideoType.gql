@@ -1,0 +1,10 @@
+enum EpisodeVideoType {
+  Trailer
+  Teaser
+  Clip
+  Featurette
+  OpeningCredits
+  BehindtheScenes
+  Bloopers
+  Recap
+}

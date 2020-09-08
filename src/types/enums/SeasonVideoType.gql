@@ -1,0 +1,10 @@
+enum SeasonVideoType {
+  Trailer
+  Teaser
+  Clip
+  Featurette
+  OpeningCredits
+  BehindtheScenes
+  Bloopers
+  Recap
+}

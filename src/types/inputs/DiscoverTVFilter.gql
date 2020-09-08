@@ -1,0 +1,17 @@
+input DiscoverTVFilter {
+	language: Translations
+	airDate: DateRangeInput
+	firstAired: DateRangeInput
+	firstAiredYear: Int
+	includeUnaired: Boolean = false
+	screenedTheatrically: Boolean
+	timeZone: String
+	voteAverage: VoteAverageInput
+	voteCount: NumberRangeInput
+	withCompanies: IDListInput
+	withGenres: IDListInput
+	withNetworks: IDListInput
+	withRuntime: NumberRangeInput
+	withOriginalLanguage: Translations
+	withKeywords: KeywordInput
+}

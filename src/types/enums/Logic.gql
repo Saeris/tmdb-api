@@ -1,0 +1,4 @@
+enum Logic {
+	AND
+	OR
+}
