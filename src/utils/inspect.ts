@@ -43,6 +43,7 @@ export const logArgs = <
   try {
     throw new TraceError()
   } catch (err) {
+    // eslint-disable-next-line no-undef
     const { stack }: { stack: NodeJS.CallSite[] } = err
     const callsite = stack[1]
     // eslint-disable-next-line no-console

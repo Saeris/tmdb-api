@@ -1,7 +1,7 @@
-import { handler } from "../../lambda/mini-movie-db-api";
+import { handler } from "../../lambda/tmdb-api"
 
 describe(`handler`, () => {
   it(`should be a function`, () => {
-    expect(typeof handler).toBe(`function`);
-  });
-});
+    expect(typeof handler).toBe(`function`)
+  })
+})

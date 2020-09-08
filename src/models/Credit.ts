@@ -9,6 +9,7 @@ import { TV } from "./TV"
 // credit_id, person.id, media_type, media.id, credit_type
 
 export class Credit {
+  // eslint-disable-next-line no-undef
   [key: string]: any
   id!: string
   _person?: Person

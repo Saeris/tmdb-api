@@ -18,6 +18,7 @@ type Member = "cast" | "crew"
 
 const getCredits = (
   member: Member
+  // eslint-disable-next-line no-use-before-define
 ): Resolver<Person, { limit?: number }, Promise<(Movie | TV)[]>> => async (
   { _credits },
   { limit, ...rest },
@@ -43,6 +44,7 @@ const getCredits = (
 }
 
 export class Person {
+  // eslint-disable-next-line no-undef
   [key: string]: any
   id!: string
 

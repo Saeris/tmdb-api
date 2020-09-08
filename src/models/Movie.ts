@@ -30,8 +30,9 @@ export const ReleaseStatus = {
 } as const
 
 export class Movie {
+  // eslint-disable-next-line no-undef
   [key: string]: any
-  // eslint-disable-next-line
+  // eslint-disable-next-line camelcase
   media_type: string = `movie`
   id!: string
 

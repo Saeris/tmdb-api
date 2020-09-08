@@ -3,6 +3,7 @@ import { Country } from "./Country"
 import { Logo } from "./Images"
 
 export class Company {
+  // eslint-disable-next-line no-undef
   [key: string]: any
   id!: string
 

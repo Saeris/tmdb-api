@@ -1,4 +1,5 @@
 export class Language {
+  // eslint-disable-next-line no-undef
   [key: string]: any
   code: string
   name!: string

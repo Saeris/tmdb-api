@@ -4,6 +4,7 @@ import { Backdrop, Poster } from "./Images"
 import { Movie } from "./Movie"
 
 export class Collection {
+  // eslint-disable-next-line no-undef
   [key: string]: any
   id!: string
 

@@ -1,4 +1,5 @@
 export class Job {
+  // eslint-disable-next-line no-undef
   [key: string]: any
   department!: string
   name!: string

@@ -41,8 +41,9 @@ const TVStatus = {
 } as const
 
 export class TV {
+  // eslint-disable-next-line no-undef
   [key: string]: any
-  // eslint-disable-next-line
+  // eslint-disable-next-line camelcase
   media_type: string = `tv`
   id!: string
 

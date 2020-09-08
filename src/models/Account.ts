@@ -2,6 +2,7 @@ import { Country } from "./Country"
 import { Language } from "./Language"
 
 export class Account {
+  // eslint-disable-next-line no-undef
   [key: string]: any
   id!: string
   name!: string

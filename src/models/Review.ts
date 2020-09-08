@@ -4,6 +4,7 @@ import { Movie } from "./Movie"
 import { TV } from "./TV"
 
 export class Review {
+  // eslint-disable-next-line no-undef
   [key: string]: any
   id!: string
   author!: string

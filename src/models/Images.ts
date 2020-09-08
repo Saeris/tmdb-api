@@ -15,6 +15,7 @@ type Size = {
 }
 
 export class ImageType {
+  // eslint-disable-next-line no-undef
   [key: string]: any
   file: string
 	static custom: Resolver<
@@ -55,6 +56,7 @@ export class ImageType {
 }
 
 export class Backdrop extends ImageType {
+  // eslint-disable-next-line no-undef
   [key: string]: any
   static small: Resolver<Backdrop, {}, ImageResult> = (
     { file: id },
@@ -84,6 +86,7 @@ export class Backdrop extends ImageType {
 }
 
 export class Logo extends ImageType {
+  // eslint-disable-next-line no-undef
   [key: string]: any
   static icon: Resolver<Logo, {}, ImageResult> = (
     { file: id },
@@ -131,6 +134,7 @@ export class Logo extends ImageType {
 }
 
 export class Photo extends ImageType {
+  // eslint-disable-next-line no-undef
   [key: string]: any
   static small: Resolver<Photo, {}, ImageResult> = (
     { file: id },
@@ -160,6 +164,7 @@ export class Photo extends ImageType {
 }
 
 export class Poster extends ImageType {
+  // eslint-disable-next-line no-undef
   [key: string]: any
   static thumbnail: Resolver<Poster, {}, ImageResult> = (
     { file: id },
@@ -208,6 +213,7 @@ export class Poster extends ImageType {
 }
 
 export class Still extends ImageType {
+  // eslint-disable-next-line no-undef
   [key: string]: any
   static small: Resolver<Still, {}, ImageResult> = (
     { file: id },

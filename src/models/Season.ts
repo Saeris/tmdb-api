@@ -13,8 +13,9 @@ import {
 } from "../resolvers/utils"
 
 export class Season {
+  // eslint-disable-next-line no-undef
   [key: string]: any
-  // eslint-disable-next-line
+  // eslint-disable-next-line camelcase
   media_type: string = `tv`
   id!: string
 

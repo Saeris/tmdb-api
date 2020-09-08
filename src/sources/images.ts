@@ -25,6 +25,7 @@ export type SVGResult = Promise<string | null>;
 
 export type ImageResult = string | null | SVGResult;
 
+// eslint-disable-next-line no-use-before-define
 export type ColorsResult = ReturnType<Images["extractColor"]> | null;
 
 type GetSVG = (
