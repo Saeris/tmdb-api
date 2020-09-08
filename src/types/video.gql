@@ -1,9 +1,13 @@
 type Video {
   id: ID!
-  key: String!
   name: String!
+  key: String!
   site: String!
-  "One of value: 360, 480, 720, 1080"
+  language: Language!
+  country: Country!
+  """
+  One of value: 360, 480, 720, 1080
+  """
   size: Int!
   type: VideoType!
 }

@@ -1,5 +1,5 @@
 module.exports = {
-  displayName: `mini-movie-db-api`,
+  displayName: `tmdb-api`,
   coverageDirectory: `./coverage/`,
   collectCoverage: true,
   transform: {

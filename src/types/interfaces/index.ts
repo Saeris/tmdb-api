@@ -1,3 +1,3 @@
-import { default as Image } from "./image.gql"
+import { default as Image } from "./Image.gql"
 
 export const interfaces = [Image]

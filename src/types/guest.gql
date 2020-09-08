@@ -1,9 +1,0 @@
-type Guest {
-  id: ID!
-  castID: ID!
-  name: String!
-  character: String!
-  gender: Int
-  photo: Photo
-  order: Int!
-}

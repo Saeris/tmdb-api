@@ -1,9 +1,5 @@
 type Crew {
-  id: ID!
-  creditId: ID!
-  name: String!
-  gender: Int!
-  job: [String]!
+  credit: Credit!
+  job: String!
   department: String!
-  photo: Photo
 }

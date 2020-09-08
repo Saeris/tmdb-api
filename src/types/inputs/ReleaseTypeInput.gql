@@ -1,0 +1,6 @@
+input ReleaseTypeInput {
+	# Duplicate Release Types will be filtered
+	types: [ReleaseStatus!]
+	# How to combine the Release Types list, default: OR
+	logic: Logic = OR
+}

@@ -1,4 +1,4 @@
-service: "mini-movie-db-api"
+service: "tmdb-api"
 
 provider:
   name: aws
@@ -47,7 +47,7 @@ custom:
 
 functions:
   graphql:
-    handler: "lambda/mini-movie-db-api.handler"
+    handler: "lambda/tmdb-api.handler"
     events:
       - http:
           path: "/{proxy+}"

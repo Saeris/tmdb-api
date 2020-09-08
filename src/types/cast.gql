@@ -1,9 +1,4 @@
 type Cast {
-  id: ID!
-  castId: ID!
-  name: String!
+  credit: Credit!
   character: String!
-  gender: Int!
-  photo: Photo
-  order: Int!
 }

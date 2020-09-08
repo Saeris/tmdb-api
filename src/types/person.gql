@@ -1,9 +1,32 @@
 type Person {
   id: ID!
+
+  # General Details
+
   name: String!
-  gender: Int!
+  aliases: [String!]!
+  knownFor: String!
   biography: String!
-  photo: Photo!
+  gender: Gender!
+  birthday: DateTime
+  birthplace: String
+  diedOn: DateTime
+  adult: Boolean!
+
+  # Social
+
+  homepage: URL
+  socialMedia: SocialMedia
+
+  # Credits
+
+  credits(limit: Int, type: [MediaType!]!): [Credit!]!
   workedOn(limit: Int): [Media!]!
   appearsIn(limit: Int): [Media!]!
+
+  # Media
+
+  photo: Photo!
+  images: [Photo!]!
+  taggedImages: [MediaImage!]!
 }

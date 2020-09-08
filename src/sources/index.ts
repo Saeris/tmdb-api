@@ -1,14 +1,29 @@
-import { DataSources } from "apollo-server-core/dist/graphqlOptions";
-import { Context } from "../server";
-import { Images } from "./images";
-import { MovieDB } from "./movieDB";
+import { DataSources } from "apollo-server-core/dist/graphqlOptions"
+import { Context } from "../server"
+import { Images } from "./images"
+import { TMDB } from "./tmdb"
+
+export type {
+  Query,
+  ByID,
+  ByIDList,
+  ByPage,
+  ByLanguage,
+  Timeframe,
+  Filter,
+  SortBy,
+  DiscoverMoviesFilter,
+  DiscoverTVFilter,
+  DiscoverMoviesSortBy,
+  DiscoverTVSortBy
+} from "./tmdb"
 
 export interface Sources extends DataSources<Context> {
-  Images: Images;
-  MovieDB: MovieDB;
+  Images: Images
+  TMDB: TMDB
 }
 
 export const dataSources = (): Sources => ({
   Images: new Images(),
-  MovieDB: new MovieDB()
-});
+  TMDB: new TMDB()
+})

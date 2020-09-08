@@ -9,7 +9,7 @@ import {
   URLScalar,
   URL
 } from "@saeris/graphql-scalars";
-import { types } from "./types";
+import { types, scalarResolvers } from "./types";
 import { resolvers } from "./resolvers";
 
 // TODO: Re-Write Schema Definition to remove makeExecutableSchema entirely
@@ -52,6 +52,7 @@ export const schema = makeExecutableSchema({
     DateTime,
     EmailAddress,
     URL,
+    ...scalarResolvers,
     ...(resolvers as IResolvers<any, any>)
   },
   resolverValidationOptions: {

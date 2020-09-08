@@ -1,7 +1,17 @@
 type Network {
   id: ID!
+
+  # General Details
+
   name: String!
   country: String!
-  homepage: URL!
   headquarters: String!
+
+  # Social
+
+  homepage: URL!
+
+  # Media
+
+  images: [Logo!]!
 }

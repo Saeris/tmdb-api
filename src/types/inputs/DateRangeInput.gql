@@ -1,0 +1,7 @@
+# Used to filter Dates. Has no effect if both inputs are omited.
+input DateRangeInput {
+	# Include from the given Date forward
+	from: ISODate
+	# Include up to the given Date
+	to: ISODate
+}

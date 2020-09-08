@@ -1,0 +1,4 @@
+input DiscoverMoviesSortInput {
+	by: DiscoverMoviesSortBy = Popularity
+	direction: Direction = DESC
+}

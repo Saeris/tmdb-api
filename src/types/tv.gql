@@ -2,44 +2,57 @@ type TV {
   id: ID!
 
   # General Details
+
   name: String!
   originalName: String!
   overview: String!
-  country: [String!]!
-  language: String!
-  languages: [String!]!
+  country: [Country!]!
+  language: Language!
+  languages: [Language!]!
   type: TVType!
   status: TVStatus!
   genres: [Genre!]!
   inProduction: Boolean!
-  firstAired: String!
-  lastAired: String!
+  firstAired: DateTime!
+  lastAired: DateTime!
   runtime: [Int!]!
-  homepage: URL
 
   # People & Companies
+
   createdBy: [Person!]!
-  cast: [Cast!]!
-  crew: [Crew!]!
+  cast(limit: Int): [Credit!]!
+  crew(limit: Int): [Credit!]!
   networks: [Network!]!
   productionCompanies: [Company!]!
 
-  # Media
-  poster: Poster
-  backdrop: Backdrop
-  videos: [Video!]!
+  # Social
+
+  homepage: URL
+  socialMedia: SocialMedia
 
   # Seasons & Episodes
+
   seasonCount: Int!
   seasons: [Season!]!
   episodeCount: Int!
   episodes: [Episode!]!
 
+  # Media
+
+  poster: Poster
+  backdrop: Backdrop
+  images: [MediaImage!]!
+  videos(language: Translations, filter: VideoFilter, first: Int): [Video!]!
+
   # Ratings & Reviews
+
   popularity: Float!
   score: Float!
   votes: Int!
+  reviews(limit: Int, page: PageRange = 1): [Review!]!
 
   # Related
-  similar: [TV!]!
+
+  recommended(language: Translations, page: PageRange = 1, limit: Int): [TV!]!
+  similar(language: Translations, page: PageRange = 1, limit: Int): [TV!]!
 }

@@ -1,9 +1,9 @@
 {
-	"name": "🎬 Mini Movie DB API",
+	"name": "🎬 TMDB API",
 	"description": "A GraphQL API wrapper for The Movie DB built with Apollo Data Sources",
 	"noHeader": true,
 	"homepage:": "http://saeris.io",
-	"repo": "https://github.com/saeris/mini-movie-db-api",
+	"repo": "https://github.com/saeris/tmdb-db-api",
 	"favicon": "static/favicon.ico",
 	"styles": "styles/styles.css"
 }
