@@ -1,4 +1,0 @@
-type Timezone {
-	code: String!
-	zone: String!
-}

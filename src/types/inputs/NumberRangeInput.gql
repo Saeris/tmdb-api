@@ -1,5 +1,0 @@
-# Used to filter video runtimes in Minutes
-input NumberRangeInput {
-	min: Int = 0
-	max: Int
-}

@@ -1,7 +1,0 @@
-type SocialMedia {
-	id: ID!
-	imdb: URL
-	facebook: URL
-	instagram: URL
-	twitter: URL
-}

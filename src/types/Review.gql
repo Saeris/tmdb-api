@@ -1,8 +1,0 @@
-type Review {
-	id: ID!
-	author: String!
-	content: String!
-	language: Language
-	media: Media!
-	url: URL!
-}

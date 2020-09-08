@@ -1,4 +1,0 @@
-input VideoFilter {
-  site: [String!]
-  type: [VideoType!]
-}

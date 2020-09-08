@@ -1,4 +1,0 @@
-enum TrendingTimeframe {
-	Day
-	Week
-}

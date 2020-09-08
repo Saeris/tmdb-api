@@ -1,8 +1,0 @@
-enum ReleaseStatus {
-  Rumored
-  Planned
-  InProduction
-  PostProduction
-  Released
-  Canceled
-}

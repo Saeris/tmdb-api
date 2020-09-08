@@ -1,9 +1,0 @@
-enum TVVideoType {
-  Trailer
-  Teaser
-  Clip
-  Featurette
-  OpeningCredits
-  BehindtheScenes
-  Bloopers
-}

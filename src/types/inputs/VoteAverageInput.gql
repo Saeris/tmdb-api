@@ -1,7 +1,0 @@
-# Used to filter User Scores by Average Votes
-input VoteAverageInput {
-	# Integer between 0 and 10
-	min: ScoreMinimumRange = 0
-	# Integer between 1 and 10
-	max: ScoreMaximumRange = 10
-}

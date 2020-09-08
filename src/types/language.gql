@@ -1,4 +1,0 @@
-type Language {
-  code: String!
-  name: String!
-}

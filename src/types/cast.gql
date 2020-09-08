@@ -1,4 +1,0 @@
-type Cast {
-  credit: Credit!
-  character: String!
-}

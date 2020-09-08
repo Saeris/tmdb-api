@@ -1,5 +1,0 @@
-type Crew {
-  credit: Credit!
-  job: String!
-  department: String!
-}

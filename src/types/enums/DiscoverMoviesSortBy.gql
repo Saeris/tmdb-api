@@ -1,9 +1,0 @@
-enum DiscoverMoviesSortBy {
-	Popularity
-	ReleaseDate
-	Revenue
-	PrimaryReleaseDate
-	OriginalTitle
-	VoteAverage
-	VoteCount
-}

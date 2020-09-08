@@ -1,4 +1,0 @@
-type Keyword {
-	id: ID!
-	name: String!
-}

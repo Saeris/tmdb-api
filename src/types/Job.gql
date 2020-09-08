@@ -1,4 +1,0 @@
-type Job {
-	department: String!
-	name: String!
-}

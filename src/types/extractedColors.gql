@@ -1,8 +1,0 @@
-type ExtractedColors {
-  vibrant: [Int]
-  lightVibrant: [Int]
-  darkVibrant: [Int]
-  muted: [Int]
-  lightMuted: [Int]
-  darkMuted: [Int]
-}

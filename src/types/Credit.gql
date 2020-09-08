@@ -1,6 +1,0 @@
-type Credit {
-	id: ID!
-	person: Person
-	media: Media!
-	role: CreditType!
-}

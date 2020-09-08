@@ -1,4 +1,0 @@
-input IDListInput {
-	include: [ID!]
-	exclude: [ID!]
-}

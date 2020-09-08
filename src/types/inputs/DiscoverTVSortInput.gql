@@ -1,4 +1,0 @@
-input DiscoverTVSortInput {
-	by: DiscoverTVSortBy = Popularity
-	direction: Direction = DESC
-}

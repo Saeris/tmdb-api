@@ -1,8 +1,0 @@
-enum TVStatus {
-  ReturningSeries
-  Planned
-  InProduction
-  Ended
-  Canceled
-  Pilot
-}
