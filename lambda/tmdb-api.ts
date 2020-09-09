@@ -1,4 +1,4 @@
-import { Handler } from "aws-lambda"
+import type { Handler } from "aws-lambda"
 import { server } from "../src"
 
 export const handler: Handler = server.createHandler({

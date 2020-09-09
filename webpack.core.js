@@ -1,7 +1,23 @@
-const nodeExternals = require(`webpack-node-externals`); // https://github.com/liady/webpack-node-externals
+const nodeExternals = require(`webpack-node-externals`) // https://github.com/liady/webpack-node-externals
 
 module.exports = {
-  externals: [nodeExternals()],
+  externals: [
+    nodeExternals({
+      allowlist: [
+        `@saeris/graphql-directives`,
+        `apollo-datasource`,
+        `apollo-datasource-rest`,
+        `apollo-server-lambda`,
+        `datauri`,
+        `date-fns`,
+        `graphql`,
+        `graphql-tag`,
+        `graphql-tools`,
+        `node-vibrant`,
+        `potrace`
+      ]
+    })
+  ],
   ...(process.env.NODE_ENV === `production`
     ? {
         mode: `production`
@@ -36,4 +52,4 @@ module.exports = {
       }
     ]
   }
-};
+}

@@ -1,5 +1,5 @@
+import type { APIGatewayEvent, Context as LambdaContext } from "aws-lambda"
 import { ApolloServer } from "apollo-server-lambda"
-import { APIGatewayEvent, Context as LambdaContext } from "aws-lambda"
 import { models } from "./models"
 import { schema } from "./schema"
 import { dataSources } from "./sources"
