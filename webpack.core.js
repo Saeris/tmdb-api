@@ -11,10 +11,7 @@ module.exports = {
         `datauri`,
         `date-fns`,
         `graphql`,
-        `graphql-tag`,
-        `graphql-tools`,
-        `node-vibrant`,
-        `potrace`
+        `graphql-tools`
       ]
     })
   ],

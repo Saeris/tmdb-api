@@ -10,8 +10,16 @@ import { trending } from "./trending"
 const isDev = !!process.env.OFFLINE
 
 const endpoint = `${
-  process.env.OFFLINE ? `http://localhost:1337/` : `${process.env.URL}/`
-}${process.env.NETLIFY ? `.netlify/functions/tmdb-api/` : `dev`}`
+  process.env.OFFLINE
+    ? `http://localhost:1337/`
+    : `${process.env.URL || process.env.VERCEL_URL}/`
+}${
+  process.env.NETLIFY
+    ? `.netlify/functions/tmdb-api/`
+    : process.env.VERCEL_URL
+    ? `api/tmdb-api/`
+    : `dev`
+}`
 
 export const playground: Config["playground"] = {
   settings: {

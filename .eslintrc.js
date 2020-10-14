@@ -196,7 +196,11 @@ module.exports = {
     "line-comment-position": 0,
     "linebreak-style": 0,
     "lines-around-comment": 0,
-    "lines-between-class-members": [2, `always`, { exceptAfterSingleLine: true }],
+    "lines-between-class-members": [
+      2,
+      `always`,
+      { exceptAfterSingleLine: true }
+    ],
     "max-depth": 0,
     "max-len": 0,
     "max-lines": 0,
@@ -254,11 +258,18 @@ module.exports = {
     "sprt-keys": 0,
     "sort-vars": 0,
     "space-before-blocks": 2,
-    "space-before-function-paren": [2, { anonymous: `never`, named: `never`, asyncArrow: `always` }],
+    "space-before-function-paren": [
+      2,
+      { anonymous: `never`, named: `never`, asyncArrow: `always` }
+    ],
     "space-in-parens": [2, `never`],
     "space-infix-ops": 2,
     "space-unary-ops": [2, { words: true, nonwords: false }],
-    "spaced-comment": [0, `always`, { plugins: [`react`], exceptions: [`*`], markers: [`*`] }],
+    "spaced-comment": [
+      0,
+      `always`,
+      { plugins: [`react`], exceptions: [`*`], markers: [`*`] }
+    ],
     "switch-colon-spacing": [2, { before: false, after: true }],
     "template-tag-spacing": [2, `never`],
     "unicode-bom": 0,
@@ -266,7 +277,7 @@ module.exports = {
 
     // ECMAScript 6
     "arrow-body-style": [2, `as-needed`],
-    "arrow-parens": [2, `as-needed`],
+    "arrow-parens": [2, `always`],
     "arrow-spacing": [2, { before: true, after: true }],
     "constructor-super": 0,
     "generator-star-spacing": [2, { before: true, after: false }],
@@ -304,26 +315,29 @@ module.exports = {
     "@typescript-eslint/no-use-before-define": 0,
     "@typescript-eslint/camelcase": 0,
     "@typescript-eslint/no-var-requires": 0,
-    "@typescript-eslint/no-unused-vars": [`error`, { vars: `local`, args: `none`, ignoreRestSiblings: true }],
+    "@typescript-eslint/no-unused-vars": [
+      `error`,
+      { vars: `local`, args: `none`, ignoreRestSiblings: true }
+    ],
     "@typescript-eslint/quotes": [`error`, `backtick`, { avoidEscape: true }],
 
     // jest
-    "jest/consistent-test-it"                   : 2,
-    "jest/lowercase-name"                       : 0,
-    "jest/no-disabled-tests"                    : 1,
-    "jest/no-focused-tests"                     : 2,
-    "jest/no-hooks"                             : 0,
-    "jest/no-identical-title"                   : 2,
-    "jest/no-jest-import"                       : 2,
-    "jest/no-large-snapshots"                   : [1, { maxSize: 12 }],
-    "jest/no-test-prefixes"                     : 2,
-    "jest/prefer-to-have-length"                : 1,
-    "jest/prefer-to-be-null"                    : 1,
-    "jest/prefer-to-be-undefined"               : 1,
-    "jest/prefer-expect-assertions"             : 0,
-    "jest/valid-describe"                       : 2,
-    "jest/valid-expect"                         : 2,
-    "jest/valid-expect-in-promise"              : 2,
+    "jest/consistent-test-it": 2,
+    "jest/lowercase-name": 0,
+    "jest/no-disabled-tests": 1,
+    "jest/no-focused-tests": 2,
+    "jest/no-hooks": 0,
+    "jest/no-identical-title": 2,
+    "jest/no-jest-import": 2,
+    "jest/no-large-snapshots": [1, { maxSize: 12 }],
+    "jest/no-test-prefixes": 2,
+    "jest/prefer-to-have-length": 1,
+    "jest/prefer-to-be-null": 1,
+    "jest/prefer-to-be-undefined": 1,
+    "jest/prefer-expect-assertions": 0,
+    "jest/valid-describe": 2,
+    "jest/valid-expect": 2,
+    "jest/valid-expect-in-promise": 2,
 
     // import
     "import/no-extraneous-dependencies": 0,
@@ -343,7 +357,12 @@ module.exports = {
       2,
       {
         "newlines-between": `never`,
-        groups: [`builtin`, [`internal`, `external`], [`parent`, `sibling`], `index`]
+        groups: [
+          `builtin`,
+          [`internal`, `external`],
+          [`parent`, `sibling`],
+          `index`
+        ]
       }
     ],
 

@@ -18,21 +18,13 @@ export class ImageType {
   // eslint-disable-next-line no-undef
   [key: string]: any
   file: string
-	static custom: Resolver<
-    ImageType,
-    Size & OriginalArgs,
-    ImageResult
-  > = (
+  static custom: Resolver<ImageType, Size & OriginalArgs, ImageResult> = (
     { file: id },
     { size, svg = false, color = `vibrant`, base64 = false },
     { dataSources }
   ) => dataSources.Images.custom({ id, size, svg, color, base64 })
 
-  static original: Resolver<
-    ImageType,
-    OriginalArgs,
-    ImageResult
-  > = (
+  static original: Resolver<ImageType, OriginalArgs, ImageResult> = (
     { file: id },
     { svg = false, color = `vibrant`, base64 = false },
     { dataSources }
@@ -50,14 +42,23 @@ export class ImageType {
     { dataSources }
   ) => dataSources.Images.colors(id)
 
-  constructor(url: string) {
-    this.file = url
+  constructor(init: ImageType) {
+    // eslint-disable-next-line camelcase
+    this.file = init?.file_path || init
+    if (typeof init === `object`) {
+      Object.assign(this, init)
+    }
   }
 }
 
 export class Backdrop extends ImageType {
   // eslint-disable-next-line no-undef
   [key: string]: any
+  static custom = ImageType.custom
+  static original = ImageType.original
+  static svg = ImageType.svg
+  static colors = ImageType.colors
+
   static small: Resolver<Backdrop, {}, ImageResult> = (
     { file: id },
     _,
@@ -75,19 +76,16 @@ export class Backdrop extends ImageType {
     _,
     { dataSources }
   ) => dataSources.Images.w1280({ id })
-
-  constructor(init: Backdrop) {
-    // eslint-disable-next-line camelcase
-    super(init?.file_path || init)
-    if (typeof init === `object`) {
-      Object.assign(this, init)
-    }
-  }
 }
 
 export class Logo extends ImageType {
   // eslint-disable-next-line no-undef
   [key: string]: any
+  static custom = ImageType.custom
+  static original = ImageType.original
+  static svg = ImageType.svg
+  static colors = ImageType.colors
+
   static icon: Resolver<Logo, {}, ImageResult> = (
     { file: id },
     _,
@@ -123,19 +121,16 @@ export class Logo extends ImageType {
     _,
     { dataSources }
   ) => dataSources.Images.w500({ id })
-
-  constructor(init: Logo) {
-    // eslint-disable-next-line camelcase
-    super(init?.file_path || init)
-    if (typeof init === `object`) {
-      Object.assign(this, init)
-    }
-  }
 }
 
 export class Photo extends ImageType {
   // eslint-disable-next-line no-undef
   [key: string]: any
+  static custom = ImageType.custom
+  static original = ImageType.original
+  static svg = ImageType.svg
+  static colors = ImageType.colors
+
   static small: Resolver<Photo, {}, ImageResult> = (
     { file: id },
     _,
@@ -153,19 +148,16 @@ export class Photo extends ImageType {
     _,
     { dataSources }
   ) => dataSources.Images.h632({ id })
-
-  constructor(init: Photo) {
-    // eslint-disable-next-line camelcase
-    super(init?.file_path || init)
-    if (typeof init === `object`) {
-      Object.assign(this, init)
-    }
-  }
 }
 
 export class Poster extends ImageType {
   // eslint-disable-next-line no-undef
   [key: string]: any
+  static custom = ImageType.custom
+  static original = ImageType.original
+  static svg = ImageType.svg
+  static colors = ImageType.colors
+
   static thumbnail: Resolver<Poster, {}, ImageResult> = (
     { file: id },
     _,
@@ -201,20 +193,16 @@ export class Poster extends ImageType {
     _,
     { dataSources }
   ) => dataSources.Images.w780({ id })
-
-
-  constructor(init: Poster) {
-    // eslint-disable-next-line camelcase
-    super(init?.file_path || init)
-    if (typeof init === `object`) {
-      Object.assign(this, init)
-    }
-  }
 }
 
 export class Still extends ImageType {
   // eslint-disable-next-line no-undef
   [key: string]: any
+  static custom = ImageType.custom
+  static original = ImageType.original
+  static svg = ImageType.svg
+  static colors = ImageType.colors
+
   static small: Resolver<Still, {}, ImageResult> = (
     { file: id },
     _,
@@ -232,12 +220,4 @@ export class Still extends ImageType {
     _,
     { dataSources }
   ) => dataSources.Images.w300({ id })
-
-  constructor(init: Still) {
-    // eslint-disable-next-line camelcase
-    super(init?.file_path || init)
-    if (typeof init === `object`) {
-      Object.assign(this, init)
-    }
-  }
 }

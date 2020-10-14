@@ -5,7 +5,7 @@ import {
 } from "apollo-server-lambda"
 import { RESTDataSource, RequestOptions } from "apollo-datasource-rest"
 import { Response } from "apollo-server-env"
-import { groupBy } from "lodash"
+import { default as groupBy } from "lodash/groupBy"
 import type { GraphQLResolveInfo } from "graphql"
 import type { Context } from "../../server"
 import {

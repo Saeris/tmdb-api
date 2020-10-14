@@ -1,4 +1,4 @@
-import { groupBy } from "lodash"
+import { default as groupBy } from "lodash/groupBy"
 import parseISO from "date-fns/parseISO"
 import { Gender, getGender } from "./getGender"
 import { Credit } from "./Credit"

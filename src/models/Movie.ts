@@ -58,7 +58,7 @@ export class Movie {
   ) =>
     limitResults(
       limit,
-      new Promise(resolve =>
+      new Promise((resolve) =>
         resolve(mapToCredits(parent._credits, parent).cast)
       )
     )
@@ -69,7 +69,7 @@ export class Movie {
   ) =>
     limitResults(
       limit,
-      new Promise(resolve =>
+      new Promise((resolve) =>
         resolve(mapToCredits(parent._credits, parent).crew)
       )
     )
@@ -117,7 +117,7 @@ export class Movie {
       limit,
       page && page > 1
         ? dataSources.TMDB.movieReviews({ id, page, language, ...rest }, info)
-        : new Promise<Review[]>(resolve => resolve(_reviews || []))
+        : new Promise<Review[]>((resolve) => resolve(_reviews || []))
     )
 
   // Related

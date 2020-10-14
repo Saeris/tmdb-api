@@ -1,6 +1,9 @@
-import gql from "graphql-tag";
-import { makeExecutableSchema, IResolvers } from "graphql-tools";
-import { Numbers, Dates, Strings } from "@saeris/graphql-directives";
+import {
+  makeExecutableSchema,
+  IResolvers,
+  SchemaDirectiveVisitor
+} from "graphql-tools"
+import { Numbers, Dates, Strings } from "@saeris/graphql-directives"
 import {
   DateTimeScalar,
   DateTime,
@@ -8,13 +11,13 @@ import {
   EmailAddress,
   URLScalar,
   URL
-} from "@saeris/graphql-scalars";
-import { types, scalarResolvers } from "./types";
-import { resolvers } from "./resolvers";
+} from "@saeris/graphql-scalars"
+import { types, scalarResolvers } from "./types"
+import { resolvers } from "./resolvers"
 
 // TODO: Re-Write Schema Definition to remove makeExecutableSchema entirely
 // to conform to Apollo Server's standard implementation
-const cacheControlTypes = gql`
+const cacheControlTypes = `
   enum CacheControlScope {
     PUBLIC
     PRIVATE
@@ -24,17 +27,17 @@ const cacheControlTypes = gql`
     maxAge: Int
     scope: CacheControlScope
   ) on FIELD_DEFINITION | OBJECT | INTERFACE
-`;
+`
 
 const schemaDirectives = {
   ...Numbers,
   ...Dates,
   ...Strings
-};
+}
 
-const directives = Object.values(schemaDirectives).map(directive =>
-  directive.declaration()
-);
+const directives = Object.values(schemaDirectives).map((directive) =>
+  directive.toDocumentNode()
+)
 
 export const typeDefs = [
   ...types,
@@ -43,11 +46,14 @@ export const typeDefs = [
   URLScalar,
   cacheControlTypes,
   ...directives
-];
+]
 
 export const schema = makeExecutableSchema({
   typeDefs,
-  schemaDirectives,
+  schemaDirectives: (schemaDirectives as unknown) as Record<
+    string,
+    typeof SchemaDirectiveVisitor
+  >,
   resolvers: {
     DateTime,
     EmailAddress,
@@ -59,4 +65,4 @@ export const schema = makeExecutableSchema({
     requireResolversForResolveType: false
   },
   inheritResolversFromInterfaces: true
-});
+})
