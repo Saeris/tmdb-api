@@ -33,7 +33,7 @@ export class Season {
   ) =>
     limitResults(
       limit,
-      new Promise(resolve =>
+      new Promise((resolve) =>
         resolve(mapToCredits(parent._credits, parent).cast)
       )
     )
@@ -44,7 +44,7 @@ export class Season {
   ) =>
     limitResults(
       limit,
-      new Promise(resolve =>
+      new Promise((resolve) =>
         resolve(mapToCredits(parent._credits, parent).crew)
       )
     )

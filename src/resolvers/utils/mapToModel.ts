@@ -7,4 +7,4 @@ export const mapToModel = <
 >(
   arr: T[],
   Model: M
-): T[] => arr?.map(m => new Model(m)) || []
+): T[] => arr?.map((m) => new Model(m)) || []

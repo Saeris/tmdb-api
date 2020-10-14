@@ -90,7 +90,7 @@ export class TV {
   ) =>
     limitResults(
       limit,
-      new Promise(resolve =>
+      new Promise((resolve) =>
         resolve(mapToCredits(parent._credits, parent).cast)
       )
     )
@@ -101,7 +101,7 @@ export class TV {
   ) =>
     limitResults(
       limit,
-      new Promise(resolve =>
+      new Promise((resolve) =>
         resolve(mapToCredits(parent._credits, parent).crew)
       )
     )
@@ -151,7 +151,7 @@ export class TV {
         )
       )
     )
-    return results.map(season => ({ ...season, series: parent }))
+    return results.map((season) => ({ ...season, series: parent }))
   }
 
   episodeCount: number
@@ -206,7 +206,7 @@ export class TV {
       limit,
       page && page > 1
         ? dataSources.TMDB.movieReviews({ id, page, language, ...rest }, info)
-        : new Promise<Review[]>(resolve => resolve(_reviews || []))
+        : new Promise<Review[]>((resolve) => resolve(_reviews || []))
     )
 
   // Related

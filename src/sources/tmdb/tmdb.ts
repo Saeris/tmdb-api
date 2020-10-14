@@ -108,14 +108,14 @@ export class TMDB extends RESTDataSource<Context> {
         }
         return hash
       }, Object.create(null))
-    ).map(member => this.context.models.crew(member))
+    ).map((member) => this.context.models.crew(member))
 
   mapToModel = async <R extends Promise<any[]>, M extends (args: any) => any>(
     req: R,
     model: M
   ): Promise<ReturnType<M>[]> => {
     const results = await req
-    return results.map(result => model(result))
+    return results.map((result) => model(result))
   }
 
   mapResults = async <
@@ -279,7 +279,7 @@ export class TMDB extends RESTDataSource<Context> {
     )
     return results
       .map(({ department, jobs }) =>
-        jobs.map(name => this.context.models.job({ department, name }))
+        jobs.map((name) => this.context.models.job({ department, name }))
       )
       .flat()
   }
@@ -311,7 +311,7 @@ export class TMDB extends RESTDataSource<Context> {
     )
     return results
       .map(({ iso_3166_1: code, zones }) =>
-        zones.map(zone => this.context.models.timezone({ code, zone }))
+        zones.map((zone) => this.context.models.timezone({ code, zone }))
       )
       .flat()
   }
@@ -367,7 +367,7 @@ export class TMDB extends RESTDataSource<Context> {
       { ...params },
       this.extractTTL(info)
     )
-    return genres.map(genre => this.context.models.genre(genre))
+    return genres.map((genre) => this.context.models.genre(genre))
   }
 
   // Get TV List `/genre/tv/list`
@@ -380,7 +380,7 @@ export class TMDB extends RESTDataSource<Context> {
       { ...params },
       this.extractTTL(info)
     )
-    return genres.map(genre => this.context.models.genre(genre))
+    return genres.map((genre) => this.context.models.genre(genre))
   }
 
   // --- Guest Sessions ---
@@ -437,7 +437,7 @@ export class TMDB extends RESTDataSource<Context> {
       this.extractTTL(info)
     )
     return {
-      cast: (cast as Model<"cast">[]).map(member =>
+      cast: (cast as Model<"cast">[]).map((member) =>
         this.context.models.cast(member)
       ),
       crew: this.getCrew(crew)
@@ -539,7 +539,7 @@ export class TMDB extends RESTDataSource<Context> {
       { ...params },
       this.extractTTL(info)
     )
-    return results.map(result => this.context.models.review(result))
+    return results.map((result) => this.context.models.review(result))
   }
 
   // Get Lists `/movie/${movie_id}/lists`
@@ -649,11 +649,11 @@ export class TMDB extends RESTDataSource<Context> {
       Promise.all(grouped?.tv?.map(({ id }) => this.tv({ id }, info))) || []
     ])
     return [
-      ...movies.map(m =>
+      ...movies.map((m) =>
         this.context.models.movie({ ...m, media_type: `movie` })
       ),
-      ...people.map(p => this.context.models.person(p)),
-      ...shows.map(s => this.context.models.tv({ ...s, media_type: `tv` }))
+      ...people.map((p) => this.context.models.person(p)),
+      ...shows.map((s) => this.context.models.tv({ ...s, media_type: `tv` }))
     ]
   }
 
@@ -728,7 +728,7 @@ export class TMDB extends RESTDataSource<Context> {
       this.extractTTL(info)
     )
     return {
-      cast: (cast as Model<"cast">[]).map(member =>
+      cast: (cast as Model<"cast">[]).map((member) =>
         this.context.models.cast(member)
       ),
       crew: this.getCrew(crew)
@@ -842,11 +842,11 @@ export class TMDB extends RESTDataSource<Context> {
       Promise.all(grouped?.tv?.map(({ id }) => this.tv({ id }, info)) || [])
     ])
     return [
-      ...movies.map(m =>
+      ...movies.map((m) =>
         this.context.models.movie({ ...m, media_type: `movie` })
       ),
-      ...people.map(p => this.context.models.person(p)),
-      ...shows.map(s => this.context.models.tv({ ...s, media_type: `tv` }))
+      ...people.map((p) => this.context.models.person(p)),
+      ...shows.map((s) => this.context.models.tv({ ...s, media_type: `tv` }))
     ]
   }
 
@@ -903,7 +903,7 @@ export class TMDB extends RESTDataSource<Context> {
       this.extractTTL(info)
     )
     return {
-      cast: (cast as Model<"cast">[]).map(member =>
+      cast: (cast as Model<"cast">[]).map((member) =>
         this.context.models.cast(member)
       ),
       crew: this.getCrew(crew)
@@ -972,7 +972,7 @@ export class TMDB extends RESTDataSource<Context> {
       { ...params },
       this.extractTTL(info)
     )
-    return results.map(result => this.context.models.review(result))
+    return results.map((result) => this.context.models.review(result))
   }
 
   // Get Screened Theatrically `/tv/${tv_id}/screened_theatrically`
@@ -1075,7 +1075,7 @@ export class TMDB extends RESTDataSource<Context> {
       this.extractTTL(info)
     )
     return {
-      cast: (cast as Model<"cast">[]).map(member =>
+      cast: (cast as Model<"cast">[]).map((member) =>
         this.context.models.cast(member)
       ),
       crew: this.getCrew(crew)
@@ -1156,11 +1156,11 @@ export class TMDB extends RESTDataSource<Context> {
       this.extractTTL(info)
     )
     return {
-      cast: (cast as Model<"cast">[]).map(member =>
+      cast: (cast as Model<"cast">[]).map((member) =>
         this.context.models.cast(member)
       ),
       crew: this.getCrew(crew),
-      guest: (guest as Model<"cast">[]).map(member =>
+      guest: (guest as Model<"cast">[]).map((member) =>
         this.context.models.cast(member)
       )
     }

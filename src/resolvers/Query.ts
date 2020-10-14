@@ -101,7 +101,7 @@ export const movies: Resolver<
   Promise<Model<"movie">[]>
 > = setLanguage((_, { ids, ...args }, context, info) =>
   Promise.all(
-    ids.map(id => context.dataSources.TMDB.movie({ id, ...args }, info))
+    ids.map((id) => context.dataSources.TMDB.movie({ id, ...args }, info))
   )
 )
 
@@ -111,7 +111,7 @@ export const people: Resolver<
   Promise<Model<"person">[]>
 > = setLanguage((_, { ids, ...args }, context, info) =>
   Promise.all(
-    ids.map(id => context.dataSources.TMDB.person({ id, ...args }, info))
+    ids.map((id) => context.dataSources.TMDB.person({ id, ...args }, info))
   )
 )
 
@@ -120,7 +120,9 @@ export const shows: Resolver<
   ByIDList & ByLanguage,
   Promise<Model<"tv">[]>
 > = setLanguage((_, { ids, ...args }, context, info) =>
-  Promise.all(ids.map(id => context.dataSources.TMDB.tv({ id, ...args }, info)))
+  Promise.all(
+    ids.map((id) => context.dataSources.TMDB.tv({ id, ...args }, info))
+  )
 )
 
 export const reviews: Resolver<{}, ByIDList, Promise<Model<"review">[]>> = (
@@ -128,7 +130,8 @@ export const reviews: Resolver<{}, ByIDList, Promise<Model<"review">[]>> = (
   { ids, ...args },
   { dataSources },
   info
-) => Promise.all(ids.map(id => dataSources.TMDB.review({ id, ...args }, info)))
+) =>
+  Promise.all(ids.map((id) => dataSources.TMDB.review({ id, ...args }, info)))
 
 export const latestMovie: Resolver<
   {},

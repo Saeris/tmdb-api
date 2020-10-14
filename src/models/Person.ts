@@ -71,7 +71,7 @@ export class Person {
     const { cast, crew } = mapToCredits(parent._credits, parent)
     return limitResults(
       limit,
-      new Promise(resolve =>
+      new Promise((resolve) =>
         resolve(
           [...cast, ...crew].filter(({ _mediaType }) =>
             mediaType.includes(_mediaType)
