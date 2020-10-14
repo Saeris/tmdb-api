@@ -1,4 +1,5 @@
 import {
+  buildSchemaFromTypeDefinitions,
   makeExecutableSchema,
   IResolvers,
   SchemaDirectiveVisitor
@@ -47,6 +48,9 @@ export const typeDefs = [
   cacheControlTypes,
   ...directives
 ]
+
+export const getSchemaIntrospection = () =>
+  buildSchemaFromTypeDefinitions(typeDefs)
 
 export const schema = makeExecutableSchema({
   typeDefs,
