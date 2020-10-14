@@ -48,15 +48,15 @@ export class TMDB extends RESTDataSource<Context> {
   }
 
   willSendRequest(request: RequestOptions) {
-    const v4apiKey = process.env.MOVIE_DB_API_V4_KEY
-    const v3apiKey = process.env.MOVIE_DB_API_V3_KEY
+    const v4apiKey = process.env.MOVIE_DB_API_V4_KEY || this.context.v4apiKey
+    const v3apiKey = process.env.MOVIE_DB_API_V3_KEY || this.context.v3apiKey
     if (v4apiKey) {
       request.headers.set(`Authorization`, `Bearer ${v4apiKey}`)
     } else if (v3apiKey) {
       request.params.append(`api_key`, v3apiKey)
     } else {
       // eslint-disable-next-line no-console
-      console.error(
+      throw new AuthenticationError(
         `Environment Variable MOVIE_DB_API_V3_KEY or MOVIE_DB_API_V4_KEY is missing! Please visit https://developers.themoviedb.org/3/getting-started/authentication to learn how to get an API key.`
       )
     }
