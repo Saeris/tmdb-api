@@ -16,6 +16,8 @@ export type Context = {
   context: LambdaContext
   language?: string
   models: typeof models
+  v4apiKey?: string
+  v3apiKey?: string
 }
 
 export const server = new ApolloServer({
