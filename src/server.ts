@@ -1,5 +1,5 @@
 import type { APIGatewayEvent, Context as LambdaContext } from "aws-lambda"
-import { ApolloServer } from "apollo-server-lambda"
+import { ApolloServer, Config } from "apollo-server-lambda"
 import {
   ApolloServerPluginSchemaReporting as schemaReportingPlugin,
   ApolloServerPluginUsageReporting as usageReportingPlugin
@@ -20,21 +20,22 @@ export type Context = {
   v3apiKey?: string
 }
 
-export const server = new ApolloServer({
+export const lambdaContext = ({
+  event,
+  context
+}: {
+  event: APIGatewayEvent
+  context: LambdaContext
+}): Context => ({
+  headers: event.headers,
+  functionName: context.functionName,
+  event,
+  context,
+  models
+})
+
+export const serverConfig: Config = {
   schema,
-  context: ({
-    event,
-    context
-  }: {
-    event: APIGatewayEvent
-    context: LambdaContext
-  }): Context => ({
-    headers: event.headers,
-    functionName: context.functionName,
-    event,
-    context,
-    models
-  }),
   dataSources,
   formatError: (err: Error) => {
     // eslint-disable-next-line no-console
@@ -56,4 +57,9 @@ export const server = new ApolloServer({
     })
   ],
   playground
+}
+
+export const lambdaServer = new ApolloServer({
+  ...serverConfig,
+  context: lambdaContext
 })

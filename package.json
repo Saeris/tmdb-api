@@ -1,7 +1,7 @@
 {
   "name": "@saeris/tmdb-api",
   "description": "A GraphQL API wrapper for The Movie DB built with Apollo Data Sources",
-  "version": "2.1.2",
+  "version": "2.2.0",
   "keywords": [
     "apollo",
     "graphql",
@@ -43,13 +43,13 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.11.2",
-    "@saeris/graphql-directives": "^0.5.0",
-    "@saeris/graphql-scalars": "^2.1.1",
+    "@saeris/graphql-directives": "0.5.0",
+    "@saeris/graphql-scalars": "2.1.1",
     "apollo-datasource": "^0.7.2",
     "apollo-datasource-rest": "^0.9.4",
-    "apollo-server-lambda": "^2.18.2",
+    "apollo-server-lambda": "2.18.2",
     "aws-lambda": "^1.0.6",
-    "datauri": "^3.0.0",
+    "datauri": "3.0.0",
     "date-fns": "^2.16.1",
     "graphql": "^15.3.0",
     "graphql-tools": "^6.2.4",
