@@ -6,5 +6,6 @@ module.exports = {
     "\\.(gql|graphql)$": `jest-transform-graphql`,
     "^.+\\.(js|ts)x?$": `babel-jest`
   },
+  modulePathIgnorePatterns: ["<rootDir>/pkg"],
   verbose: true
 }
