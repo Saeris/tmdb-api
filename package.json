@@ -38,6 +38,7 @@
     "version": "npm run build"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.19.0",
     "@babel/runtime": "^7.14.6",
     "@saeris/graphql-directives": "^0.5.0",
     "@saeris/graphql-scalars": "^2.1.1",
@@ -80,7 +81,6 @@
     "@typescript-eslint/eslint-plugin": "^4.28.0",
     "@typescript-eslint/parser": "^4.28.0",
     "apollo": "^2.33.4",
-    "aws-sdk": "^2.935.0",
     "babel-loader": "^8.2.2",
     "babel-plugin-import-graphql": "^2.8.1",
     "codecov": "^3.8.2",

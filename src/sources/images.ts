@@ -1,5 +1,14 @@
 import { DataSource } from "apollo-datasource"
-import AWS from "aws-sdk"
+import type {
+  HeadObjectRequest,
+  PutObjectCommandOutput
+} from "@aws-sdk/client-s3"
+import {
+  GetObjectCommand,
+  HeadObjectCommand,
+  S3Client,
+  PutObjectCommand
+} from "@aws-sdk/client-s3"
 import { optimize } from "svgo"
 import Vibrant from "node-vibrant"
 // @ts-expect-error
@@ -70,20 +79,25 @@ export class Images extends DataSource<Context> {
   baseURL: string = `https://image.tmdb.org/t/p/`
   cachedColor: Images["extractColor"] | undefined
   s3Base?: string
-  S3?: AWS.S3
+  S3?: S3Client
   bucket: string = ``
 
   initialize(): void {
     this.cachedColor = memoize(
       this.extractColor
     ) as unknown as Images["extractColor"]
-    this.s3Base = isLocalEnv
-      ? `http://${process.env.S3_HOST ?? ``}:${process.env.S3_PORT ?? ``}`
-      : process.env.S3_URL
-    this.S3 = new AWS.S3({
-      s3ForcePathStyle: true,
-      endpoint: this.s3Base
-    })
+
+    // Don't create a new connection to S3 if we don't have a valid URL to connect to
+    if ((process.env.S3_HOST && process.env.S3_PORT) || process.env.S3_URL) {
+      this.s3Base = isLocalEnv
+        ? `http://${process.env.S3_HOST ?? ``}:${process.env.S3_PORT ?? ``}`
+        : process.env.S3_URL
+      this.S3 = new S3Client({
+        forcePathStyle: true,
+        endpoint: this.s3Base
+      })
+    }
+
     this.bucket = process.env.S3_BUCKET ?? ``
   }
 
@@ -149,7 +163,7 @@ export class Images extends DataSource<Context> {
     }
   }
 
-  params = (Key: string): AWS.S3.HeadObjectRequest => ({
+  params = (Key: string): HeadObjectRequest => ({
     Bucket: this.bucket,
     Key
   })
@@ -172,7 +186,7 @@ export class Images extends DataSource<Context> {
     const path = this.svgPath(filename, size, color)
     const params = this.params(path)
     try {
-      await this.S3?.headObject(params).promise()
+      await this.S3?.send(new HeadObjectCommand(params))
       const uri = await this.getS3File(params)
       return base64 && uri
         ? this.encodeSvgDataUri(uri)
@@ -195,21 +209,27 @@ export class Images extends DataSource<Context> {
   getS3File = async (
     params: ReturnType<Images["params"]>
   ): Promise<string | undefined> => {
-    const res = await this.S3?.getObject(params, (err?: Error) => {
-      if (err) error(`Unable to retrieve file!`, err)
-    }).promise()
-    return res?.Body?.toString()
+    try {
+      const res = await this.S3?.send(new GetObjectCommand(params))
+      return res?.Body?.toString()
+    } catch (err: unknown) {
+      error(`Unable to retrieve file!`, err)
+    }
   }
 
   saveImage = async (
     path: string,
     image: string
-  ): Promise<AWS.S3.ManagedUpload.SendData | undefined> =>
-    this.S3?.upload({
-      ...this.params(path),
-      Body: image,
-      ACL: `public-read`
-    }).promise()
+  ): Promise<PutObjectCommandOutput | undefined> => {
+    const result = await this.S3?.send(
+      new PutObjectCommand({
+        ...this.params(path),
+        Body: image,
+        ACL: `public-read`
+      })
+    )
+    return result
+  }
 
   traceImg = async (path: string, color: Color): Promise<string> =>
     this.optimizeSvg(await this.traceSvg(`${this.baseURL}${path}`, color))

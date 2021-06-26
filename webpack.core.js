@@ -5,6 +5,7 @@ module.exports = {
     nodeExternals({
       allowlist: [
         `@saeris/graphql-directives`,
+        `@aws-sdk/client-s3`,
         `apollo-datasource`,
         `apollo-datasource-rest`,
         `apollo-server-lambda`,
