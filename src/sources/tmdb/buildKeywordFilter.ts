@@ -1,16 +1,16 @@
 import type { Logic } from "./types"
 
 export interface KeywordInput {
-  include: string[]
+  include?: string[]
   includeLogic: Logic
-  exclude: string[]
+  exclude?: string[]
   excludeLogic: Logic
 }
 
 export const buildKeywordFilter = (
   field: string,
   keywordFilter?: KeywordInput
-) => {
+): { [key: string]: string } => {
   const filter: { [key: string]: string } = {}
   if (keywordFilter) {
     if (keywordFilter.include) {

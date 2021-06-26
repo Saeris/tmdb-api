@@ -1,4 +1,5 @@
-import { Kind, ASTNode } from "graphql"
+import type { ASTNode } from "graphql"
+import { Kind } from "graphql"
 
 export const parseLiteral = (
   ast: ASTNode
@@ -13,10 +14,13 @@ export const parseLiteral = (
     case Kind.FLOAT:
       return parseFloat(ast.value)
     case Kind.OBJECT:
-      return ast.fields.reduce((hash, { name, value }) => {
-        hash[name.value] = parseLiteral(value)
-        return hash
-      }, {} as Record<any, any>)
+      return ast.fields.reduce<Record<string, unknown>>(
+        (hash, { name, value }) => {
+          hash[name.value] = parseLiteral(value)
+          return hash
+        },
+        {}
+      )
     case Kind.LIST:
       return ast.values.map(parseLiteral)
     default:

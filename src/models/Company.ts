@@ -1,5 +1,6 @@
-import { createNullable, mapToModel, Resolver } from "../resolvers/utils"
-import { Country } from "./Country"
+import type { Resolver } from "../resolvers/utils"
+import { createNullable, mapToModel } from "../resolvers/utils"
+import type { Country } from "./Country"
 import { Logo } from "./Images"
 
 export class Company {
@@ -38,7 +39,7 @@ export class Company {
   }: Company) {
     Object.assign(this, rest)
     this.country = country
-    this.homepage = new URL((homepage as unknown) as string)
+    this.homepage = new URL(homepage as unknown as string)
     this.logo = createNullable(logo, Logo)
   }
 }

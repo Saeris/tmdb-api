@@ -1,2 +1,2 @@
-export const AND = `,`
-export const OR = `|`
+export const AND = `,` as const
+export const OR = `|` as const

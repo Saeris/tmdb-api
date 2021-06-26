@@ -9,4 +9,4 @@ export const discoverMovies = `query DiscoverMovies {
     }
   }
 }
-`
+` as const

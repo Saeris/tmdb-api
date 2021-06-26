@@ -1,7 +1,7 @@
-export const Popularity = `popularity`
-export const ReleaseDate = `release_date`
-export const Revenue = `revenue`
-export const PrimaryReleaseDate = `primary_release_date`
-export const OriginalTitle = `original_title`
-export const VoteAverage = `vote_average`
-export const VoteCount = `vote_count`
+export const Popularity = `popularity` as const
+export const ReleaseDate = `release_date` as const
+export const Revenue = `revenue` as const
+export const PrimaryReleaseDate = `primary_release_date` as const
+export const OriginalTitle = `original_title` as const
+export const VoteAverage = `vote_average` as const
+export const VoteCount = `vote_count` as const

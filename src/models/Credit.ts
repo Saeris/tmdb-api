@@ -1,6 +1,6 @@
-import { Resolver } from "../resolvers/utils"
-import { Cast } from "./Cast"
-import { Crew } from "./Crew"
+import type { Resolver } from "../resolvers/utils"
+import type { Cast } from "./Cast"
+import type { Crew } from "./Crew"
 import { Movie } from "./Movie"
 import { Person } from "./Person"
 import { TV } from "./TV"
@@ -51,16 +51,15 @@ export class Credit {
     // in all other cases, role data is filled in on instatiation
     if (_role) return _role
 
-    const {
-      [(type as unknown) as "cast" | "crew"]: results
-    } = await dataSources.TMDB[
-      `${mediaType.toLowerCase()}Credits` as "movieCredits" | "tvCredits"
-    ]({ id: _mediaId, language, ...rest }, info)
+    const { [type as unknown as "cast" | "crew"]: results } =
+      await dataSources.TMDB[
+        `${mediaType.toLowerCase()}Credits` as "movieCredits" | "tvCredits"
+      ]({ id: _mediaId, language, ...rest }, info)
 
     return (
-      (results as (Cast | Crew)[])?.find(
+      (results as (Cast | Crew)[]).find(
         (role: Cast | Crew) => role.credit_id === id
-      ) || null
+      ) ?? null
     )
   }
 

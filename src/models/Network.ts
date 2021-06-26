@@ -1,5 +1,5 @@
-import { Country } from "./Country"
-import { Logo } from "./Images"
+import type { Country } from "./Country"
+import type { Logo } from "./Images"
 
 export class Network {
   // eslint-disable-next-line no-undef
@@ -20,6 +20,6 @@ export class Network {
   constructor({ origin_country: country, homepage, ...rest }: Network) {
     Object.assign(this, rest)
     this.country = country
-    this.homepage = new URL((homepage as unknown) as string)
+    this.homepage = new URL(homepage as unknown as string)
   }
 }

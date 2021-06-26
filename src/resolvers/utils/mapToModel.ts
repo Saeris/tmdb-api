@@ -1,4 +1,4 @@
-import { Context } from "../../server"
+import type { Context } from "../../server"
 import type { Instantiable } from "./types"
 
 export const mapToModel = <
@@ -7,4 +7,4 @@ export const mapToModel = <
 >(
   arr: T[],
   Model: M
-): T[] => arr?.map((m) => new Model(m)) || []
+): T[] => arr.map((m) => new Model(m))

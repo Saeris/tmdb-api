@@ -1,19 +1,23 @@
 import { inspect } from "util"
 
-export const inspectObj = (obj: Record<any, any>) => inspect(obj, false, null)
+export const inspectObj = <T = Record<string, unknown>>(obj: T): string =>
+  inspect(obj, false, null)
 
-// eslint-disable-next-line no-console
-export const logObj = (obj: Record<any, any>) => console.info(inspectObj(obj))
+export const logObj = <T = Record<string, unknown>>(obj: T): void =>
+  // eslint-disable-next-line no-console
+  console.info(inspectObj(obj))
 
-export const tapObj = (label = ``) => (obj: Record<any, any>) => {
-  const inspectResult = inspectObj(obj)
-  const args: string[] = label ? [label, inspectResult] : [inspectResult]
-  if (args.length) {
-    // eslint-disable-next-line no-console
-    console.info(...args)
+export const tapObj =
+  (label = ``) =>
+  <T = Record<string, unknown>>(obj: T): T => {
+    const inspectResult = inspectObj(obj)
+    const args: string[] = label ? [label, inspectResult] : [inspectResult]
+    if (args.length) {
+      // eslint-disable-next-line no-console
+      console.info(...args)
+    }
+    return obj
   }
-  return obj
-}
 
 class TraceError extends Error {
   discarded!: Error
@@ -22,7 +26,11 @@ class TraceError extends Error {
     super()
     const oldStackTrace = Error.prepareStackTrace
     try {
-      Error.prepareStackTrace = (err, structuredStackTrace) => {
+      Error.prepareStackTrace = (
+        err,
+        structuredStackTrace
+        // eslint-disable-next-line no-undef
+      ): NodeJS.CallSite[] => {
         this.discarded = err
         return structuredStackTrace
       }
@@ -34,27 +42,26 @@ class TraceError extends Error {
   }
 }
 
-export const logArgs = <
-  A extends any[],
-  T extends (...args: A) => ReturnType<T>
->(
-  fn: T
-) => (...args: A): ReturnType<T> => {
-  try {
-    throw new TraceError()
-  } catch (err) {
-    // eslint-disable-next-line no-undef
-    const { stack }: { stack: NodeJS.CallSite[] } = err
-    const callsite = stack[1]
-    // eslint-disable-next-line no-console
-    console.info({
-      function: `${
-        callsite.getFunctionName() ||
-        `${callsite.getTypeName()}.${callsite.getMethodName()}`
-      }`,
-      location: callsite.getFileName(),
-      args
-    })
+export const logArgs =
+  <A extends unknown[], T extends (...args: A) => ReturnType<T>>(fn: T) =>
+  (...args: A): ReturnType<T> => {
+    try {
+      throw new TraceError()
+    } catch (err: unknown) {
+      // eslint-disable-next-line no-undef
+      const { stack } = err as { stack: NodeJS.CallSite[] }
+      const callsite = stack[1]
+      // eslint-disable-next-line no-console
+      console.info({
+        function: `${
+          callsite.getFunctionName() ??
+          `${String(callsite.getTypeName())}.${String(
+            callsite.getMethodName()
+          )}`
+        }`,
+        location: callsite.getFileName(),
+        args
+      })
+    }
+    return fn(...args)
   }
-  return fn(...args)
-}

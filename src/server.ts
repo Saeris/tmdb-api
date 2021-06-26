@@ -1,5 +1,7 @@
 import type { APIGatewayEvent, Context as LambdaContext } from "aws-lambda"
-import { ApolloServer, Config } from "apollo-server-lambda"
+import type { Logger } from "apollo-server-types"
+import type { Config } from "apollo-server-lambda"
+import { ApolloServer } from "apollo-server-lambda"
 import {
   ApolloServerPluginSchemaReporting as schemaReportingPlugin,
   ApolloServerPluginUsageReporting as usageReportingPlugin
@@ -8,8 +10,9 @@ import { models } from "./models"
 import { schema } from "./schema"
 import { dataSources } from "./sources"
 import { playground } from "./playground"
+import { setupReporting } from "./reporting"
 
-export type Context = {
+export interface Context {
   headers: APIGatewayEvent["headers"]
   functionName: LambdaContext["functionName"]
   event: APIGatewayEvent
@@ -18,7 +21,10 @@ export type Context = {
   models: typeof models
   v4apiKey?: string
   v3apiKey?: string
+  logger: Logger
 }
+
+const logger = setupReporting({ level: `debug` })
 
 export const lambdaContext = ({
   event,
@@ -31,17 +37,14 @@ export const lambdaContext = ({
   functionName: context.functionName,
   event,
   context,
+  logger,
   models
 })
 
 export const serverConfig: Config = {
   schema,
+  logger,
   dataSources,
-  formatError: (err: Error) => {
-    // eslint-disable-next-line no-console
-    console.error(err)
-    return err
-  },
   introspection: true,
   tracing: true,
   cacheControl: true,
@@ -50,11 +53,16 @@ export const serverConfig: Config = {
     graphVariant: process.env.APOLLO_GRAPH_VARIANT
   },
   plugins: [
-    schemaReportingPlugin(),
-    usageReportingPlugin({
-      includeRequest: () => new Promise<boolean>((resolve) => resolve(true)), // eslint-disable-line
-      sendReportsImmediately: true
-    })
+    ...(process.env.APOLLO_KEY
+      ? [
+          schemaReportingPlugin(),
+          usageReportingPlugin({
+            includeRequest: async () =>
+              new Promise<boolean>((resolve) => resolve(true)), // eslint-disable-line
+            sendReportsImmediately: true
+          })
+        ]
+      : [])
   ],
   playground
 }

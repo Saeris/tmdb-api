@@ -3,18 +3,19 @@ import {
   AuthenticationError,
   ForbiddenError
 } from "apollo-server-lambda"
-import { RESTDataSource, RequestOptions } from "apollo-datasource-rest"
-import { Response } from "apollo-server-env"
+import type { RequestOptions } from "apollo-datasource-rest"
+import { RESTDataSource } from "apollo-datasource-rest"
+import type { Response } from "apollo-server-env"
 import { default as groupBy } from "lodash/groupBy"
 import type { GraphQLResolveInfo } from "graphql"
 import type { Context } from "../../server"
-import {
-  buildSort,
+import type {
   SortBy,
   DiscoverMoviesSortBy,
   DiscoverTVSortBy
 } from "./buildSort"
-import {
+import { buildSort } from "./buildSort"
+import type {
   ByID,
   BySeason,
   ByEpisode,
@@ -27,32 +28,58 @@ import {
   Model,
   APIRequest
 } from "./types"
-import { buildMovieFilter, DiscoverMoviesFilter } from "./buildMovieFilter"
-import { buildTVFilter, DiscoverTVFilter } from "./buildTVFilter"
+import type { DiscoverMoviesFilter } from "./buildMovieFilter"
+import { buildMovieFilter } from "./buildMovieFilter"
+import type { DiscoverTVFilter } from "./buildTVFilter"
+import { buildTVFilter } from "./buildTVFilter"
 import { logArgs } from "../../utils"
 
 export class TMDB extends RESTDataSource<Context> {
   baseURL = `https://api.themoviedb.org/3/`
 
-  extractTTL = (info: GraphQLResolveInfo, init = {}) =>
+  extractTTL = <T = Record<string, unknown>>(
+    info: GraphQLResolveInfo | null,
+    init: T = {} as T
+  ): T & {
+    cacheOptions: { ttl: number }
+  } =>
     Object.assign(init, {
-      cacheOptions: { ttl: info?.cacheControl?.cacheHint?.maxAge || 0 }
+      cacheOptions: { ttl: info?.cacheControl.cacheHint.maxAge ?? 0 }
     })
 
-  async didReceiveResponse<TResult = any>(
+  debug<T>(message?: T): void {
+    this.context.logger.debug(message)
+  }
+
+  info<T>(message?: T): void {
+    this.context.logger.info(message)
+  }
+
+  warn<T>(message?: T): void {
+    this.context.logger.warn(message)
+  }
+
+  error<T>(message?: T): void {
+    this.context.logger.error(message)
+  }
+
+  async didReceiveResponse<TResult = unknown>(
     response: Response
   ): Promise<TResult> {
-    //console.log({ response })
-    if (response.ok) return (this.parseBody(response) as unknown) as TResult
+    if (response.ok) {
+      return this.parseBody(response) as unknown as Promise<TResult>
+    }
     throw await this.errorFromResponse(response)
   }
 
-  willSendRequest(request: RequestOptions) {
-    const v4apiKey = process.env.MOVIE_DB_API_V4_KEY || this.context.v4apiKey
-    const v3apiKey = process.env.MOVIE_DB_API_V3_KEY || this.context.v3apiKey
+  willSendRequest(request: RequestOptions): void {
+    const v4apiKey = process.env.MOVIE_DB_API_V4_KEY ?? this.context.v4apiKey
+    const v3apiKey = process.env.MOVIE_DB_API_V3_KEY ?? this.context.v3apiKey
     if (v4apiKey) {
+      this.debug(`Sending request using v4 API Key`)
       request.headers.set(`Authorization`, `Bearer ${v4apiKey}`)
     } else if (v3apiKey) {
+      this.debug(`Sending request using v3 API Key`)
       request.params.append(`api_key`, v3apiKey)
     } else {
       // eslint-disable-next-line no-console
@@ -60,21 +87,23 @@ export class TMDB extends RESTDataSource<Context> {
         `Environment Variable MOVIE_DB_API_V3_KEY or MOVIE_DB_API_V4_KEY is missing! Please visit https://developers.themoviedb.org/3/getting-started/authentication to learn how to get an API key.`
       )
     }
-    //console.log({ request })
+    this.debug({ message: `Request options:`, meta: request })
   }
 
-  didEncounterError(err: Error) {
+  didEncounterError(err: Error): void {
     // eslint-disable-next-line no-console
-    console.error(`Failed to send request:`, err.stack)
+    //this.context.report.error(`Failed to send request:`, err.stack)
     throw err
   }
 
-  async errorFromResponse(response: Response) {
+  async errorFromResponse(response: Response): Promise<ApolloError> {
     const endpoint = response.url
       .substring(0, response.url.indexOf(`?`))
       .replace(this.baseURL, ``)
-    const body = (await this.parseBody(response)) as Record<any, any>
-    const message = `${response.status} ${response.statusText}: ${body.status_message}`
+    const body = (await this.parseBody(response)) as Record<string, unknown>
+    const message = `${response.status} ${response.statusText}: ${String(
+      body.status_message
+    )}`
     const err =
       response.status === 401
         ? new AuthenticationError(message)
@@ -91,9 +120,8 @@ export class TMDB extends RESTDataSource<Context> {
       }
     })
 
-    // eslint-disable-next-line no-console
-    console.error(
-      `Request to resource "${endpoint}" resulted in:\n\n${err.stack}\n`
+    this.error(
+      `Request to resource "${endpoint}" resulted in:\n\n${String(err.stack)}\n`
     )
     return err
   }
@@ -123,8 +151,8 @@ export class TMDB extends RESTDataSource<Context> {
   >(
     type: "movie" | "tv" | "person",
     path: string,
-    params: Record<any, any>,
-    info: GraphQLResolveInfo
+    params: Record<string, any>,
+    info: GraphQLResolveInfo | null
   ): Promise<ReturnType<TMDB["context"]["models"][T]>[]> => {
     const { results: ids }: { results: { id: string }[] } = await this.get(
       path,
@@ -135,7 +163,7 @@ export class TMDB extends RESTDataSource<Context> {
     const results = await Promise.all(
       ids.map<ReturnType<TMDB["context"]["models"][T]>>(
         ({ id }) =>
-          (this[type]({ id, ...params }, info) as unknown) as ReturnType<
+          this[type]({ id, ...params }, info) as unknown as ReturnType<
             TMDB["context"]["models"][T]
           >
       )
@@ -190,13 +218,11 @@ export class TMDB extends RESTDataSource<Context> {
   // --- Collections ---
 
   // Get Details `/collection/${collection_id}`
-  collection: APIRequest<
-    ByID & ByLanguage,
-    Model<"collection">
-  > = logArgs(async ({ id, ...params }, info) =>
-    this.context.models.collection(
-      await this.get(`collection/${id}`, { ...params }, this.extractTTL(info))
-    )
+  collection: APIRequest<ByID & ByLanguage, Model<"collection">> = logArgs(
+    async ({ id, ...params }, info) =>
+      this.context.models.collection(
+        await this.get(`collection/${id}`, { ...params }, this.extractTTL(info))
+      )
   )
 
   // Get Images `/collection/${collection_id}/images`
@@ -212,11 +238,11 @@ export class TMDB extends RESTDataSource<Context> {
     return {
       backdrops:
         backdrops?.map(({ file_path: path }: RawImage) =>
-          this.context.models.backdrop((path as unknown) as Model<"backdrop">)
+          this.context.models.backdrop(path as unknown as Model<"backdrop">)
         ) || [],
       posters:
         posters?.map(({ file_path: path }: RawImage) =>
-          this.context.models.poster((path as unknown) as Model<"poster">)
+          this.context.models.poster(path as unknown as Model<"poster">)
         ) || []
     }
   }
@@ -249,7 +275,7 @@ export class TMDB extends RESTDataSource<Context> {
     )
     return (
       logos?.map(({ file_path: path }: RawImage) =>
-        this.context.models.logo((path as unknown) as Model<"logo">)
+        this.context.models.logo(path as unknown as Model<"logo">)
       ) || []
     )
   }
@@ -260,7 +286,7 @@ export class TMDB extends RESTDataSource<Context> {
   // configuration
 
   // Get Countries `/configuration/countries`
-  countries: APIRequest<{}, Model<"country">[]> = ({ ...params }, info) =>
+  countries: APIRequest<{}, Model<"country">[]> = async ({ ...params }, info) =>
     this.mapToModel(
       this.get(
         `/configuration/countries`,
@@ -285,7 +311,10 @@ export class TMDB extends RESTDataSource<Context> {
   }
 
   // Get Languages `/configuration/languages`
-  languages: APIRequest<{}, Model<"language">[]> = ({ ...params }, info) =>
+  languages: APIRequest<{}, Model<"language">[]> = async (
+    { ...params },
+    info
+  ) =>
     this.mapToModel(
       this.get(
         `/configuration/languages`,
@@ -332,7 +361,7 @@ export class TMDB extends RESTDataSource<Context> {
       ByPage &
       ByLanguage,
     Model<"movie">[]
-  > = ({ filter = {}, sortBy = {}, page, ...params }, info) =>
+  > = async ({ filter = {}, sortBy = {}, page, ...params }, info) =>
     this.mapResults<"movie">(
       `movie`,
       `discover/movie`,
@@ -343,7 +372,7 @@ export class TMDB extends RESTDataSource<Context> {
   discoverTV: APIRequest<
     Filter<DiscoverTVFilter> & SortBy<DiscoverTVSortBy> & ByPage & ByLanguage,
     Model<"tv">[]
-  > = ({ filter = {}, sortBy = {}, page, ...params }, info) =>
+  > = async ({ filter = {}, sortBy = {}, page, ...params }, info) =>
     this.mapResults<"tv">(
       `tv`,
       `discover/tv`,
@@ -470,17 +499,17 @@ export class TMDB extends RESTDataSource<Context> {
     return {
       backdrops:
         backdrops?.map(({ file_path: path }: RawImage) =>
-          this.context.models.backdrop((path as unknown) as Model<"backdrop">)
+          this.context.models.backdrop(path as unknown as Model<"backdrop">)
         ) || [],
       posters:
         posters?.map(({ file_path: path }: RawImage) =>
-          this.context.models.poster((path as unknown) as Model<"poster">)
+          this.context.models.poster(path as unknown as Model<"poster">)
         ) || []
     }
   }
 
   // Get Keywords `/movie/${movie_id}/keywords`
-  movieKeywords: APIRequest<ByID, Model<"keyword">[]> = (
+  movieKeywords: APIRequest<ByID, Model<"keyword">[]> = async (
     { id, ...params },
     info
   ) =>
@@ -493,7 +522,7 @@ export class TMDB extends RESTDataSource<Context> {
   // movieReleaseDates
 
   // Get Videos `/movie/${movie_id}/videos`
-  movieVideos: APIRequest<ByID & ByLanguage, Model<"video">[]> = (
+  movieVideos: APIRequest<ByID & ByLanguage, Model<"video">[]> = async (
     { id, ...params },
     info
   ) =>
@@ -506,41 +535,35 @@ export class TMDB extends RESTDataSource<Context> {
   // movieTranslations
 
   // Get Recommendations `/movie/${movie_id}/recommendations`
-  recommendedMovies: APIRequest<
-    ByID & ByPage & ByLanguage,
-    Model<"movie">[]
-  > = ({ id, ...params }, info) =>
-    this.mapResults<"movie">(
-      `movie`,
-      `movie/${id}/recommendations`,
-      { ...params },
-      info
-    )
+  recommendedMovies: APIRequest<ByID & ByPage & ByLanguage, Model<"movie">[]> =
+    async ({ id, ...params }, info) =>
+      this.mapResults<"movie">(
+        `movie`,
+        `movie/${id}/recommendations`,
+        { ...params },
+        info
+      )
 
   // Get Similar Movies `/movie/${movie_id}/similar`
-  similarMovies: APIRequest<ByID & ByPage & ByLanguage, Model<"movie">[]> = (
-    { id, ...params },
-    info
-  ) =>
-    this.mapResults<"movie">(
-      `movie`,
-      `movie/${id}/similar`,
-      { ...params },
-      info
-    )
+  similarMovies: APIRequest<ByID & ByPage & ByLanguage, Model<"movie">[]> =
+    async ({ id, ...params }, info) =>
+      this.mapResults<"movie">(
+        `movie`,
+        `movie/${id}/similar`,
+        { ...params },
+        info
+      )
 
   // Get Reviews `/movie/${movie_id}/reviews`
-  movieReviews: APIRequest<
-    ByID & ByPage & ByLanguage,
-    Model<"review">[]
-  > = async ({ id, ...params }, info) => {
-    const { results }: { results: Model<"review">[] } = await this.get(
-      `movie/${id}/reviews`,
-      { ...params },
-      this.extractTTL(info)
-    )
-    return results.map((result) => this.context.models.review(result))
-  }
+  movieReviews: APIRequest<ByID & ByPage & ByLanguage, Model<"review">[]> =
+    async ({ id, ...params }, info) => {
+      const { results }: { results: Model<"review">[] } = await this.get(
+        `movie/${id}/reviews`,
+        { ...params },
+        this.extractTTL(info)
+      )
+      return results.map((result) => this.context.models.review(result))
+    }
 
   // Get Lists `/movie/${movie_id}/lists`
   // movieLists
@@ -548,7 +571,7 @@ export class TMDB extends RESTDataSource<Context> {
   // Get Latest `/movie/latest`
   latestMovie: APIRequest<ByLanguage, Model<"movie">> = async (
     { ...params } = {},
-    info
+    info = null
   ) =>
     this.context.models.movie(
       await this.get(
@@ -562,28 +585,28 @@ export class TMDB extends RESTDataSource<Context> {
     )
 
   // Get Now Playing `/movie/now_playing`
-  nowPlaying: APIRequest<ByPage & ByLanguage, Model<"movie">[]> = (
+  nowPlaying: APIRequest<ByPage & ByLanguage, Model<"movie">[]> = async (
     { ...params } = {},
-    info
+    info = null
   ) =>
     this.mapResults<"movie">(`movie`, `movie/now_playing`, { ...params }, info)
 
   // Get Popular `/movie/popular`
-  popularMovies: APIRequest<ByPage & ByLanguage, Model<"movie">[]> = (
+  popularMovies: APIRequest<ByPage & ByLanguage, Model<"movie">[]> = async (
     { ...params } = {},
-    info
+    info = null
   ) => this.mapResults<"movie">(`movie`, `movie/popular`, { ...params }, info)
 
   // Get Top Rated `/movie/top_rated`
-  topRatedMovies: APIRequest<ByPage & ByLanguage, Model<"movie">[]> = (
+  topRatedMovies: APIRequest<ByPage & ByLanguage, Model<"movie">[]> = async (
     { ...params } = {},
-    info
+    info = null
   ) => this.mapResults<"movie">(`movie`, `movie/top_rated`, { ...params }, info)
 
   // Get Upcoming `/movie/upcoming`
-  upcomingMovies: APIRequest<ByPage & ByLanguage, Model<"movie">[]> = (
+  upcomingMovies: APIRequest<ByPage & ByLanguage, Model<"movie">[]> = async (
     { ...params } = {},
-    info
+    info = null
   ) => this.mapResults<"movie">(`movie`, `movie/upcoming`, { ...params }, info)
 
   // Rate Movie `/movie/${movie_id}/rating`
@@ -609,7 +632,7 @@ export class TMDB extends RESTDataSource<Context> {
   // Get Images `/network/${network_id}/images`
   networkImages: APIRequest<ByID, Model<"logo">> = async (
     { id, ...params },
-    info
+    info = null
   ) => {
     const { logos } = await this.get(
       `network/${id}/images`,
@@ -618,7 +641,7 @@ export class TMDB extends RESTDataSource<Context> {
     )
     return (
       logos?.map(({ file_path: path }: RawImage) =>
-        this.context.models.logo((path as unknown) as Model<"logo">)
+        this.context.models.logo(path as unknown as Model<"logo">)
       ) || []
     )
   }
@@ -626,40 +649,38 @@ export class TMDB extends RESTDataSource<Context> {
   // --- Trending ---
 
   // Get Trending `/trending/${media_type}/${time_window}`
-  trending: APIRequest<
-    Timeframe & ByPage,
-    Model<"movie" | "person" | "tv">[]
-  > = async ({ timeframe, ...params }, info) => {
-    const { results } = await this.get(
-      `trending/all/${timeframe.toLowerCase()}`,
-      { ...params },
-      this.extractTTL(info)
-    )
-    const grouped = groupBy<Model<"movie" | "tv" | "person">>(
-      results,
-      `media_type`
-    )
-    const [movies = [], people = [], shows = []] = await Promise.all([
-      Promise.all(
-        grouped?.movie?.map(({ id }) => this.movie({ id }, info)) || []
-      ),
-      Promise.all(
-        grouped?.undefined?.map(({ id }) => this.person({ id }, info)) || []
-      ),
-      Promise.all(grouped?.tv?.map(({ id }) => this.tv({ id }, info))) || []
-    ])
-    return [
-      ...movies.map((m) =>
-        this.context.models.movie({ ...m, media_type: `movie` })
-      ),
-      ...people.map((p) => this.context.models.person(p)),
-      ...shows.map((s) => this.context.models.tv({ ...s, media_type: `tv` }))
-    ]
-  }
+  trending: APIRequest<Timeframe & ByPage, Model<"movie" | "person" | "tv">[]> =
+    async ({ timeframe, ...params }, info) => {
+      const { results } = await this.get(
+        `trending/all/${timeframe.toLowerCase()}`,
+        { ...params },
+        this.extractTTL(info)
+      )
+      const grouped = groupBy<Model<"movie" | "tv" | "person">>(
+        results,
+        `media_type`
+      )
+      const [movies = [], people = [], shows = []] = await Promise.all([
+        Promise.all(
+          grouped.movie.map(async ({ id }) => this.movie({ id }, info))
+        ),
+        Promise.all(
+          grouped.undefined.map(async ({ id }) => this.person({ id }, info))
+        ),
+        Promise.all(grouped.tv.map(async ({ id }) => this.tv({ id }, info)))
+      ])
+      return [
+        ...movies.map((m) =>
+          this.context.models.movie({ ...m, media_type: `movie` })
+        ),
+        ...people.map((p) => this.context.models.person(p)),
+        ...shows.map((s) => this.context.models.tv({ ...s, media_type: `tv` }))
+      ]
+    }
 
-  trendingMovies: APIRequest<Timeframe & ByPage, Model<"movie">[]> = (
+  trendingMovies: APIRequest<Timeframe & ByPage, Model<"movie">[]> = async (
     { timeframe, ...params },
-    info
+    info = null
   ) =>
     this.mapResults<"movie">(
       `movie`,
@@ -668,9 +689,9 @@ export class TMDB extends RESTDataSource<Context> {
       info
     )
 
-  trendingTVShows: APIRequest<Timeframe & ByPage, Model<"tv">[]> = (
+  trendingTVShows: APIRequest<Timeframe & ByPage, Model<"tv">[]> = async (
     { timeframe, ...params },
-    info
+    info = null
   ) =>
     this.mapResults<"tv">(
       `tv`,
@@ -679,9 +700,9 @@ export class TMDB extends RESTDataSource<Context> {
       info
     )
 
-  trendingPeople: APIRequest<Timeframe & ByPage, Model<"person">[]> = (
+  trendingPeople: APIRequest<Timeframe & ByPage, Model<"person">[]> = async (
     { timeframe, ...params },
-    info
+    info = null
   ) =>
     this.mapResults<"person">(
       `person`,
@@ -695,7 +716,7 @@ export class TMDB extends RESTDataSource<Context> {
   // Get Details `/person/${person_id}`
   person: APIRequest<ByID & ByLanguage, Model<"person">> = async (
     { id, ...params },
-    info
+    info = null
   ) =>
     this.context.models.person(
       await this.get(
@@ -736,17 +757,15 @@ export class TMDB extends RESTDataSource<Context> {
   }
 
   // Get External IDs `/person/${person_id}/external_ids`
-  personSocialMedia: APIRequest<
-    ByID & ByLanguage,
-    Model<"socialMedia">
-  > = async ({ id, ...params }, info) =>
-    this.context.models.socialMedia(
-      await this.get(
-        `person/${id}/external_ids`,
-        { ...params },
-        this.extractTTL(info)
+  personSocialMedia: APIRequest<ByID & ByLanguage, Model<"socialMedia">> =
+    async ({ id, ...params }, info = null) =>
+      this.context.models.socialMedia(
+        await this.get(
+          `person/${id}/external_ids`,
+          { ...params },
+          this.extractTTL(info)
+        )
       )
-    )
 
   // Get Images `/person/${person_id}/images`
   personImages: APIRequest<ByID, Model<"photo">[]> = async (
@@ -760,7 +779,7 @@ export class TMDB extends RESTDataSource<Context> {
     )
     return (
       profiles?.map(({ file_path: path }: RawImage) =>
-        this.context.models.photo((path as unknown) as Model<"photo">)
+        this.context.models.photo(path as unknown as Model<"photo">)
       ) || []
     )
   }
@@ -774,7 +793,7 @@ export class TMDB extends RESTDataSource<Context> {
   // Get Latest `/person/latest`
   latestPerson: APIRequest<ByLanguage, Model<"person">> = async (
     { ...params },
-    info
+    info = null
   ) =>
     this.context.models.person(
       await this.get(
@@ -788,16 +807,19 @@ export class TMDB extends RESTDataSource<Context> {
     )
 
   // Get Popular `/person/popular`
-  popularPeople: APIRequest<ByPage & ByLanguage, Model<"person">[]> = (
+  popularPeople: APIRequest<ByPage & ByLanguage, Model<"person">[]> = async (
     { ...params } = {},
-    info
+    info = null
   ) =>
     this.mapResults<"person">(`person`, `person/popular`, { ...params }, info)
 
   // --- Reviews ---
 
   // Get Details `/review/${review_id}`
-  review: APIRequest<ByID, Model<"review">> = async ({ id, ...params }, info) =>
+  review: APIRequest<ByID, Model<"review">> = async (
+    { id, ...params },
+    info = null
+  ) =>
     this.context.models.review(
       await this.get(`review/${id}`, { ...params }, this.extractTTL(info))
     )
@@ -814,16 +836,15 @@ export class TMDB extends RESTDataSource<Context> {
   // searchKeywords
 
   // Search Movies `/search/movie`
-  searchMovies: APIRequest<Query & ByPage & ByLanguage, Model<"movie">[]> = (
-    { ...params },
-    info
-  ) => this.mapResults<"movie">(`movie`, `search/movie`, { ...params }, info)
+  searchMovies: APIRequest<Query & ByPage & ByLanguage, Model<"movie">[]> =
+    async ({ ...params }, info = null) =>
+      this.mapResults<"movie">(`movie`, `search/movie`, { ...params }, info)
 
   // Multi Search `/search/multi`
   search: APIRequest<
     Query & ByPage & ByLanguage,
     Model<"movie" | "person" | "tv">[]
-  > = async (params, info) => {
+  > = async (params, info = null) => {
     const { results } = await this.get(
       `search/multi`,
       { ...params },
@@ -834,12 +855,13 @@ export class TMDB extends RESTDataSource<Context> {
       `media_type`
     )
     const [movies = [], people = [], shows = []] = await Promise.all([
-      Promise.all(grouped?.movie?.map(({ id }) => this.movie({ id }, info))) ||
-        [],
       Promise.all(
-        grouped?.undefined?.map(({ id }) => this.person({ id }, info)) || []
+        grouped.movie.map(async ({ id }) => this.movie({ id }, info))
       ),
-      Promise.all(grouped?.tv?.map(({ id }) => this.tv({ id }, info)) || [])
+      Promise.all(
+        grouped.undefined.map(async ({ id }) => this.person({ id }, info))
+      ),
+      Promise.all(grouped.tv.map(async ({ id }) => this.tv({ id }, info)))
     ])
     return [
       ...movies.map((m) =>
@@ -851,16 +873,14 @@ export class TMDB extends RESTDataSource<Context> {
   }
 
   // Search People `/search/person`
-  searchPeople: APIRequest<Query & ByPage & ByLanguage, Model<"person">[]> = (
-    { ...params },
-    info
-  ) => this.mapResults<"person">(`person`, `search/person`, { ...params }, info)
+  searchPeople: APIRequest<Query & ByPage & ByLanguage, Model<"person">[]> =
+    async ({ ...params }, info = null) =>
+      this.mapResults<"person">(`person`, `search/person`, { ...params }, info)
 
   // Search TV Shows `/search/tv`
-  searchTVShows: APIRequest<Query & ByPage & ByLanguage, Model<"tv">[]> = (
-    { ...params },
-    info
-  ) => this.mapResults<"tv">(`tv`, `search/tv`, { ...params }, info)
+  searchTVShows: APIRequest<Query & ByPage & ByLanguage, Model<"tv">[]> =
+    async ({ ...params }, info = null) =>
+      this.mapResults<"tv">(`tv`, `search/tv`, { ...params }, info)
 
   // --- TV ---
 
@@ -896,7 +916,7 @@ export class TMDB extends RESTDataSource<Context> {
   tvCredits: APIRequest<
     ByID & ByLanguage,
     { cast: Model<"cast">[]; crew: Model<"crew">[] }
-  > = async ({ id, ...params }, info) => {
+  > = async ({ id, ...params }, info = null) => {
     const { cast, crew } = await this.get(
       `tv/${id}/credits`,
       { ...params },
@@ -913,7 +933,7 @@ export class TMDB extends RESTDataSource<Context> {
   // Get External IDs `/tv/${tv_id}/external_ids`
   tvSocialMedia: APIRequest<ByID & ByLanguage, Model<"socialMedia">> = async (
     { id, ...params },
-    info
+    info = null
   ) =>
     this.context.models.socialMedia(
       await this.get(
@@ -927,7 +947,7 @@ export class TMDB extends RESTDataSource<Context> {
   tvImages: APIRequest<
     ByID & ByLanguage,
     { [key: string]: Model<"backdrop" | "poster">[] }
-  > = async ({ id, ...params }, info) => {
+  > = async ({ id, ...params }, info = null) => {
     const { backdrops, posters } = await this.get(
       `tv/${id}/images`,
       { ...params },
@@ -936,19 +956,19 @@ export class TMDB extends RESTDataSource<Context> {
     return {
       backdrops:
         backdrops?.map(({ file_path: path }: RawImage) =>
-          this.context.models.backdrop((path as unknown) as Model<"backdrop">)
+          this.context.models.backdrop(path as unknown as Model<"backdrop">)
         ) || [],
       posters:
         posters?.map(({ file_path: path }: RawImage) =>
-          this.context.models.poster((path as unknown) as Model<"poster">)
+          this.context.models.poster(path as unknown as Model<"poster">)
         ) || []
     }
   }
 
   // Get Keywords `/tv/${tv_id}/keywords`
-  tvKeywords: APIRequest<ByID, Model<"keyword">[]> = (
+  tvKeywords: APIRequest<ByID, Model<"keyword">[]> = async (
     { id, ...params },
-    info
+    info = null
   ) =>
     this.mapToModel(
       this.get(`tv/${id}/keywords`, { ...params }, this.extractTTL(info)),
@@ -956,16 +976,16 @@ export class TMDB extends RESTDataSource<Context> {
     )
 
   // Get Recommendations `/tv/${tv_id}/recommendations`
-  recommendedShows: APIRequest<ByID & ByLanguage, Model<"tv">[]> = (
+  recommendedShows: APIRequest<ByID & ByLanguage, Model<"tv">[]> = async (
     { id, ...params },
-    info
+    info = null
   ) =>
     this.mapResults<"tv">(`tv`, `tv/${id}/recommendations`, { ...params }, info)
 
   // Get Reviews `/tv/${tv_id}/reviews`
   tvReviews: APIRequest<ByID & ByPage & ByLanguage, Model<"review">[]> = async (
     { id, ...params },
-    info
+    info = null
   ) => {
     const { results }: { results: Model<"review">[] } = await this.get(
       `tv/${id}/reviews`,
@@ -979,18 +999,18 @@ export class TMDB extends RESTDataSource<Context> {
   // tvScreenedTheatrically
 
   // Get Similar TV Shows `/tv/${tv_id}/similar`
-  similarShows: APIRequest<ByID & ByLanguage, Model<"tv">[]> = (
+  similarShows: APIRequest<ByID & ByLanguage, Model<"tv">[]> = async (
     { id, ...params },
-    info
+    info = null
   ) => this.mapResults<"tv">(`tv`, `tv/${id}/similar`, { ...params }, info)
 
   // Get Translations `/tv/${tv_id}/translations`
   // tvTranslations
 
   // Get Videos `/tv/${tv_id}/videos`
-  tvVideos: APIRequest<ByID & ByLanguage, Model<"video">[]> = (
+  tvVideos: APIRequest<ByID & ByLanguage, Model<"video">[]> = async (
     { id, ...params },
-    info
+    info = null
   ) =>
     this.mapToModel(
       this.get(`tv/${id}/videos`, { ...params }, this.extractTTL(info)),
@@ -998,7 +1018,10 @@ export class TMDB extends RESTDataSource<Context> {
     )
 
   // Get Latest `/tv/latest`
-  latestTV: APIRequest<ByLanguage, Model<"tv">> = async ({ ...params }, info) =>
+  latestTV: APIRequest<ByLanguage, Model<"tv">> = async (
+    { ...params },
+    info = null
+  ) =>
     this.context.models.tv(
       await this.get(
         `tv/latest`,
@@ -1011,27 +1034,27 @@ export class TMDB extends RESTDataSource<Context> {
     )
 
   //Get TV Airing Today `/tv/airing_today`
-  airingToday: APIRequest<ByPage & ByLanguage, Model<"tv">[]> = (
+  airingToday: APIRequest<ByPage & ByLanguage, Model<"tv">[]> = async (
     { ...params } = {},
-    info
+    info = null
   ) => this.mapResults<"tv">(`tv`, `tv/airing_today`, { ...params }, info)
 
   // Get TV On The Air `/tv/on_the_air`
-  airingThisWeek: APIRequest<ByPage & ByLanguage, Model<"tv">[]> = (
+  airingThisWeek: APIRequest<ByPage & ByLanguage, Model<"tv">[]> = async (
     { ...params } = {},
-    info
+    info = null
   ) => this.mapResults<"tv">(`tv`, `tv/on_the_air`, { ...params }, info)
 
   // Get Popular `/tv/popular`
-  popularTV: APIRequest<ByPage & ByLanguage, Model<"tv">[]> = (
+  popularTV: APIRequest<ByPage & ByLanguage, Model<"tv">[]> = async (
     { ...params } = {},
-    info
+    info = null
   ) => this.mapResults<"tv">(`tv`, `tv/popular`, { ...params }, info)
 
   // Get Top Rated `/tv/top_rated`
-  topRatedTV: APIRequest<ByPage & ByLanguage, Model<"tv">[]> = (
+  topRatedTV: APIRequest<ByPage & ByLanguage, Model<"tv">[]> = async (
     { ...params } = {},
-    info
+    info = null
   ) => this.mapResults<"tv">(`tv`, `tv/top_rated`, { ...params }, info)
 
   // Rate TV Show `/tv/${tv_id}/rating`
@@ -1045,7 +1068,7 @@ export class TMDB extends RESTDataSource<Context> {
   // Get Details `/tv/${tv_id}/season/${season_number}`
   season: APIRequest<BySeason & ByLanguage, Model<"season">> = async (
     { show, season, ...params },
-    info
+    info = null
   ) => {
     const [series, result] = await Promise.all([
       this.tv({ id: show }, info),
@@ -1068,7 +1091,7 @@ export class TMDB extends RESTDataSource<Context> {
   seasonCredits: APIRequest<
     BySeason & ByLanguage,
     { cast: Model<"cast">[]; crew: Model<"crew">[] }
-  > = async ({ show, season, ...params }, info) => {
+  > = async ({ show, season, ...params }, info = null) => {
     const { cast, crew } = await this.get(
       `tv/${show}/season/${season}/credits`,
       { ...params },
@@ -1088,7 +1111,7 @@ export class TMDB extends RESTDataSource<Context> {
   // Get Images `/tv/${tv_id}/season/${season_number}/images`
   seasonImages: APIRequest<BySeason & ByLanguage, Model<"poster">[]> = async (
     { show, season, ...params },
-    info
+    info = null
   ) => {
     const { posters } = await this.get(
       `tv/${show}/season/${season}/images`,
@@ -1097,15 +1120,15 @@ export class TMDB extends RESTDataSource<Context> {
     )
     return (
       posters?.map(({ file_path: path }: RawImage) =>
-        this.context.models.poster((path as unknown) as Model<"poster">)
+        this.context.models.poster(path as unknown as Model<"poster">)
       ) || []
     )
   }
 
   // Get Videos `/tv/${tv_id}/season/${season_number}/videos`
-  seasonVideos: APIRequest<BySeason & ByLanguage, Model<"video">[]> = (
+  seasonVideos: APIRequest<BySeason & ByLanguage, Model<"video">[]> = async (
     { show, season, ...params },
-    info
+    info = null
   ) =>
     this.mapToModel(
       this.get(
@@ -1121,7 +1144,7 @@ export class TMDB extends RESTDataSource<Context> {
   // Get Details `/tv/${tv_id}/season/${season_number}/episode/${episode_number}`
   episode: APIRequest<ByEpisode & ByLanguage, Model<"episode">> = async (
     { show, season, episode, ...params },
-    info
+    info = null
   ) => {
     const [seriesResult, seasonResult, episodeResult] = await Promise.all([
       this.tv({ id: show }, info),
@@ -1149,8 +1172,12 @@ export class TMDB extends RESTDataSource<Context> {
   episodeCredits: APIRequest<
     ByEpisode,
     { cast: Model<"cast">[]; crew: Model<"crew">[]; guest: Model<"cast">[] }
-  > = async ({ show, season, episode, ...params }, info) => {
-    const { cast, crew, guest_stars: guest } = await this.get(
+  > = async ({ show, season, episode, ...params }, info = null) => {
+    const {
+      cast,
+      crew,
+      guest_stars: guest
+    } = await this.get(
       `tv/${show}/season/${season}/episode/${episode}/credits`,
       { ...params },
       this.extractTTL(info)
@@ -1172,7 +1199,7 @@ export class TMDB extends RESTDataSource<Context> {
   // Get Images `/tv/${tv_id}/season/${season_number}/episode/${episode_number}/images`
   episodeImages: APIRequest<ByEpisode, Model<"poster">[]> = async (
     { show, season, episode, ...params },
-    info
+    info = null
   ) => {
     const { stills } = await this.get(
       `tv/${show}/season/${season}/episode/${episode}/images`,
@@ -1181,7 +1208,7 @@ export class TMDB extends RESTDataSource<Context> {
     )
     return (
       stills?.map(({ file_path: path }: RawImage) =>
-        this.context.models.still((path as unknown) as Model<"still">)
+        this.context.models.still(path as unknown as Model<"still">)
       ) || []
     )
   }
@@ -1190,9 +1217,9 @@ export class TMDB extends RESTDataSource<Context> {
   // episodeTranslations
 
   // Get Videos `/tv/${tv_id}/season/${season_number}/episode/${episode_number}/videos`
-  episodeVideos: APIRequest<ByEpisode & ByLanguage, Model<"video">[]> = (
+  episodeVideos: APIRequest<ByEpisode & ByLanguage, Model<"video">[]> = async (
     { show, season, episode, ...params },
-    info
+    info = null
   ) =>
     this.mapToModel(
       this.get(

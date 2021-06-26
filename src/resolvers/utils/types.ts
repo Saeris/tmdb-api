@@ -1,19 +1,20 @@
-import { GraphQLResolveInfo } from "graphql"
-import { Context } from "../../server"
-import { Sources } from "../../sources"
+import type { GraphQLResolveInfo } from "graphql"
+import type { Context } from "../../server"
+import type { Sources } from "../../sources"
 
 export type Extends<T, U extends T> = U
 
-export type Instantiable<T> = { new (...args: T[]): T }
+export interface Instantiable<T> {
+  new (...args: T[]): T
+}
 
-export type Model<
-  T extends keyof Context["models"] = keyof Context["models"]
-> = ReturnType<Context["models"][T]>
+export type Model<T extends keyof Context["models"] = keyof Context["models"]> =
+  ReturnType<Context["models"][T]>
 
 export type Resolver<
-  Parent = Model<keyof Context["models"]>,
+  Parent = Model,
   Args = Record<any, any>,
-  Return = Promise<Model<keyof Context["models"]>>
+  Return = Promise<Model>
 > = (
   parent: Parent,
   args: Args,

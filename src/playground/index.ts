@@ -1,4 +1,4 @@
-import { Config } from "apollo-server-core"
+import type { Config } from "apollo-server-core"
 import { discoverMovies } from "./discoverMovies"
 import { discoverTV } from "./discoverTV"
 import { fetchPopular } from "./fetchPopular"
@@ -12,7 +12,7 @@ const isDev = !!process.env.OFFLINE
 const endpoint = `${
   process.env.OFFLINE
     ? `http://localhost:1337/`
-    : `${process.env.URL || process.env.VERCEL_URL}/`
+    : `${process.env.URL ?? process.env.VERCEL_URL}/`
 }${
   process.env.NETLIFY
     ? `.netlify/functions/tmdb-api/`
@@ -23,9 +23,8 @@ const endpoint = `${
 
 export const playground: Config["playground"] = {
   settings: {
-    // @ts-ignore
+    // @ts-expect-error
     "schema.polling.enable": isDev,
-    // @ts-ignore
     "schema.polling.interval": 15000
   },
   tabs: [

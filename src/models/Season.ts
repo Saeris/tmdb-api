@@ -1,10 +1,10 @@
-import { Credit } from "./Credit"
-import { Episode } from "./Episode"
+import type { Credit } from "./Credit"
+import type { Episode } from "./Episode"
 import { Poster } from "./Images"
-import { TV } from "./TV"
+import type { TV } from "./TV"
 import { Video } from "./Video"
+import type { Resolver } from "../resolvers/utils"
 import {
-  Resolver,
   limitResults,
   filterResults,
   mapToCredits,
@@ -27,38 +27,34 @@ export class Season {
   aired: Date
 
   // Credits
-  static cast: Resolver<Season, { limit: number }, Promise<Credit[]>> = (
+  static cast: Resolver<Season, { limit: number }, Promise<Credit[]>> = async (
     parent,
     { limit }
   ) =>
     limitResults(
       limit,
-      new Promise((resolve) =>
-        resolve(mapToCredits(parent._credits, parent).cast)
-      )
+      Promise.resolve(mapToCredits(parent._credits, parent).cast)
     )
 
-  static crew: Resolver<Season, { limit: number }, Promise<Credit[]>> = (
+  static crew: Resolver<Season, { limit: number }, Promise<Credit[]>> = async (
     parent,
     { limit }
   ) =>
     limitResults(
       limit,
-      new Promise((resolve) =>
-        resolve(mapToCredits(parent._credits, parent).crew)
-      )
+      Promise.resolve(mapToCredits(parent._credits, parent).crew)
     )
 
   // Episodes
   episodeCount: number
-  episodes: Resolver<Season, {}, Promise<Episode[]>> = (
+  episodes: Resolver<Season, {}, Promise<Episode[]>> = async (
     parent,
     { ...rest },
     { dataSources, language },
     info
   ) =>
     Promise.all(
-      (parent._episodes as Episode[]).map(({ episode_number: episode }) =>
+      (parent._episodes as Episode[]).map(async ({ episode_number: episode }) =>
         dataSources.TMDB.episode(
           {
             show: parent.series.id,
@@ -94,13 +90,13 @@ export class Season {
     this.poster = createNullable(poster, Poster)
     this.number = number
     this.aired = aired
-    this.episodeCount = ((episodes as unknown) as any[]).length
+    this.episodeCount = (episodes as unknown as any[]).length
     this._episodes = episodes
     this._credits = credits
-    const { posters } = (images as unknown) as Record<string, Poster[]>
+    const { posters } = images as unknown as Record<string, Poster[]>
     this.images = mapToModel(posters, Poster)
     this._videos = mapToModel(
-      ((videos as unknown) as { results: Video[] }).results,
+      (videos as unknown as { results: Video[] }).results,
       Video
     )
   }

@@ -1,7 +1,11 @@
-import { buildDateRange, DateRange } from "./buildDateRange"
-import { buildNumberRange, NumberRange } from "./buildNumberRange"
-import { buildKeywordFilter, KeywordInput } from "./buildKeywordFilter"
-import { buildStringFilter, StringFilter } from "./buildStringFilter"
+import type { DateRange } from "./buildDateRange";
+import { buildDateRange } from "./buildDateRange"
+import type { NumberRange } from "./buildNumberRange";
+import { buildNumberRange } from "./buildNumberRange"
+import type { KeywordInput } from "./buildKeywordFilter";
+import { buildKeywordFilter } from "./buildKeywordFilter"
+import type { StringFilter } from "./buildStringFilter";
+import { buildStringFilter } from "./buildStringFilter"
 import { removeEmpty } from "../../utils"
 
 export interface DiscoverTVFilter {

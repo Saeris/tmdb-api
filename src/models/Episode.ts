@@ -1,10 +1,10 @@
-import { Credit } from "./Credit"
-import { Season } from "./Season"
+import type { Credit } from "./Credit"
+import type { Season } from "./Season"
 import { Still } from "./Images"
-import { TV } from "./TV"
+import type { TV } from "./TV"
 import { Video } from "./Video"
+import type { Resolver } from "../resolvers/utils"
 import {
-  Resolver,
   limitResults,
   filterResults,
   mapToCredits,
@@ -27,38 +27,32 @@ export class Episode {
   aired: Date
 
   // Credits
-  static cast: Resolver<Episode, { limit: number }, Promise<Credit[]>> = (
+  static cast: Resolver<Episode, { limit: number }, Promise<Credit[]>> = async (
     parent,
     { limit }
   ) =>
     limitResults(
       limit,
-      new Promise((resolve) =>
+      new Promise((resolve) => {
         resolve(mapToCredits(parent._credits, parent).cast)
-      )
+      })
     )
 
-  static crew: Resolver<Episode, { limit: number }, Promise<Credit[]>> = (
+  static crew: Resolver<Episode, { limit: number }, Promise<Credit[]>> = async (
     parent,
     { limit }
   ) =>
     limitResults(
       limit,
-      new Promise((resolve) =>
-        resolve(mapToCredits(parent._credits, parent).crew)
-      )
+      Promise.resolve(mapToCredits(parent._credits, parent).crew)
     )
 
-  static guests: Resolver<Episode, { limit: number }, Promise<Credit[]>> = (
-    parent,
-    { limit }
-  ) =>
-    limitResults(
-      limit,
-      new Promise((resolve) =>
-        resolve(mapToCredits(parent._credits, parent).guests)
+  static guests: Resolver<Episode, { limit: number }, Promise<Credit[]>> =
+    async (parent, { limit }) =>
+      limitResults(
+        limit,
+        Promise.resolve(mapToCredits(parent._credits, parent).guests)
       )
-    )
 
   // Ratings
   score: number
@@ -90,10 +84,10 @@ export class Episode {
     this.score = score
     this.votes = votes
     this._credits = credits
-    const { stills } = (images as unknown) as Record<string, Still[]>
+    const { stills } = images as unknown as Record<string, Still[]>
     this.images = mapToModel(stills, Still)
     this._videos = mapToModel(
-      ((videos as unknown) as { results: Video[] }).results,
+      (videos as unknown as { results: Video[] }).results,
       Video
     )
   }

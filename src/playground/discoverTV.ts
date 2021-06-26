@@ -9,4 +9,4 @@ export const discoverTV = `query DiscoverTV {
     }
   }
 }
-`
+` as const

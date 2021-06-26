@@ -17,17 +17,18 @@ export type TVReleaseStatus =
   | "Pilot"
 
 export interface ReleaseType {
-  types: (MovieReleaseStatus | TVReleaseStatus)[]
+  types?: (MovieReleaseStatus | TVReleaseStatus)[]
   logic: Logic
 }
 
-export const buildReleaseType = (field: string, releaseType?: ReleaseType) => {
+export const buildReleaseType = (
+  field: string,
+  releaseType?: ReleaseType
+): { [key: string]: string } => {
   const filter: { [key: string]: string } = {}
   if (releaseType) {
     if (releaseType.types) {
-      filter[field] = releaseType.types.join(
-        releaseType.logic
-      )
+      filter[field] = releaseType.types.join(releaseType.logic)
     }
   }
   return filter

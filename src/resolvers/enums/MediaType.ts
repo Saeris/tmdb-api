@@ -1,2 +1,2 @@
-export const Movie = `movie`
-export const TV = `tv`
+export const Movie = `movie` as const
+export const TV = `tv` as const

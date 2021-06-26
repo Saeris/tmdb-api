@@ -6,7 +6,4 @@ const { scalar, resolver } = rangeFactory({
   end: 1000
 })
 
-export {
-	scalar as PageRangeScalar,
-	resolver as PageRange
-}
+export { scalar as PageRangeScalar, resolver as PageRange }

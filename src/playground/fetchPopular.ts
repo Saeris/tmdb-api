@@ -18,4 +18,4 @@ export const fetchPopular = `query fetchPopular {
     }
   }
 }
-`
+` as const

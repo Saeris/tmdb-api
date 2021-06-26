@@ -20,4 +20,4 @@ export const getReview = `query getReview {
       }
     }
   }
-}`
+}` as const

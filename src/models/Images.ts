@@ -1,7 +1,7 @@
-import { Color, ColorsResult, ImageResult } from "../sources/images"
-import { Resolver } from "../resolvers/utils"
+import type { Color, ColorsResult, ImageResult } from "../sources/images"
+import type { Resolver } from "../resolvers/utils"
 
-type Args = {
+interface Args {
   color: Color
   base64: boolean
 }
@@ -10,7 +10,7 @@ type OriginalArgs = {
   svg: boolean
 } & Args
 
-type Size = {
+interface Size {
   size: string
 }
 
@@ -30,7 +30,7 @@ export class ImageType {
     { dataSources }
   ) => dataSources.Images.original({ id, svg, color, base64 })
 
-  static svg: Resolver<ImageType, Size & Args, ImageResult> = (
+  static svg: Resolver<ImageType, Size & Args, ImageResult> = async (
     { file: id },
     { size, color = `vibrant`, base64 = false },
     { dataSources }
@@ -44,7 +44,7 @@ export class ImageType {
 
   constructor(init: ImageType) {
     // eslint-disable-next-line camelcase
-    this.file = init?.file_path || init
+    this.file = init.file_path || init
     if (typeof init === `object`) {
       Object.assign(this, init)
     }
@@ -54,6 +54,7 @@ export class ImageType {
 export class Backdrop extends ImageType {
   // eslint-disable-next-line no-undef
   [key: string]: any
+  imageType: string = `backdrop`
   static custom = ImageType.custom
   static original = ImageType.original
   static svg = ImageType.svg
@@ -81,6 +82,7 @@ export class Backdrop extends ImageType {
 export class Logo extends ImageType {
   // eslint-disable-next-line no-undef
   [key: string]: any
+  imageType: string = `logo`
   static custom = ImageType.custom
   static original = ImageType.original
   static svg = ImageType.svg
@@ -126,6 +128,7 @@ export class Logo extends ImageType {
 export class Photo extends ImageType {
   // eslint-disable-next-line no-undef
   [key: string]: any
+  imageType: string = `photo`
   static custom = ImageType.custom
   static original = ImageType.original
   static svg = ImageType.svg
@@ -153,6 +156,7 @@ export class Photo extends ImageType {
 export class Poster extends ImageType {
   // eslint-disable-next-line no-undef
   [key: string]: any
+  imageType: string = `poster`
   static custom = ImageType.custom
   static original = ImageType.original
   static svg = ImageType.svg
@@ -198,6 +202,7 @@ export class Poster extends ImageType {
 export class Still extends ImageType {
   // eslint-disable-next-line no-undef
   [key: string]: any
+  imageType: string = `still`
   static custom = ImageType.custom
   static original = ImageType.original
   static svg = ImageType.svg

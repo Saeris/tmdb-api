@@ -13,11 +13,13 @@ import {
   Still,
   TV
 } from "../models"
+import { interfaces } from "./interfaces"
 import { enums } from "./enums"
 import { unions } from "./unions"
 import * as Query from "./Query"
 
 export const resolvers = {
+  ...interfaces,
   ...enums,
   ...unions,
   Credit,

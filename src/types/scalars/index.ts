@@ -9,7 +9,7 @@ const scalars = [
   ISODateScalar,
   LanguageCodeScalar,
   PageRangeScalar,
-	RegionCodeScalar,
+  RegionCodeScalar,
   ScoreMinimumRangeScalar,
   ScoreMaximumRangeScalar
 ]
@@ -17,7 +17,7 @@ const resolvers = {
   ISODate,
   LanguageCode,
   PageRange,
-	RegionCode,
+  RegionCode,
   ScoreMinimumRange,
   ScoreMaximumRange
 }

@@ -1,5 +1,5 @@
-import { Country } from "./Country"
-import { Language } from "./Language"
+import type { Country } from "./Country"
+import type { Language } from "./Language"
 
 export class Account {
   // eslint-disable-next-line no-undef
@@ -15,7 +15,7 @@ export class Account {
   constructor({ avatar, include_adult: includeAdult, ...rest }: Account) {
     Object.assign(this, rest)
     this.avatar = `https://secure.gravatar.com/avatar/${
-      ((avatar as unknown) as { gravatar: { hash: string } }).gravatar.hash
+      (avatar as unknown as { gravatar: { hash: string } }).gravatar.hash
     }.jpg`
     this.includeAdult = includeAdult
   }

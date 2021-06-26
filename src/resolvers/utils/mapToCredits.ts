@@ -1,15 +1,7 @@
-import {
-  Cast,
-  Crew,
-  Credit,
-  Person,
-  Movie,
-  TV,
-  Season,
-  Episode
-} from "../../models"
+import type { Season, Episode } from "../../models"
+import { Cast, Crew, Credit, Person, Movie, TV } from "../../models"
 
-type credits = {
+interface credits {
   cast: Cast[]
   crew: Crew[]
   guests?: Cast[]
@@ -19,26 +11,26 @@ export const mapToCredits = (
   { cast, crew, guests }: credits,
   parent: Movie | TV | Season | Episode | Person
 ): Record<string, Credit[]> => {
-  const toCredit = (member: Cast | Crew) =>
+  const toCredit = (member: Cast | Crew): Credit =>
     new Credit({
       id: member.credit_id,
-      credit_type: typeof member?.character === `string` ? `cast` : `crew`,
+      credit_type: typeof member.character === `string` ? `cast` : `crew`,
       ...(parent instanceof Person
         ? {
             media_type: member.media_type,
-            person: parent as Person,
+            person: parent,
             media: { id: member.id }
           }
         : {
             media_type: parent.media_type,
             person: { id: member.id },
             media:
-              parent instanceof Movie || TV
-                ? (parent as Movie | TV)
-                : (parent as Season | Episode).series
+              parent instanceof Movie || parent instanceof TV
+                ? parent
+                : parent.series
           }),
       role:
-        typeof member?.character === `string`
+        typeof member.character === `string`
           ? new Cast({
               credit_id: member.credit_id,
               character: member.character
@@ -54,7 +46,7 @@ export const mapToCredits = (
     crew: crew.map(toCredit),
     ...(guests
       ? {
-          guests: guests?.map(toCredit)
+          guests: guests.map(toCredit)
         }
       : {})
   }

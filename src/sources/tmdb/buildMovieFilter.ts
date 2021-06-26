@@ -1,8 +1,13 @@
-import { buildDateRange, DateRange } from "./buildDateRange"
-import { buildKeywordFilter, KeywordInput } from "./buildKeywordFilter"
-import { buildNumberRange, NumberRange } from "./buildNumberRange"
-import { buildReleaseType, ReleaseType } from "./buildReleaseType"
-import { buildStringFilter, StringFilter } from "./buildStringFilter"
+import type { DateRange } from "./buildDateRange"
+import { buildDateRange } from "./buildDateRange"
+import type { KeywordInput } from "./buildKeywordFilter"
+import { buildKeywordFilter } from "./buildKeywordFilter"
+import type { NumberRange } from "./buildNumberRange"
+import { buildNumberRange } from "./buildNumberRange"
+import type { ReleaseType } from "./buildReleaseType"
+import { buildReleaseType } from "./buildReleaseType"
+import type { StringFilter } from "./buildStringFilter"
+import { buildStringFilter } from "./buildStringFilter"
 import { removeEmpty } from "../../utils"
 
 export interface DiscoverMoviesFilter {
@@ -45,23 +50,24 @@ export const buildMovieFilter = ({
   withKeywords,
   withRuntime,
   withOriginalLanguage
-}: DiscoverMoviesFilter) => removeEmpty({
-  region,
-  include_adult: includeAdult,
-  include_video: includeVideo,
-  primary_release_year: primaryReleaseYear,
-  ...buildDateRange(`primary_release_date`, primaryReleaseDate),
-  ...buildDateRange(`release_date`, releaseDate),
-  ...buildReleaseType(`with_release_type`, withReleaseType),
-  year,
-  ...buildNumberRange(`vote_count`, voteCount),
-  ...buildNumberRange(`vote_average`, voteAverage),
-  ...buildStringFilter(`cast`, withCast),
-  ...buildStringFilter(`crew`, withCrew),
-  ...buildStringFilter(`peope`, withPeople),
-  ...buildStringFilter(`companies`, withCompanies),
-  ...buildStringFilter(`genres`, withGenres),
-  ...buildKeywordFilter(`keywords`, withKeywords),
-  ...buildNumberRange(`with_runtime`, withRuntime),
-  with_original_language: withOriginalLanguage
-})
+}: DiscoverMoviesFilter) =>
+  removeEmpty({
+    region,
+    include_adult: includeAdult,
+    include_video: includeVideo,
+    primary_release_year: primaryReleaseYear,
+    ...buildDateRange(`primary_release_date`, primaryReleaseDate),
+    ...buildDateRange(`release_date`, releaseDate),
+    ...buildReleaseType(`with_release_type`, withReleaseType),
+    year,
+    ...buildNumberRange(`vote_count`, voteCount),
+    ...buildNumberRange(`vote_average`, voteAverage),
+    ...buildStringFilter(`cast`, withCast),
+    ...buildStringFilter(`crew`, withCrew),
+    ...buildStringFilter(`peope`, withPeople),
+    ...buildStringFilter(`companies`, withCompanies),
+    ...buildStringFilter(`genres`, withGenres),
+    ...buildKeywordFilter(`keywords`, withKeywords),
+    ...buildNumberRange(`with_runtime`, withRuntime),
+    with_original_language: withOriginalLanguage
+  })

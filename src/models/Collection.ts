@@ -1,7 +1,8 @@
-import { ByLanguage } from "../sources"
-import { Resolver, setLanguage, createNullable } from "../resolvers/utils"
+import type { ByLanguage } from "../sources"
+import type { Resolver } from "../resolvers/utils"
+import { setLanguage, createNullable } from "../resolvers/utils"
 import { Backdrop, Poster } from "./Images"
-import { Movie } from "./Movie"
+import type { Movie } from "./Movie"
 
 export class Collection {
   // eslint-disable-next-line no-undef
@@ -12,20 +13,17 @@ export class Collection {
   name!: string
   overview!: string
   parts!: Promise<Movie[]>
-  static parts: Resolver<
-    Collection,
-    ByLanguage,
-    Promise<Movie[]>
-  > = setLanguage(({ _parts: ids }, args, context, info) =>
-    Promise.all(
-      ((ids as unknown) as { id: string }[]).map(({ id }) =>
-        context.dataSources.TMDB.movie(
-          { id, language: context.language, ...args },
-          info
+  static parts: Resolver<Collection, ByLanguage, Promise<Movie[]>> =
+    setLanguage(async ({ _parts: ids }, args, context, info) =>
+      Promise.all(
+        (ids as unknown as { id: string }[]).map(async ({ id }) =>
+          context.dataSources.TMDB.movie(
+            { id, language: context.language, ...args },
+            info
+          )
         )
       )
     )
-  )
 
   // Media
   poster: Poster | null

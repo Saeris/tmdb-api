@@ -1,5 +1,5 @@
-import { DataSources } from "apollo-server-core/dist/graphqlOptions"
-import { Context } from "../server"
+import type { DataSources } from "apollo-server-core/dist/graphqlOptions"
+import type { Context } from "../server"
 import { Images } from "./images"
 import { TMDB } from "./tmdb"
 

@@ -1,26 +1,26 @@
 import parseISO from "date-fns/parseISO"
-import { Company } from "./Company"
-import { Country } from "./Country"
-import { Credit } from "./Credit"
-import { Episode } from "./Episode"
+import type { Company } from "./Company"
+import type { Country } from "./Country"
+import type { Credit } from "./Credit"
+import type { Episode } from "./Episode"
 import { Genre } from "./Genre"
-import { Language } from "./Language"
-import { Network } from "./Network"
-import { Person } from "./Person"
+import type { Language } from "./Language"
+import type { Network } from "./Network"
+import type { Person } from "./Person"
 import { Poster, Backdrop } from "./Images"
-import { Review } from "./Review"
-import { Season } from "./Season"
+import type { Review } from "./Review"
+import type { Season } from "./Season"
 import { SocialMedia } from "./SocialMedia"
 import { Video } from "./Video"
+import type { Resolver } from "../resolvers/utils"
 import {
-  Resolver,
   limitResults,
   filterResults,
   createNullable,
   mapToModel,
   mapToCredits
 } from "../resolvers/utils"
-import { ByPage } from "../sources"
+import type { ByPage } from "../sources"
 
 const TVType = {
   Scripted: `Scripted`,
@@ -72,60 +72,56 @@ export class TV {
   runtime: number[]
 
   // People & Companies
-  static createdBy: Resolver<TV, {}, Promise<Person[]>> = (
+  static createdBy: Resolver<TV, {}, Promise<Person[]>> = async (
     parent,
     { ...rest },
     { dataSources, language },
     info
   ) =>
     Promise.all(
-      parent.created_by.map(({ id }: { id: string }) =>
+      parent.created_by.map(async ({ id }: { id: string }) =>
         dataSources.TMDB.person({ id, language, ...rest }, info)
       )
     )
 
-  static cast: Resolver<TV, { limit: number }, Promise<Credit[]>> = (
+  static cast: Resolver<TV, { limit: number }, Promise<Credit[]>> = async (
     parent,
     { limit }
   ) =>
     limitResults(
       limit,
-      new Promise((resolve) =>
-        resolve(mapToCredits(parent._credits, parent).cast)
-      )
+      Promise.resolve(mapToCredits(parent._credits, parent).cast)
     )
 
-  static crew: Resolver<TV, { limit: number }, Promise<Credit[]>> = (
+  static crew: Resolver<TV, { limit: number }, Promise<Credit[]>> = async (
     parent,
     { limit }
   ) =>
     limitResults(
       limit,
-      new Promise((resolve) =>
-        resolve(mapToCredits(parent._credits, parent).crew)
-      )
+      Promise.resolve(mapToCredits(parent._credits, parent).crew)
     )
 
-  static networks: Resolver<TV, {}, Promise<Network[]>> = (
+  static networks: Resolver<TV, {}, Promise<Network[]>> = async (
     { _networks },
     _,
     { dataSources },
     info
   ) =>
     Promise.all(
-      (_networks as Network[]).map(({ id }) =>
+      (_networks as Network[]).map(async ({ id }) =>
         dataSources.TMDB.network({ id }, info)
       )
     )
 
-  static productionCompanies: Resolver<TV, {}, Promise<Company[]>> = (
+  static productionCompanies: Resolver<TV, {}, Promise<Company[]>> = async (
     { _productionCompanies },
     _,
     { dataSources },
     info
   ) =>
     Promise.all(
-      _productionCompanies.map(({ id }: { id: string }) =>
+      _productionCompanies.map(async ({ id }: { id: string }) =>
         dataSources.TMDB.company({ id }, info)
       )
     )
@@ -144,7 +140,7 @@ export class TV {
     info
   ) => {
     const results = await Promise.all(
-      (parent._seasons as Season[]).map(({ season_number: season }) =>
+      (parent._seasons as Season[]).map(async ({ season_number: season }) =>
         dataSources.TMDB.season(
           { show: parent.id, season, language, ...rest },
           info
@@ -163,13 +159,13 @@ export class TV {
     info
   ) => {
     const fetchedSeasons = await Promise.all(
-      (parent._seasons as Season[]).map(({ id: season }) =>
+      (parent._seasons as Season[]).map(async ({ id: season }) =>
         dataSources.TMDB.season({ show: parent.id, season }, info)
       )
     )
     return Promise.all(
       fetchedSeasons.flatMap(({ season_number: season, episodes: eps }) =>
-        ((eps as unknown) as Episode[]).map(({ episode_number: episode }) =>
+        (eps as unknown as Episode[]).map(async ({ episode_number: episode }) =>
           dataSources.TMDB.episode(
             { show: parent.id, season, episode, language, ...rest },
             info
@@ -192,25 +188,22 @@ export class TV {
   popularity!: number
   score: number
   votes: number
-  static reviews: Resolver<
-    TV,
-    { limit: number } & ByPage,
-    Promise<Review[]>
-  > = (
-    { id, _reviews },
-    { limit, page, ...rest },
-    { dataSources, language },
-    info
-  ) =>
-    limitResults(
-      limit,
-      page && page > 1
-        ? dataSources.TMDB.movieReviews({ id, page, language, ...rest }, info)
-        : new Promise<Review[]>((resolve) => resolve(_reviews || []))
-    )
+  static reviews: Resolver<TV, { limit: number } & ByPage, Promise<Review[]>> =
+    async (
+      { id, _reviews },
+      { limit, page, ...rest },
+      { dataSources, language },
+      info
+    ) =>
+      limitResults(
+        limit,
+        page && page > 1
+          ? dataSources.TMDB.movieReviews({ id, page, language, ...rest }, info)
+          : Promise.resolve(_reviews || [])
+      )
 
   // Related
-  static recommended: Resolver<TV, { limit: number }, Promise<TV[]>> = (
+  static recommended: Resolver<TV, { limit: number }, Promise<TV[]>> = async (
     { id },
     { limit, ...rest },
     { dataSources, language },
@@ -221,7 +214,7 @@ export class TV {
       dataSources.TMDB.recommendedShows({ id, language, ...rest }, info)
     )
 
-  static similar: Resolver<TV, { limit: number }, Promise<TV[]>> = (
+  static similar: Resolver<TV, { limit: number }, Promise<TV[]>> = async (
     { id },
     { limit, ...rest },
     { dataSources, language },
@@ -264,14 +257,14 @@ export class TV {
     this.originalName = originalName
     this.country = country
     this.language = language
-    this.type = type || null
-    this.status = status || null
+    this.type = type ?? null
+    this.status = status ?? null
     this.genres = mapToModel(genres, Genre)
     this.inProduction = inProduction
     this.firstAired = firstAired ? parseISO(firstAired) : null
     this.lastAired = lastAired ? parseISO(lastAired) : null
     this.runtime = runtime
-    this.homepage = homepage ? new URL((homepage as unknown) as string) : null
+    this.homepage = homepage ? new URL(homepage as unknown as string) : null
     this.poster = createNullable(poster, Poster)
     this.backdrop = createNullable(backdrop, Backdrop)
     this.seasonCount = seasonCount
@@ -281,7 +274,7 @@ export class TV {
     this._credits = credits
     this._reviews = reviews.results
 
-    const { backdrops, posters } = (images as unknown) as Record<
+    const { backdrops, posters } = images as unknown as Record<
       string,
       (Backdrop | Poster)[]
     >
@@ -289,11 +282,11 @@ export class TV {
     this.images = [
       mapToModel(backdrops, Backdrop),
       mapToModel(posters, Poster)
-    ].flat() as (Poster | Backdrop)[]
+    ].flat()!
     this.socialMedia = createNullable(socialMedia, SocialMedia)
     this._seasons = seasons
     this._productionCompanies = productionCompanies
     this._networks = networks
-    this._videos = mapToModel((videos.results as unknown) as Video[], Video)
+    this._videos = mapToModel(videos.results as unknown as Video[], Video)
   }
 }

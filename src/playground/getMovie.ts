@@ -27,4 +27,4 @@ export const getMovie = `query getMovie {
       }
     }
   }
-}`
+}` as const

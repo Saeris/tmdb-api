@@ -1,8 +1,7 @@
+import type { IResolvers, SchemaDirectiveVisitor } from "graphql-tools"
 import {
   buildSchemaFromTypeDefinitions,
-  makeExecutableSchema,
-  IResolvers,
-  SchemaDirectiveVisitor
+  makeExecutableSchema
 } from "graphql-tools"
 import { Numbers, Dates, Strings } from "@saeris/graphql-directives"
 import {
@@ -49,12 +48,13 @@ export const typeDefs = [
   ...directives
 ]
 
-export const getSchemaIntrospection = () =>
-  buildSchemaFromTypeDefinitions(typeDefs)
+export const getSchemaIntrospection = (): ReturnType<
+  typeof buildSchemaFromTypeDefinitions
+> => buildSchemaFromTypeDefinitions(typeDefs)
 
 export const schema = makeExecutableSchema({
   typeDefs,
-  schemaDirectives: (schemaDirectives as unknown) as Record<
+  schemaDirectives: schemaDirectives as unknown as Record<
     string,
     typeof SchemaDirectiveVisitor
   >,
@@ -63,10 +63,10 @@ export const schema = makeExecutableSchema({
     EmailAddress,
     URL,
     ...scalarResolvers,
-    ...(resolvers as IResolvers<any, any>)
+    ...(resolvers as IResolvers)
   },
   resolverValidationOptions: {
-    requireResolversForResolveType: false
+    requireResolversForResolveType: `warn`
   },
   inheritResolversFromInterfaces: true
 })

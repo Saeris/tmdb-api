@@ -49,9 +49,10 @@ export {
   Video
 }
 
-const create = <T, A = T>(C: { new (args: A): T }): ((args: A) => T) => (
-  args: A
-) => new C(args)
+const create =
+  <T, A = T>(C: { new (args: A): T }): ((args: A) => T) =>
+  (args: A) =>
+    new C(args)
 
 export const models = {
   cast: create(Cast),

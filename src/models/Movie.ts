@@ -1,18 +1,18 @@
 import parseISO from "date-fns/parseISO"
 import { Backdrop, Poster } from "./Images"
-import { Credit } from "./Credit"
-import { Company } from "./Company"
-import { Collection } from "./Collection"
+import type { Credit } from "./Credit"
+import type { Company } from "./Company"
+import type { Collection } from "./Collection"
 import { Country } from "./Country"
 import { Genre } from "./Genre"
 import { Language } from "./Language"
-import { Review } from "./Review"
+import type { Review } from "./Review"
 import { SocialMedia } from "./SocialMedia"
 import { Video } from "./Video"
 import { Keyword } from "./Keyword"
-import { ByLanguage, ByPage } from "../sources"
+import type { ByLanguage, ByPage } from "../sources"
+import type { Resolver } from "../resolvers/utils"
 import {
-  Resolver,
   limitResults,
   filterResults,
   mapToCredits,
@@ -52,36 +52,32 @@ export class Movie {
   adult!: boolean
 
   // People & Companies
-  static cast: Resolver<Movie, { limit: number }, Promise<Credit[]>> = (
+  static cast: Resolver<Movie, { limit: number }, Promise<Credit[]>> = async (
     parent,
     { limit }
   ) =>
     limitResults(
       limit,
-      new Promise((resolve) =>
-        resolve(mapToCredits(parent._credits, parent).cast)
-      )
+      Promise.resolve(mapToCredits(parent._credits, parent).cast)
     )
 
-  static crew: Resolver<Movie, { limit: number }, Promise<Credit[]>> = (
+  static crew: Resolver<Movie, { limit: number }, Promise<Credit[]>> = async (
     parent,
     { limit }
   ) =>
     limitResults(
       limit,
-      new Promise((resolve) =>
-        resolve(mapToCredits(parent._credits, parent).crew)
-      )
+      Promise.resolve(mapToCredits(parent._credits, parent).crew)
     )
 
-  static productionCompanies: Resolver<Movie, {}, Promise<Company[]>> = (
+  static productionCompanies: Resolver<Movie, {}, Promise<Company[]>> = async (
     { _productionCompanies },
     args,
     { dataSources },
     info
   ) =>
     Promise.all(
-      _productionCompanies.map(({ id }: Company) =>
+      _productionCompanies.map(async ({ id }: Company) =>
         dataSources.TMDB.company({ id, ...args }, info)
       )
     )
@@ -107,7 +103,7 @@ export class Movie {
     Movie,
     { limit: number } & ByPage,
     Promise<Review[]>
-  > = (
+  > = async (
     { id, _reviews },
     { limit, page, ...rest },
     { dataSources, language },
@@ -117,7 +113,7 @@ export class Movie {
       limit,
       page && page > 1
         ? dataSources.TMDB.movieReviews({ id, page, language, ...rest }, info)
-        : new Promise<Review[]>((resolve) => resolve(_reviews || []))
+        : Promise.resolve(_reviews || [])
     )
 
   // Related
@@ -136,18 +132,14 @@ export class Movie {
     return null
   }
 
-  static recommended: Resolver<Movie, { limit: number }, Promise<Movie[]>> = (
-    { id },
-    { limit, ...rest },
-    { dataSources, language },
-    info
-  ) =>
-    limitResults(
-      limit,
-      dataSources.TMDB.recommendedMovies({ id, language, ...rest }, info)
-    )
+  static recommended: Resolver<Movie, { limit: number }, Promise<Movie[]>> =
+    async ({ id }, { limit, ...rest }, { dataSources, language }, info) =>
+      limitResults(
+        limit,
+        dataSources.TMDB.recommendedMovies({ id, language, ...rest }, info)
+      )
 
-  static similar: Resolver<Movie, { limit: number }, Promise<Movie[]>> = (
+  static similar: Resolver<Movie, { limit: number }, Promise<Movie[]>> = async (
     { id },
     { limit, ...rest },
     { dataSources, language },
@@ -181,9 +173,9 @@ export class Movie {
   }: Movie) {
     Object.assign(this, rest)
     this.name = name
-    this.status = status || null
+    this.status = status ?? null
     this.releaseDate = releaseDate ? parseISO(releaseDate) : null
-    this.homepage = homepage ? new URL((homepage as unknown) as string) : null
+    this.homepage = homepage ? new URL(homepage as unknown as string) : null
     this.poster = createNullable(poster, Poster)
     this.backdrop = createNullable(backdrop, Backdrop)
     this.score = score
@@ -192,7 +184,7 @@ export class Movie {
     this.country = mapToModel(countries, Country)
     this.languages = mapToModel(languages, Language)
 
-    const { backdrops, posters } = (images as unknown) as Record<
+    const { backdrops, posters } = images as unknown as Record<
       string,
       (Backdrop | Poster)[]
     >
@@ -201,13 +193,13 @@ export class Movie {
     this.images = [
       mapToModel(backdrops, Backdrop),
       mapToModel(posters, Poster)
-    ].flat() as (Poster | Backdrop)[]
+    ].flat()!
     this.keywords = mapToModel(
-      ((keywords as unknown) as { keywords: Keyword[] }).keywords,
+      (keywords as unknown as { keywords: Keyword[] }).keywords,
       Keyword
     )
     this._videos = mapToModel(
-      ((videos as unknown) as { results: Video[] }).results,
+      (videos as unknown as { results: Video[] }).results,
       Video
     )
     this.socialMedia = socialMedia ? new SocialMedia(socialMedia) : null

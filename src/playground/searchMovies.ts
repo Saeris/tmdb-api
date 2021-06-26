@@ -16,4 +16,4 @@ export const searchMovies = `query SearchMovies {
       }
     }
   }
-}`
+}` as const

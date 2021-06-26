@@ -46,7 +46,7 @@ export interface Filter<T> {
   filter?: T
 }
 
-interface TMDB extends RESTDataSource<Context> {}
+type TMDB = RESTDataSource<Context>
 
 export type Model<
   T extends keyof TMDB["context"]["models"] = keyof TMDB["context"]["models"]
@@ -54,7 +54,5 @@ export type Model<
 
 export type APIRequest<
   Params = Record<any, any>,
-  T =
-    | Model<keyof TMDB["context"]["models"]>
-    | { [key: string]: Model<keyof TMDB["context"]["models"]> }
-> = (params: Params, info: GraphQLResolveInfo) => Promise<T>
+  T = Model | { [key: string]: Model }
+> = (params: Params, info: GraphQLResolveInfo | null) => Promise<T>

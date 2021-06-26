@@ -5,7 +5,4 @@ const { scalar, resolver } = regularExpressionFactory({
   regex: /^[A-Z]{2}$/
 })
 
-export {
-  scalar as RegionCodeScalar,
-  resolver as RegionCode
-}
+export { scalar as RegionCodeScalar, resolver as RegionCode }

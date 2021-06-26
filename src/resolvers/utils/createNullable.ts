@@ -1,4 +1,4 @@
-import { Context } from "../../server"
+import type { Context } from "../../server"
 import type { Instantiable } from "./types"
 
 export const createNullable = <

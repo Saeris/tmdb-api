@@ -6,7 +6,4 @@ const { scalar, resolver } = rangeFactory({
   end: 10
 })
 
-export {
-	scalar as ScoreMinimumRangeScalar,
-	resolver as ScoreMinimumRange
-}
+export { scalar as ScoreMinimumRangeScalar, resolver as ScoreMinimumRange }

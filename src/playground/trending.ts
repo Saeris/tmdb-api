@@ -16,4 +16,4 @@ export const trending = `query Trending {
       biography
     }
   }
-}`
+}` as const

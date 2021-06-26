@@ -1,6 +1,6 @@
-export const Rumored = `Rumored`
-export const Planned = `Planned`
-export const InProduction = `In Production`
-export const PostProduction = `Post Production`
-export const Released = `Released`
-export const Canceled = `Canceled`
+export const Rumored = `Rumored` as const
+export const Planned = `Planned` as const
+export const InProduction = `In Production` as const
+export const PostProduction = `Post Production` as const
+export const Released = `Released` as const
+export const Canceled = `Canceled` as const

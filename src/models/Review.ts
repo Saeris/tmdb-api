@@ -1,7 +1,7 @@
-import { Resolver } from "../resolvers/utils"
-import { Language } from "./Language"
-import { Movie } from "./Movie"
-import { TV } from "./TV"
+import type { Resolver } from "../resolvers/utils"
+import type { Language } from "./Language"
+import type { Movie } from "./Movie"
+import type { TV } from "./TV"
 
 export class Review {
   // eslint-disable-next-line no-undef
@@ -17,11 +17,11 @@ export class Review {
   ) => {
     const languages = await dataSources.TMDB.languages({ ...rest }, info)
     return parent.iso_639_1
-      ? languages.find(({ code }) => parent.iso_639_1.includes(code)) || null
+      ? languages.find(({ code }) => parent.iso_639_1.includes(code)) ?? null
       : null
   }
 
-  static media: Resolver<Review, {}, Promise<Movie | TV>> = (
+  static media: Resolver<Review, {}, Promise<Movie | TV>> = async (
     { media_type: type, media_id: id },
     { ...rest },
     // eslint-disable-next-line no-shadow
@@ -37,6 +37,6 @@ export class Review {
 
   constructor({ url, ...rest }: Review) {
     Object.assign(this, rest)
-    this.url = new URL((url as unknown) as string)
+    this.url = new URL(url as unknown as string)
   }
 }

@@ -6,7 +6,4 @@ const { scalar, resolver } = rangeFactory({
   end: 10
 })
 
-export {
-	scalar as ScoreMaximumRangeScalar,
-	resolver as ScoreMaximumRange
-}
+export { scalar as ScoreMaximumRangeScalar, resolver as ScoreMaximumRange }

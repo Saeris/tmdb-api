@@ -1,6 +1,6 @@
-export const ReturningSeries = `Returning Series`
-export const Planned = `Planned`
-export const InProduction = `In Production`
-export const Ended = `Ended`
-export const Canceled = `Canceled`
-export const Pilot = `Pilot`
+export const ReturningSeries = `Returning Series` as const
+export const Planned = `Planned` as const
+export const InProduction = `In Production` as const
+export const Ended = `Ended` as const
+export const Canceled = `Canceled` as const
+export const Pilot = `Pilot` as const

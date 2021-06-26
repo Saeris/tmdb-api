@@ -14,13 +14,13 @@ export const enums = {
   DiscoverMoviesSortBy,
   DiscoverTVSortBy,
   EpisodeVideoType: VideoType,
-	Logic,
+  Logic,
   MediaType,
-	ReleaseStatus,
-	SeasonVideoType: VideoType,
-	Translations,
-	TVStatus,
+  ReleaseStatus,
+  SeasonVideoType: VideoType,
+  Translations,
+  TVStatus,
   TVType,
   TVVideoType: VideoType,
   VideoType
-}
+} as const
