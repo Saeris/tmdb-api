@@ -3824,7 +3824,7 @@
     mathjs "^7.5.1"
     numeral "2.0.6"
 
-"@saeris/graphql-scalars@2.1.1":
+"@saeris/graphql-scalars@^2.1.1":
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/@saeris/graphql-scalars/-/graphql-scalars-2.1.1.tgz#6dcb50c26ab1969c63c2dc6e83e81448d5a20a01"
   integrity sha512-fyinmIMMGhsmX2ewssPLHvLAMRzHWA70g5ONcwVVt+dzk1wr2fP964mUX3vy4RBaM88f3VC5c9BrslTxlVxb9A==
@@ -8347,7 +8347,7 @@ dataloader@2.0.0:
   resolved "https://registry.yarnpkg.com/dataloader/-/dataloader-2.0.0.tgz#41eaf123db115987e21ca93c005cd7753c55fe6f"
   integrity sha512-YzhyDAwA4TaQIhM5go+vCLmU0UikghC/t9DTQYZR2M/UvZ1MdOhPezSDZcjj9uqQJOMqjLcpWtyW2iNINdlatQ==
 
-datauri@3.0.0:
+datauri@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/datauri/-/datauri-3.0.0.tgz#6196997e9a7bbbee81b60e8c8acb1a2c871e2349"
   integrity sha512-NeDFuUPV1YCpCn8MUIcDk1QnuyenUHs7f4Q5P0n9FFA0neKFrfEH9esR+YMW95BplbYfdmjbs0Pl/ZGAaM2QHQ==
